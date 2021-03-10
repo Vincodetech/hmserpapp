@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Hotel The Grand Piano</string>
+    <string name="account">Create New Account</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="enter_pass">Enter Password</string>
+    <string name="already_register">Already Register…Login Here..!</string>
+    <string name="not_register">Not Register…Create an Account ..!</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="users">Users</string>
+    <string name="profile">Profile</string>
+    <string name="image_logo">ImageLogo</string>
+    <string name="loading">Loading...</string>
+    <string name="scan">Scan QR Code</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
