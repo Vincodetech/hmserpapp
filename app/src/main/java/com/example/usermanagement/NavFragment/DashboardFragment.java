@@ -3,6 +3,8 @@ package com.example.usermanagement.NavFragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import com.example.usermanagement.R;
 import com.example.usermanagement.SharedPrefManager;
 import com.example.usermanagement.SliderAdapter;
 import com.example.usermanagement.SliderData;
+import com.example.usermanagement.UserAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.smarteist.autoimageslider.SliderView;
 
@@ -38,6 +41,16 @@ public class DashboardFragment extends Fragment
     String Url2 = "https://qphs.fs.quoracdn.net/main-qimg-8e203d34a6a56345f86f1a92570557ba.webp";
     String Url3 = "https://bizzbucket.co/wp-content/uploads/2020/08/Life-in-The-Metro-Blog-Title-22.png";
 
+    public static DashboardFragment newInstance(String contIndex) {
+        DashboardFragment cf = new DashboardFragment();
+
+        Bundle args = new Bundle();
+        args.putString("contIndex", contIndex);
+        cf.setArguments(args);
+        return cf;
+    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,7 +60,7 @@ public class DashboardFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 //        name = view.findViewById(R.id.name);
 //        email = view.findViewById(R.id.email);
-        sliderView = view.findViewById(R.id.imageSlider);
+        sliderView = view.findViewById(R.id .imageSlider);
         sharedPrefManager = new SharedPrefManager(getActivity());
        // String username = "Hello " + sharedPrefManager.getUser().getUsername();
 //        name.setText(username);
@@ -85,6 +98,11 @@ public class DashboardFragment extends Fragment
 
         // to start autocycle below method is used.
         sliderView.startAutoCycle();
+
+
+
+
+
 
 
         return view;

@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient
 {
-    private static String BASE_URL = "http://192.168.42.193/UserManagementApi/";
+    private static String BASE_URL = "http://192.168.42.164/UserManagementApi/";
     private static RetrofitClient retrofitClient;
     private static Retrofit retrofit;
     private OkHttpClient.Builder builder = new OkHttpClient.Builder();
