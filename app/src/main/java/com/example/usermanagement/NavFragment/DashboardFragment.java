@@ -10,8 +10,12 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.usermanagement.R;
 import com.example.usermanagement.SharedPrefManager;
@@ -99,6 +103,24 @@ public class DashboardFragment extends Fragment
         // to start autocycle below method is used.
         sliderView.startAutoCycle();
 
+        String[] data = {"Java", "Python", "C++", "C#", "Angular", "Go"};
+
+        ArrayAdapter adapter1 = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_selected, data);
+        adapter1.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        Spinner spinner = view.findViewById(R.id.spinner);
+        spinner.setAdapter(adapter1);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity(),parent.getItemAtPosition(position).toString(),Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
 
