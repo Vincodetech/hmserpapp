@@ -70,6 +70,7 @@
         android:layout_height="wrap_content"
         android:text="@string/login"
         android:layout_below="@id/passwordayout"
+        android:background="@drawable/btn_round"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"/>
@@ -80,6 +81,7 @@
         android:layout_height="wrap_content"
         android:text="@string/not_register"
         android:layout_below="@id/btnLogin"
+        android:textColor="@color/blue"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"

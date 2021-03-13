@@ -88,6 +88,7 @@
         android:layout_height="wrap_content"
         android:text="@string/register"
         android:layout_below="@id/passwordayout"
+        android:background="@drawable/btn_round"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"/>
@@ -98,6 +99,7 @@
         android:layout_height="wrap_content"
         android:text="@string/already_register"
         android:layout_below="@id/btnRegister"
+        android:textColor="@color/blue"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
