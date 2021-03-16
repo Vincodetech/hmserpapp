@@ -75,8 +75,8 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //userLogin();
-                login();
+                userLogin();
+               // login();
             }
         });
 
@@ -251,7 +251,7 @@ public class Login extends AppCompatActivity {
                 {
                     if(loginResponse.getError().equals("200"))
                     {
-                        sharedPrefManager.saveUser(loginResponse.getUser());
+                       // sharedPrefManager.saveUser(loginResponse.getUser());
                         Intent intent = new Intent(Login.this, Home.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

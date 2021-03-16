@@ -20,9 +20,10 @@ public class SharedPrefManager
     {
         sharedPreferences = context.getSharedPreferences(Shared_Pref,Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        editor.putInt("id",user.getId());
-        editor.putString("username",user.getUsername());
+//        editor.putInt("id",user.getId());
+       // editor.putString("user_name",user.getUsername());
         editor.putString("email",user.getEmail());
+        editor.putString("password",user.getPassword());
         editor.putBoolean("logged",true);
         editor.apply();
     }
@@ -36,9 +37,9 @@ public class SharedPrefManager
     public User getUser()
     {
         sharedPreferences = context.getSharedPreferences(Shared_Pref,Context.MODE_PRIVATE);
-        return new User(sharedPreferences.getInt("id",-1),
-                sharedPreferences.getString("username",null),
-                sharedPreferences.getString("email",null));
+        return new User(
+                sharedPreferences.getString("email",null),
+                sharedPreferences.getString("password",null));
     }
 
     public void logout()
