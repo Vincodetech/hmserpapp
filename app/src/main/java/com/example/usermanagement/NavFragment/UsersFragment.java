@@ -58,12 +58,16 @@ public class UsersFragment extends Fragment {
             {
                 if(response.isSuccessful())
                 {
-                    userList = response.body().getUserList();
+                    if (response.body() != null) {
+                        userList = response.body().getUserList();
+                    }
                     recyclerView.setAdapter(new UserAdapter(getActivity(),userList));
                 }
                 else
                 {
-                    Toast.makeText(getActivity(),response.body().getError(),Toast.LENGTH_SHORT).show();
+                    if (response.body() != null) {
+                        Toast.makeText(getActivity(),response.body().getError(),Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 

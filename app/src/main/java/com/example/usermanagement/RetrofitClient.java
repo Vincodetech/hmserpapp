@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient
 {
-    private static String BASE_URL = "http://192.168.42.207:8000/";
+    private static String BASE_URL = "http://192.168.42.163:8000/api/";
     private static RetrofitClient retrofitClient;
     private static Retrofit retrofit;
     private OkHttpClient.Builder builder = new OkHttpClient.Builder();

@@ -3,17 +3,42 @@ package com.example.usermanagement.ModelResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class LoginResponse
-{
-    User user;
-    String error,message;
+public class LoginResponse {
+    int id;
+    String user_name;
+    String email;
+    String error, message;
 
-    public User getUser() {
-        return user;
+    public LoginResponse(int id, String user_name, String email, String error, String message) {
+        this.id = id;
+        this.user_name = user_name;
+        this.email = email;
+        this.error = error;
+        this.message = message;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getError() {
@@ -29,12 +54,6 @@ public class LoginResponse
     }
 
     public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public LoginResponse(User user, String error, String message) {
-        this.user = user;
-        this.error = error;
         this.message = message;
     }
 }

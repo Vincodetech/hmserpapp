@@ -75,8 +75,8 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //userLogin();
-                login();
+                userLogin();
+                //login();
             }
         });
 
@@ -249,19 +249,21 @@ public class Login extends AppCompatActivity {
                 LoginResponse loginResponse = response.body();
                 if(response.isSuccessful())
                 {
-                    if(loginResponse.getError().equals("200"))
-                    {
-                       // sharedPrefManager.saveUser(loginResponse.getUser());
+                    if (loginResponse != null && loginResponse.getError().equals("200")) {
+                        sharedPrefManager.saveUser(loginResponse);
+                        Toast.makeText(Login.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
                         Intent intent = new Intent(Login.this, Home.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
-                        Toast.makeText(Login.this,loginResponse.getMessage(),Toast.LENGTH_SHORT).show();
 
                     }
                 }
                 else
                 {
-                    Toast.makeText(Login.this,loginResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                    if (loginResponse != null) {
+                        Toast.makeText(Login.this,loginResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }

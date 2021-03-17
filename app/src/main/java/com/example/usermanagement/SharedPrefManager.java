@@ -3,11 +3,12 @@ package com.example.usermanagement;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.usermanagement.ModelResponse.LoginResponse;
 import com.example.usermanagement.ModelResponse.User;
 
 public class SharedPrefManager
 {
-    private static String Shared_Pref = "UserManagement";
+    private static final String Shared_Pref = "UserManagement";
     private SharedPreferences sharedPreferences;
     Context context;
     private SharedPreferences.Editor editor;
@@ -16,14 +17,13 @@ public class SharedPrefManager
         this.context = context;
     }
 
-    public void saveUser(User user)
+    public void saveUser(LoginResponse loginResponse)
     {
         sharedPreferences = context.getSharedPreferences(Shared_Pref,Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-//        editor.putInt("id",user.getId());
-       // editor.putString("user_name",user.getUsername());
-        editor.putString("email",user.getEmail());
-        editor.putString("password",user.getPassword());
+        editor.putInt("id",loginResponse.getId());
+        editor.putString("user_name",loginResponse.getUser_name());
+        editor.putString("email",loginResponse.getEmail());
         editor.putBoolean("logged",true);
         editor.apply();
     }
@@ -38,8 +38,10 @@ public class SharedPrefManager
     {
         sharedPreferences = context.getSharedPreferences(Shared_Pref,Context.MODE_PRIVATE);
         return new User(
-                sharedPreferences.getString("email",null),
-                sharedPreferences.getString("password",null));
+                sharedPreferences.getInt("id",0),
+                sharedPreferences.getString("user_name",null),
+                sharedPreferences.getString("email",null));
+
     }
 
     public void logout()

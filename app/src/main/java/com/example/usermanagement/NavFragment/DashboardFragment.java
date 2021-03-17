@@ -113,7 +113,7 @@ public class DashboardFragment extends Fragment
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(),parent.getItemAtPosition(position).toString(),Toast.LENGTH_LONG).show();
+              //  Toast.makeText(getActivity(),parent.getItemAtPosition(position).toString(),Toast.LENGTH_LONG).show();
             }
 
             @Override

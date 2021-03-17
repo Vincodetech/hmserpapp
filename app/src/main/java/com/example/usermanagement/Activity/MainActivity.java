@@ -101,15 +101,19 @@ public class MainActivity extends AppCompatActivity {
                 RegisterResponse registerResponse = response.body();
                 if(response.isSuccessful())
                 {
-                    Intent intent = new Intent(MainActivity.this, Login.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                    Toast.makeText(MainActivity.this,registerResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                    if (registerResponse != null && registerResponse.getError().equals("000"))
+                    {
+                        Toast.makeText(MainActivity.this,registerResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                       Intent intent = new Intent(MainActivity.this, Login.class);
+                       intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                       startActivity(intent);
+                    }
                 }
                 else
                 {
-                    Toast.makeText(MainActivity.this,registerResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                    if (registerResponse != null) {
+                        Toast.makeText(MainActivity.this,registerResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }
