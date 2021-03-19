@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="golden">#CC9933</color>
     <color name="blue">#0000FF</color>
+
+    <color name="background_opacity">#AB363535</color>
 </resources>

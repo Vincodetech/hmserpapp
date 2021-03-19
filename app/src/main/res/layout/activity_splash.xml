@@ -4,15 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:layout_centerInParent="true"
+    android:background="@drawable/splash"
     tools:context=".Activity.SplashActivity">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/splash"
-            android:alpha="0.5"/>
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/piano"-->
+<!--            android:alpha="0.6"/>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/background_opacity">
+
+    </LinearLayout>
 
 
     <ImageView
@@ -58,7 +67,7 @@
         android:layout_marginRight="111dp"
         android:layout_marginBottom="132dp"
         android:text="@string/loading"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/imageView"
 
         app:layout_constraintEnd_toEndOf="@id/textView3"
