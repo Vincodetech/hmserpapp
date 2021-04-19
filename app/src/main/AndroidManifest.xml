@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.usermanagement">
+    package="com.beingknow.eatit2020">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -13,30 +17,39 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.UserManagement"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.Login"/>
-        <activity android:name=".Activity.Home"/>
+        android:theme="@style/Hotel_Theme"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:icon,android:theme">
+        <activity android:name=".Client.Activities.CafeDetailsActivity"></activity>
+        <activity android:name=".Client.Activities.CafeDetailActivity" />
+        <activity android:name=".Client.Activities.Food_DetailActivity" />
+        <activity android:name=".Client.Activities.OrderStatusActivity" />
+        <activity android:name=".Client.Activities.CartActivity" />
+        <activity android:name=".Client.Activities.FoodDetailsActivity" />
+        <activity android:name=".Client.Activities.FoodListActivity" />
+        <activity
+            android:name=".Client.Activities.HomeActivity"
+            android:label="@string/app_name" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
-        <activity android:name=".Activity.MainActivity" />
-        <activity android:name=".Activity.SplashActivity">
+        <activity android:name=".Client.Activities.SignUpActivity" />
+        <activity android:name=".Client.Activities.SignInActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <receiver android:name=".MyReceiver">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"
-                    />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>

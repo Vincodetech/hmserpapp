@@ -9,6 +9,27 @@
     <color name="white">#FFFFFFFF</color>
     <color name="golden">#CC9933</color>
     <color name="blue">#0000FF</color>
-
+    <color name="red">#FF0000</color>
     <color name="background_opacity">#AB363535</color>
+
+
+    <color name="colorPrimary">#004d40</color>
+    <color name="colorPrimaryDark">#00251a</color>
+    <color name="colorAccent">#39796b</color>
+
+    <color name="btnSignUp">#39796b</color>
+    <color name="btnSignActive">#A9d440</color>
+
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorBlack">#000000</color>
+
+    <color name="colorOverlayBackground">#7f333639</color>
+    <color name="colorOverlayActionBar">#0e0d0e</color>
+
+    <color name="bg_row_background">#fa315b</color>
+    <color name="item_name">#535353</color>
+    <color name="description">#a9a9a9</color>
+
+
+
 </resources>

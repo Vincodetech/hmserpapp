@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardElevation="4dp">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:id="@+id/order_id1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Order ID:"
+                android:textStyle="normal"
+                android:textAllCaps="true"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical|start"
+                android:layout_marginStart="10dp" />
+            <TextView
+                android:id="@+id/order_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="103"
+                android:layout_toRightOf="@id/order_id1"
+                android:textStyle="normal"
+                android:textAllCaps="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/order_id1" />
+
+            <TextView
+                android:id="@+id/order_status1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/order_id1"
+                android:layout_marginStart="-65dp"
+                android:layout_marginLeft="-65dp"
+                android:layout_marginTop="3dp"
+                android:layout_toEndOf="@id/order_id1"
+                android:layout_toRightOf="@id/order_id1"
+                android:gravity="center_vertical|start"
+                android:text="Order Status:"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/order_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_below="@id/order_id"
+                android:layout_toEndOf="@id/order_status1"
+                android:layout_toRightOf="@id/order_status1"
+                android:text="Status"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/order_phone1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/order_status1"
+                android:layout_marginStart="-95dp"
+                android:layout_marginLeft="-95dp"
+                android:layout_marginTop="1dp"
+                android:layout_toEndOf="@id/order_status1"
+                android:layout_toRightOf="@id/order_status1"
+                android:gravity="center_vertical|start"
+                android:text="Mobile No:"
+                android:textAllCaps="true"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/order_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/order_status"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/order_phone1"
+                android:layout_toRightOf="@id/order_phone1"
+                android:text="03214122100"
+                android:textAllCaps="true"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/order_address1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/order_phone1"
+                android:layout_marginStart="-76dp"
+                android:layout_marginLeft="-76dp"
+                android:layout_marginTop="2dp"
+                android:layout_toEndOf="@id/order_phone1"
+                android:layout_toRightOf="@id/order_phone1"
+                android:gravity="center_vertical|start"
+                android:text="Your Address:"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/order_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/order_phone"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/order_address1"
+                android:layout_toRightOf="@id/order_address1"
+                android:text="Address"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+
+
+
+</androidx.cardview.widget.CardView>
