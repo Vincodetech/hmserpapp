@@ -1,12 +1,15 @@
 package com.beingknow.eatit2020.Client.Adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -63,14 +66,42 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
         public TextView txtOrderID, txtOrderStatus, txtOrderPhone, txtOrderAddress;
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull final View itemView) {
             super(itemView);
             txtOrderID = itemView.findViewById(R.id.order_id);
             txtOrderStatus = itemView.findViewById(R.id.order_status);
             txtOrderPhone = itemView.findViewById(R.id.order_phone);
             txtOrderAddress = itemView.findViewById(R.id.order_address);
 
+            cardView = (CardView) itemView.findViewById(R.id.order_card);
+            cardView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(itemView.getContext());
+                    alertDialog.setTitle("Are You Want To Sure Delete Order Summary...!");
+                    alertDialog.setIcon(R.drawable.ic_baseline_delete_24);
 
+                    alertDialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            cartList.remove(getAdapterPosition());
+                            notifyItemRemoved(getAdapterPosition());
+                            Toast.makeText(context, "Order Summary Deleted Successfully...!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                    return false;
+                }
+            });
 
         }
 

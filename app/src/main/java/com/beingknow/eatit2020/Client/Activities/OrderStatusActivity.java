@@ -37,7 +37,7 @@ public class OrderStatusActivity extends AppCompatActivity {
 
     private int[] orderid = new int[]{1001,1002,1003};
     private String[] order_status = new String[]{"Your Order has Shipped...!", "Your Order is on the Way...!", "Your Order has Placed...!"};
-    private int[] phone = new int[]{963874341,963874341,963874341};
+    private String[] phone = new String[]{"9638743411","9638743411","9638743411"};
     private String [] address = new String[]{"85/A,Suvidhinath Society,Kalka Road,Patan", "85/A,Suvidhinath Society,Kalka Road,Patan", "85/A,Suvidhinath Society,Kalka Road,Patan"};
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

@@ -153,6 +153,19 @@
                         android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true" />
+
+                    <ImageView
+                        android:id="@+id/delete"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_delete_24"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:clickable="true"
+                        android:text="Delete"
+                        android:textAlignment="center"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:focusable="true" />
                 </LinearLayout>
 
             </LinearLayout>
