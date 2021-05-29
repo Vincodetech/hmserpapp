@@ -150,6 +150,7 @@ public class SignInActivity extends AppCompatActivity {
                 {
                     if (loginResponse != null) {
                         Toast.makeText(SignInActivity.this,loginResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                        mDialog.dismiss();
                     }
                 }
 
@@ -159,6 +160,7 @@ public class SignInActivity extends AppCompatActivity {
             public void onFailure(Call<LoginResponse> call, Throwable t)
             {
                 Toast.makeText(SignInActivity.this,t.getMessage(),Toast.LENGTH_SHORT).show();
+                mDialog.dismiss();
             }
         });
     }

@@ -1,10 +1,14 @@
 package com.beingknow.eatit2020;
 
+import com.beingknow.eatit2020.ModelResponse.FoodCategoryResponse;
 import com.beingknow.eatit2020.ModelResponse.LoginResponse;
 import com.beingknow.eatit2020.ModelResponse.RegisterResponse;
 import com.beingknow.eatit2020.ModelResponse.UpdateProfileResponse;
 import com.beingknow.eatit2020.ModelResponse.UserResponse;
 import com.beingknow.eatit2020.ModelResponse.UserProfileResponse;
+import com.beingknow.eatit2020.Models.Category;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -48,4 +52,7 @@ public interface Api
             @Field("country") String country,
             @Field("pincode") String pincode
     );
+
+    @GET("foodcategorylist")
+    Call<ArrayList<FoodCategoryResponse>> foodcategorylist();
 }

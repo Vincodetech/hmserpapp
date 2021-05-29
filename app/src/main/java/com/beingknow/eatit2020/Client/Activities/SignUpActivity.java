@@ -145,6 +145,7 @@ public class SignUpActivity extends AppCompatActivity {
                 {
                     if (registerResponse != null) {
                         Toast.makeText(SignUpActivity.this,registerResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                        mDialog.dismiss();
                     }
                 }
 
@@ -154,6 +155,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onFailure(Call<RegisterResponse> call, Throwable t)
             {
                 Toast.makeText(SignUpActivity.this,t.getMessage(),Toast.LENGTH_SHORT).show();
+                mDialog.dismiss();
             }
         });
     }

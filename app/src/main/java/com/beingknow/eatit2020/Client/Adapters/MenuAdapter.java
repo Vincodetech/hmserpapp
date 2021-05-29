@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.beingknow.eatit2020.Client.Activities.Food_DetailActivity;
 import com.beingknow.eatit2020.Interface.ItemClickListener;
+import com.beingknow.eatit2020.ModelResponse.FoodCategoryResponse;
 import com.beingknow.eatit2020.Models.Category;
 import com.beingknow.eatit2020.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -25,17 +27,17 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     Context context;
     RecyclerView recyclerView;
     RecyclerView recyclerView1;
-    private ArrayList<Category> categories = new ArrayList();
+    private ArrayList<FoodCategoryResponse> categories = new ArrayList<FoodCategoryResponse>();
     private ItemClickListener mOnItemClickInterface;
 
-    public MenuAdapter(Context context, ArrayList<Category> categories, RecyclerView recyclerView, ItemClickListener mOnItemClickInterface) {
+    public MenuAdapter(Context context, ArrayList<FoodCategoryResponse> categories, RecyclerView recyclerView, ItemClickListener mOnItemClickInterface) {
         this.context = context;
         this.categories = categories;
         this.recyclerView = recyclerView;
         this.mOnItemClickInterface = mOnItemClickInterface;
     }
 
-    public MenuAdapter(Context context, ArrayList<Category> imageModelArrayList, RecyclerView recyclerView) {
+    public MenuAdapter(Context context, ArrayList<FoodCategoryResponse> imageModelArrayList, RecyclerView recyclerView) {
         inflater = LayoutInflater.from(context);
         this.categories = imageModelArrayList;
         this.recyclerView = recyclerView;
@@ -56,30 +58,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     @Override
     public void onBindViewHolder(@NonNull MenuViewHolder holder, int position) {
         holder.foodName.setText(categories.get(position).getName());
-      //  Picasso.get().load(categories.get(position).getImage()).into(holder.foodImage);
-        holder.foodImage.setImageResource(categories.get(position).getImage());
-
-
-//        holder.foodImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(context != null) {
-//                    v.getContext().startActivity(new Intent(v.getContext(), Food_DetailActivity.class));
-//                }
-//                }
-//
-//        });
-
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(context != null) {
-//                    v.getContext().startActivity(new Intent(v.getContext(), Food_DetailActivity.class));
-//                }
-//            }
-//        });
-
-
+        Picasso.get().load(categories.get(position).getServer_url_image()).into(holder.foodImage);
+       // holder.foodImage.setImageResource(categories.get(position).getImage());
 
     }
 
