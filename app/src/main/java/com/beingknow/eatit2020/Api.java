@@ -1,14 +1,16 @@
 package com.beingknow.eatit2020;
 
+import com.beingknow.eatit2020.ModelResponse.CafeCategory;
 import com.beingknow.eatit2020.ModelResponse.FoodCategoryResponse;
 import com.beingknow.eatit2020.ModelResponse.LoginResponse;
 import com.beingknow.eatit2020.ModelResponse.RegisterResponse;
+import com.beingknow.eatit2020.ModelResponse.SliderData;
 import com.beingknow.eatit2020.ModelResponse.UpdateProfileResponse;
-import com.beingknow.eatit2020.ModelResponse.UserResponse;
 import com.beingknow.eatit2020.ModelResponse.UserProfileResponse;
-import com.beingknow.eatit2020.Models.Category;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -16,6 +18,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 
 public interface Api
 {
@@ -54,5 +57,15 @@ public interface Api
     );
 
     @GET("foodcategorylist")
-    Call<ArrayList<FoodCategoryResponse>> foodcategorylist();
+    Call<ArrayList<FoodCategoryResponse>> foodcategorylist(
+            @QueryMap Map<String, String> paramsMap
+            );
+
+    @GET("sliderlist")
+    Call<ArrayList<SliderData>> sliderlist();
+
+    @GET("foodcategorylist")
+    Call<ArrayList<CafeCategory>> cafecategorylist(
+            @QueryMap Map<String, String> paramsMap
+    );
 }

@@ -15,8 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.beingknow.eatit2020.Client.Activities.CafeDetailActivity;
 import com.beingknow.eatit2020.Interface.ItemClickListener;
-import com.beingknow.eatit2020.Models.CafeCategory;
+import com.beingknow.eatit2020.ModelResponse.CafeCategory;
 import com.beingknow.eatit2020.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -24,18 +25,21 @@ public class CafeMenuAdapter extends RecyclerView.Adapter<CafeMenuAdapter.CafeMe
 {
     private LayoutInflater inflater;
     Context context;
+    RecyclerView recyclerView1;
     private ArrayList<CafeCategory> category = new ArrayList();
     private ItemClickListener mOnItemClickInterface;
 
-    public CafeMenuAdapter(Context context, ArrayList<CafeCategory> category, ItemClickListener mOnItemClickInterface) {
+    public CafeMenuAdapter(Context context, ArrayList<CafeCategory> category,  RecyclerView recyclerView1, ItemClickListener mOnItemClickInterface) {
         this.context = context;
         this.category = category;
+        this.recyclerView1 = recyclerView1;
         this.mOnItemClickInterface = mOnItemClickInterface;
     }
 
-    public CafeMenuAdapter(Context context, ArrayList<CafeCategory> imageModelArrayList) {
+    public CafeMenuAdapter(Context context, ArrayList<CafeCategory> imageModelArrayList, RecyclerView recyclerView1) {
         inflater = LayoutInflater.from(context);
         this.category = imageModelArrayList;
+        this.recyclerView1 = recyclerView1;
     }
 
 
@@ -51,8 +55,9 @@ public class CafeMenuAdapter extends RecyclerView.Adapter<CafeMenuAdapter.CafeMe
     @Override
     public void onBindViewHolder(@NonNull CafeMenuAdapter.CafeMenuViewHolder holder, int position) {
         holder.foodName.setText(category.get(position).getName());
-        //  Picasso.get().load(categories.get(position).getImage()).into(holder.foodImage);
-        holder.foodImage.setImageResource(category.get(position).getImage());
+        Picasso.get().load(category.get(position).getServer_url_image())
+                .fit()
+                .into(holder.foodImage);
 
     }
 

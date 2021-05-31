@@ -1,17 +1,18 @@
-package com.beingknow.eatit2020;
+package com.beingknow.eatit2020.Client.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.beingknow.eatit2020.SliderData;
+import androidx.annotation.NonNull;
+
+import com.beingknow.eatit2020.R;
+import com.beingknow.eatit2020.ModelResponse.SliderData;
 import com.bumptech.glide.Glide;
 import com.smarteist.autoimageslider.SliderViewAdapter;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,13 @@ import java.util.List;
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapterViewHolder> {
 
     // list for storing urls of images.
-    private final List<SliderData> mSliderItems;
+    private LayoutInflater inflater;
+    private Context context;
+    private final ArrayList<SliderData> mSliderItems;
 
     // Constructor
     public SliderAdapter(Context context, ArrayList<SliderData> sliderDataArrayList) {
+       this.context = context;
         this.mSliderItems = sliderDataArrayList;
     }
 
@@ -32,8 +36,10 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
     // inside on Create View Holder method.
     @Override
     public SliderAdapterViewHolder onCreateViewHolder(ViewGroup parent) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.slider_layout, null);
-        return new SliderAdapterViewHolder(inflate);
+        View view = inflater.inflate(R.layout.slider_layout, parent, false);
+        SliderAdapter.SliderAdapterViewHolder holder = new SliderAdapter.SliderAdapterViewHolder(view);
+
+        return holder;
     }
 
     // Inside on bind view holder we will
@@ -41,21 +47,27 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
     @Override
     public void onBindViewHolder(SliderAdapterViewHolder viewHolder, final int position) {
 
-        final SliderData sliderItem = mSliderItems.get(position);
+      //  final SliderData sliderItem = mSliderItems.get(position);
 
         // Glide is use to load image
         // from url in your imageview.
-        Glide.with(viewHolder.itemView)
-                .load(sliderItem.getImgUrl())
-                .fitCenter()
+        Picasso.get().load(mSliderItems.get(position).getImgUrl())
+                .fit()
                 .into(viewHolder.imageViewBackground);
+//        Glide.with(viewHolder.itemView)
+//                .load(sliderItem.getImgUrl())
+//                .fitCenter()
+//                .into(viewHolder.imageViewBackground);
     }
 
     // this method will return
     // the count of our list.
     @Override
     public int getCount() {
-        return mSliderItems.size();
+        if(mSliderItems != null) {
+            return mSliderItems.size();
+        }
+        return 0;
     }
 
     static class SliderAdapterViewHolder extends SliderViewAdapter.ViewHolder {

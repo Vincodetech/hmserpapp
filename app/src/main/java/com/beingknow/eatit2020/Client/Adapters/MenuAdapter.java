@@ -18,6 +18,8 @@ import com.beingknow.eatit2020.Interface.ItemClickListener;
 import com.beingknow.eatit2020.ModelResponse.FoodCategoryResponse;
 import com.beingknow.eatit2020.Models.Category;
 import com.beingknow.eatit2020.R;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     Context context;
     RecyclerView recyclerView;
     RecyclerView recyclerView1;
-    private ArrayList<FoodCategoryResponse> categories = new ArrayList<FoodCategoryResponse>();
+    private ArrayList<FoodCategoryResponse> categories = null;
     private ItemClickListener mOnItemClickInterface;
 
     public MenuAdapter(Context context, ArrayList<FoodCategoryResponse> categories, RecyclerView recyclerView, ItemClickListener mOnItemClickInterface) {
@@ -46,8 +48,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     @NonNull
     @Override
     public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View view = LayoutInflater.from(context).inflate(R.layout.menu_item, parent, false);
-//        return new MenuViewHolder(view);
 
         View view = inflater.inflate(R.layout.menu_item, parent, false);
         MenuViewHolder holder = new MenuViewHolder(view);
@@ -58,15 +58,20 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     @Override
     public void onBindViewHolder(@NonNull MenuViewHolder holder, int position) {
         holder.foodName.setText(categories.get(position).getName());
-        Picasso.get().load(categories.get(position).getServer_url_image()).into(holder.foodImage);
-       // holder.foodImage.setImageResource(categories.get(position).getImage());
+        Picasso.get().load(categories.get(position).getServer_url_image())
+                .fit()
+                .into(holder.foodImage);
 
     }
 
     @Override
     public int getItemCount() {
-        return categories.size();
+        if(categories != null) {
+            return categories.size();
+        }
+        return 0;
     }
+
 
     public class MenuViewHolder extends RecyclerView.ViewHolder {
 
