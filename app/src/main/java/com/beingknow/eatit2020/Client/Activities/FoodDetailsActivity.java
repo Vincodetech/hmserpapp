@@ -100,7 +100,6 @@ public class FoodDetailsActivity extends AppCompatActivity {
         itemList = new ArrayList<>();
         itemDetailAdapter = new ItemDetailAdapter(this, itemList);
 
-        itemList = eatFruits();
 
 
         itemDetailAdapter = new ItemDetailAdapter(getApplicationContext(), itemList,recyclerView);
@@ -110,31 +109,6 @@ public class FoodDetailsActivity extends AppCompatActivity {
 
     }
 
-    private ArrayList<Item> eatFruits() {
-
-        ArrayList<Item> list = new ArrayList<>();
-
-            Item fruitModel = new Item();
-            fruitModel.setName(myImageNameList[0]);
-            fruitModel.setThumbnail(myImageList[0]);
-            fruitModel.setDescription(myDesc[0]);
-            fruitModel.setPrice(myprice[0]);
-            list.add(fruitModel);
-
-            return list;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item){
-//        Intent myIntent = new Intent(getApplicationContext(), DashboardFragment.class);
-//        startActivityForResult(myIntent, 0);
-        finish();
-        return true;
-    }
-
-//    private void updateProductPrice(TextView quantity){
-//        food_price=(quantity*itemCostPrice);
-//        food_price.setText("$"+food_price);
-//    }
 
 
 }

@@ -12,12 +12,12 @@ public class SliderData {
     }
 
     // Getter method
-    public String getImgUrl() {
+    public String getServer_url_image() {
         return server_url_image;
     }
 
     // Setter method
-    public void setImgUrl(String server_url_image) {
+    public void setServer_url_image(String server_url_image) {
         this.server_url_image = server_url_image;
     }
 }

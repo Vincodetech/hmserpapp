@@ -1,5 +1,6 @@
 package com.beingknow.eatit2020.Client.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -14,17 +15,27 @@ import com.beingknow.eatit2020.Models.Category;
 import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.NavFragment.DashboardFragment;
 import com.beingknow.eatit2020.R;
+import com.beingknow.eatit2020.RetrofitClient;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Food_DetailActivity extends AppCompatActivity {
 
@@ -33,10 +44,7 @@ public class Food_DetailActivity extends AppCompatActivity {
     private ItemListAdapter mAdapter;
     private CoordinatorLayout coordinatorLayout;
 
-    private int[] myImageList = new int[]{R.drawable.baigan_bharta, R.drawable.kashmiri_kofta, R.drawable.lasaniya_bataka, R.drawable.lasaniya_paneer, R.drawable.veg_toofani, R.drawable.veg_kofta, R.drawable.sev_tameta, R.drawable.mysore_masala_dosa};
-    private String[] myImageNameList = new String[]{"Baingan ka Bharta", "Kashmiri Kofta", "Lasaniya Bataka", "Lasaniya Paneer", "Veg Toofani", "Veg Kofta", "Sev Tameta", "Mysore Masala Dosa"};
-    private String [] myDesc = new String[]{"This is a Baingan ka Bharta", "This is a Kashmiri Kofta","This is a Lasaniya Bataka","This is a Lasaniya Paneer","This is a Veg Toofani","This is a Veg Kofta","This is a Sev Tameta","This is a Mysore Masala Dosa"};
-    private Double [] myprice = new Double[]{150.00,140.00,150.00,130.00,120.00,110.00,120.00,70.00};
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -52,44 +60,50 @@ public class Food_DetailActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         coordinatorLayout = findViewById(R.id.coordinator_layout);
         itemList = new ArrayList<>();
-        mAdapter = new ItemListAdapter(this, itemList);
 
-        itemList = eatFruits();
-//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-//        recyclerView.setLayoutManager(mLayoutManager);
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        recyclerView.addItemDecoration(new DividerItemDecoration(Food_DetailActivity.this, DividerItemDecoration.VERTICAL));
-//        recyclerView.setAdapter(mAdapter);
 
-        mAdapter = new ItemListAdapter(getApplicationContext(), itemList,recyclerView);
-        recyclerView.setAdapter(mAdapter);
+
+        getFoodItemList();
+
+       // mAdapter = new ItemListAdapter(getApplicationContext(), itemList,recyclerView);
+      //  recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(Food_DetailActivity.this, LinearLayoutManager.VERTICAL, false));
 
 
     }
 
-    private ArrayList<Item> eatFruits() {
-
-        ArrayList<Item> list = new ArrayList<>();
-
-        for (int i = 0; i < 8; i++) {
-            Item fruitModel = new Item();
-            fruitModel.setName(myImageNameList[i]);
-            fruitModel.setThumbnail(myImageList[i]);
-            fruitModel.setDescription(myDesc[i]);
-            fruitModel.setPrice(myprice[i]);
-            list.add(fruitModel);
+    public void getFoodItemList() {
+        for (int i = 1; i <= itemList.size(); i++) {
+            Map<String, String> paramsMap = new HashMap<String, String>();
+            paramsMap.put("category_id", String.valueOf(i));
 
 
+            Call<ArrayList<Item>> call = RetrofitClient
+                    .getInstance()
+                    .getApi()
+                    .fooditemlist(paramsMap);
+
+            call.enqueue(new Callback<ArrayList<Item>>() {
+                @Override
+                public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
+
+                    if(response.isSuccessful() && response.body() != null)
+                    {
+                        itemList = response.body();
+
+                        mAdapter = new ItemListAdapter(getApplicationContext(), itemList,recyclerView);
+                        recyclerView.setAdapter(mAdapter);
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<Item>> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            });
         }
-
-        return list;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
-//        Intent myIntent = new Intent(getApplicationContext(), DashboardFragment.class);
-//        startActivityForResult(myIntent, 0);
-        finish();
-        return true;
-    }
 }

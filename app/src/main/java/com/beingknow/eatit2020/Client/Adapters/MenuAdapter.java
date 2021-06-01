@@ -17,6 +17,7 @@ import com.beingknow.eatit2020.Client.Activities.Food_DetailActivity;
 import com.beingknow.eatit2020.Interface.ItemClickListener;
 import com.beingknow.eatit2020.ModelResponse.FoodCategoryResponse;
 import com.beingknow.eatit2020.Models.Category;
+import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -30,6 +31,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     RecyclerView recyclerView;
     RecyclerView recyclerView1;
     private ArrayList<FoodCategoryResponse> categories = null;
+    private ArrayList<Item> itemList = null;
     private ItemClickListener mOnItemClickInterface;
 
     public MenuAdapter(Context context, ArrayList<FoodCategoryResponse> categories, RecyclerView recyclerView, ItemClickListener mOnItemClickInterface) {
@@ -88,19 +90,30 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             main.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "Position:" + Integer.toString(getPosition()), Toast.LENGTH_SHORT).show();
-                    if(itemView.getContext() != null) {
-                       Intent intent = new Intent(itemView.getContext(), Food_DetailActivity.class);
-                         intent.putExtra("ItemPosition", getPosition());
-//                        context.startActivity(intent);
-                        v.getContext().startActivity(intent);
+                    if (categories != null) {
+                       // for (int i = 0; i <= categories.size(); i++) {
+                        for(FoodCategoryResponse item : categories) {
 
-                    }
-                    if(mOnItemClickInterface !=null){
-                        mOnItemClickInterface.onClick(v,getAdapterPosition(),true);
+
+
+                            System.out.println(item.getId());
+
+                            if (itemView.getContext() != null) {
+                                Intent intent = new Intent(itemView.getContext(), Food_DetailActivity.class);
+                                intent.putExtra("id", item.getId());
+                                Toast.makeText(itemView.getContext(), "Position:" + item.getId(), Toast.LENGTH_SHORT).show();
+//                        context.startActivity(intent);
+                                v.getContext().startActivity(intent);
+
+                            }
+                            if (mOnItemClickInterface != null) {
+                                mOnItemClickInterface.onClick(v, getAdapterPosition(), true);
+                            }
+                        }
                     }
                 }
             });
+
 
 
         }

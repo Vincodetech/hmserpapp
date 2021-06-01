@@ -7,6 +7,7 @@ import com.beingknow.eatit2020.ModelResponse.RegisterResponse;
 import com.beingknow.eatit2020.ModelResponse.SliderData;
 import com.beingknow.eatit2020.ModelResponse.UpdateProfileResponse;
 import com.beingknow.eatit2020.ModelResponse.UserProfileResponse;
+import com.beingknow.eatit2020.Models.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,11 @@ public interface Api
 
     @GET("foodcategorylist")
     Call<ArrayList<CafeCategory>> cafecategorylist(
+            @QueryMap Map<String, String> paramsMap
+    );
+
+    @GET("getfooditems")
+    Call<ArrayList<Item>> fooditemlist(
             @QueryMap Map<String, String> paramsMap
     );
 }

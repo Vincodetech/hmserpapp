@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -57,7 +58,9 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
 //        Glide.with(context)
 //                .load(item.getThumbnail())
 //                .into(holder.thumbnail);
-        holder.thumbnail.setImageResource(item.getThumbnail());
+        Picasso.get().load(cartList.get(position).getServer_url_image())
+                .fit()
+                .into(holder.thumbnail);
     }
 
     @Override

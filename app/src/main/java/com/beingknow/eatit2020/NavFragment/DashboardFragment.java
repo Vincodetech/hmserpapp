@@ -1,5 +1,6 @@
 package com.beingknow.eatit2020.NavFragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.beingknow.eatit2020.Api;
+import com.beingknow.eatit2020.Client.Activities.Food_DetailActivity;
 import com.beingknow.eatit2020.Client.Adapters.CafeMenuAdapter;
 import com.beingknow.eatit2020.Client.Adapters.MenuAdapter;
 import com.beingknow.eatit2020.Constant;
@@ -28,6 +30,7 @@ import com.beingknow.eatit2020.Interface.ItemClickListener;
 import com.beingknow.eatit2020.ModelResponse.FoodCategoryResponse;
 import com.beingknow.eatit2020.ModelResponse.SliderData;
 import com.beingknow.eatit2020.ModelResponse.CafeCategory;
+import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.R;
 import com.beingknow.eatit2020.RetrofitClient;
 import com.beingknow.eatit2020.SharedPrefManager;
@@ -48,6 +51,8 @@ import retrofit2.Response;
 public class DashboardFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView recyclerView1;
+    private RelativeLayout main;
+    private ItemClickListener mOnItemClickInterface;
     private MenuAdapter menuAdapter;
     private CardView cardview;
     private CafeMenuAdapter cafeMenuAdapter;
@@ -61,7 +66,8 @@ public class DashboardFragment extends Fragment {
     private ArrayList<FoodCategoryResponse> imageModelArrayList;
     private ArrayList<CafeCategory> modelArrayList;
     private ArrayList<SliderData> sliderData;
-    private RelativeLayout main;
+    private ArrayList<Item> itemArrayList;
+   // private RelativeLayout main;
     private SliderAdapter adapter;
     public Constant constant;
     public RetrofitClient retrofitClient;
@@ -109,6 +115,8 @@ public class DashboardFragment extends Fragment {
         cardview = (CardView) view.findViewById(R.id.cardview);
         imageView = (ImageView) view.findViewById(R.id.menu_image);
         menu_name = (TextView) view.findViewById(R.id.menu_name);
+        main = (RelativeLayout) view.findViewById(R.id.relative);
+
         if (getActivity() != null) {
 
             fetchCategory();
@@ -166,22 +174,22 @@ public class DashboardFragment extends Fragment {
             public void onResponse(Call<ArrayList<SliderData>> call, Response<ArrayList<SliderData>> response) {
                 if(response.isSuccessful() && response.body() != null)
                 {
-                    if(sliderData != null) {
+                        ArrayList<SliderData> sliderData = new ArrayList<>();
 
-                            sliderData = response.body();
+                        sliderData = response.body();
 
-                            adapter = new SliderAdapter(getContext(), sliderData);
+                        SliderAdapter adapter = new SliderAdapter(getContext(), sliderData, sliderView);
 
-                            sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
+                        sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
 
-                            sliderView.setSliderAdapter(adapter);
+                        sliderView.setSliderAdapter(adapter);
 
-                            sliderView.setScrollTimeInSec(3);
+                        sliderView.setScrollTimeInSec(3);
 
-                            sliderView.setAutoCycle(true);
+                        sliderView.setAutoCycle(true);
 
-                            sliderView.startAutoCycle();
-                    }
+                        sliderView.startAutoCycle();
+
                 }
             }
 
