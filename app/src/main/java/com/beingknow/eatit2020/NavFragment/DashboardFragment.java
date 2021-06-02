@@ -146,7 +146,7 @@ public class DashboardFragment extends Fragment {
         call.enqueue(new Callback<ArrayList<CafeCategory>>() {
             @Override
             public void onResponse(Call<ArrayList<CafeCategory>> call, Response<ArrayList<CafeCategory>> response) {
-                if(response.isSuccessful() && response.body() != null)
+                if(response.isSuccessful() && response.body() != null && getActivity() != null)
                 {
                     CafeMenuAdapter menuAdapter = new CafeMenuAdapter(getContext(),response.body(),recyclerView);
                     recyclerView1.setAdapter(menuAdapter);
@@ -172,7 +172,7 @@ public class DashboardFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onResponse(Call<ArrayList<SliderData>> call, Response<ArrayList<SliderData>> response) {
-                if(response.isSuccessful() && response.body() != null)
+                if(response.isSuccessful() && response.body() != null && getActivity() != null)
                 {
                         ArrayList<SliderData> sliderData = new ArrayList<>();
 
@@ -217,7 +217,7 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onResponse(Call<ArrayList<FoodCategoryResponse>> call, Response<ArrayList<FoodCategoryResponse>> response) {
 
-                if(response.isSuccessful() && response.body() != null)
+                if(response.isSuccessful() && response.body() != null && getActivity() != null)
                 {
                     MenuAdapter menuAdapter = new MenuAdapter(getContext(),response.body(),recyclerView);
                     recyclerView.setAdapter(menuAdapter);

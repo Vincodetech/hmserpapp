@@ -37,22 +37,14 @@
             android:textSize="17sp"
             android:layout_toEndOf="@id/thumbnail" />
 
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/name"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@id/thumbnail"
-            android:textColor="@color/description"
-            android:textSize="12sp"
-            android:layout_toEndOf="@id/thumbnail" />
 
         <TextView
             android:id="@+id/price"
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_below="@id/name"
             android:layout_toRightOf="@id/thumbnail"
             android:textColor="@color/golden"
             android:textStyle="bold"

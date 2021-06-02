@@ -74,4 +74,9 @@ public interface Api
     Call<ArrayList<Item>> fooditemlist(
             @QueryMap Map<String, String> paramsMap
     );
+
+    @GET("singlefooditem")
+    Call<ArrayList<Item>> singleFoodItem(
+            @QueryMap Map<String, String> paramsMap
+    );
 }

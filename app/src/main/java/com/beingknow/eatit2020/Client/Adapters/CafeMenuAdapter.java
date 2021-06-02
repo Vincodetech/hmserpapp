@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.beingknow.eatit2020.Client.Activities.CafeDetailActivity;
+import com.beingknow.eatit2020.Client.Activities.Food_DetailActivity;
 import com.beingknow.eatit2020.Interface.ItemClickListener;
 import com.beingknow.eatit2020.ModelResponse.CafeCategory;
 import com.beingknow.eatit2020.R;
@@ -63,7 +64,10 @@ public class CafeMenuAdapter extends RecyclerView.Adapter<CafeMenuAdapter.CafeMe
 
     @Override
     public int getItemCount() {
-        return category.size();
+        if(category != null) {
+            return category.size();
+        }
+        return 0;
     }
 
     public class CafeMenuViewHolder extends RecyclerView.ViewHolder {
@@ -80,16 +84,18 @@ public class CafeMenuAdapter extends RecyclerView.Adapter<CafeMenuAdapter.CafeMe
             main1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "Position:" + Integer.toString(getPosition()), Toast.LENGTH_SHORT).show();
-                    if(itemView.getContext() != null) {
-                        Intent intent = new Intent(itemView.getContext(), CafeDetailActivity.class);
-                        intent.putExtra("ItemPosition", getPosition());
-//                        context.startActivity(intent);
+                    if (category != null) {
+
+                        System.out.println("Position: " + category.get(getAdapterPosition()).getId());
+                        Intent intent = new Intent(itemView.getContext(), Food_DetailActivity.class);
+                        intent.putExtra(Intent.EXTRA_TEXT, category.get(getAdapterPosition()).getId());
+
+                        Toast.makeText(itemView.getContext(), "Position:" + category.get(getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
                         v.getContext().startActivity(intent);
 
-                    }
-                    if(mOnItemClickInterface !=null){
-                        mOnItemClickInterface.onClick(v,getAdapterPosition(),true);
+                        if (mOnItemClickInterface != null) {
+                            mOnItemClickInterface.onClick(v, getAdapterPosition(), true);
+                        }
                     }
                 }
             });

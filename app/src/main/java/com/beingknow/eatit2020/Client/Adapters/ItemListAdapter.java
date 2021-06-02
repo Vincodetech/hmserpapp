@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beingknow.eatit2020.Client.Activities.FoodDetailsActivity;
+import com.beingknow.eatit2020.Client.Activities.Food_DetailActivity;
 import com.beingknow.eatit2020.Interface.ItemClickListener;
 import com.beingknow.eatit2020.R;
 
@@ -37,36 +38,35 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.MyView
     private ItemClickListener mOnItemClickInterface;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, description, price;
+        public TextView name, price;
         public ImageView thumbnail;
         public RelativeLayout viewForeground;
 
         public MyViewHolder(@NonNull final View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
-            description = itemView.findViewById(R.id.description);
             price = itemView.findViewById(R.id.price);
             thumbnail = itemView.findViewById(R.id.thumbnail);
-            viewForeground = (RelativeLayout)itemView.findViewById(R.id.view_foreground);
             cardView = (CardView)itemView.findViewById(R.id.cardview);
-//            cardView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if(itemView.getContext() != null)
-//                    {
-//                        Toast.makeText(itemView.getContext(), "Position:" + Integer.toString(getPosition()), Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(itemView.getContext(), FoodDetailsActivity.class);
-//                        v.getContext().startActivity(intent);
-//                    }
-//
-//                }
-//            });
-//            Intent intent = getIntent();
-//              String name = intent.getStringExtra("name");
-//              String description = intent.getStringExtra("description");
-//              String price = intent.getStringExtra("price");
-//              String image  = intent.getStringExtra("server_url_image");
+            viewForeground = (RelativeLayout)itemView.findViewById(R.id.view_foreground);
+           viewForeground.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   if (itemList != null) {
 
+                       System.out.println("Position: " + itemList.get(getAdapterPosition()).getId());
+                       Intent intent = new Intent(itemView.getContext(), FoodDetailsActivity.class);
+                       intent.putExtra(Intent.EXTRA_TEXT, itemList.get(getAdapterPosition()).getId());
+
+                       Toast.makeText(itemView.getContext(), "Position:" + itemList.get(getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
+                       v.getContext().startActivity(intent);
+
+                       if (mOnItemClickInterface != null) {
+                           mOnItemClickInterface.onClick(v, getAdapterPosition(), true);
+                       }
+                   }
+               }
+           });
 
         }
     }
@@ -80,7 +80,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.MyView
     }
 
     public ItemListAdapter(Context context, ArrayList<Item> itemList, RecyclerView recyclerView, ItemClickListener mOnItemClickInterface) {
-//        inflater = LayoutInflater.from(context);
         this.context = context;
         this.itemList = itemList;
         this.recyclerView = recyclerView;
@@ -99,18 +98,13 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
-        Intent intent = ((Activity) context).getIntent();
-        String name = intent.getStringExtra("name");
-        String description = intent.getStringExtra("description");
-        String price = intent.getStringExtra("price");
-        String server_url_image = intent.getStringExtra("server_url_image");
+
 
         final Item item = itemList.get(position);
-        holder.name.setText(name);
-        holder.description.setText(description);
-        holder.price.setText("₹" + price);
+        holder.name.setText(item.getName());
+        holder.price.setText("₹" + item.getPrice());
 
-        Picasso.get().load(server_url_image)
+        Picasso.get().load(item.getServer_url_image())
                 .fit()
                 .into(holder.thumbnail);
     }

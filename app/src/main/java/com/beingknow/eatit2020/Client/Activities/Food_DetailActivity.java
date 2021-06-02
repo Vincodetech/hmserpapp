@@ -17,6 +17,7 @@ import com.beingknow.eatit2020.NavFragment.DashboardFragment;
 import com.beingknow.eatit2020.R;
 import com.beingknow.eatit2020.RetrofitClient;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -73,9 +74,14 @@ public class Food_DetailActivity extends AppCompatActivity {
     }
 
     public void getFoodItemList() {
-        for (int i = 1; i <= itemList.size(); i++) {
+
+        Intent intent = getIntent();
+        if (intent.hasExtra(Intent.EXTRA_TEXT)) {
+            int id = intent.getIntExtra(Intent.EXTRA_TEXT,1);
+
+
             Map<String, String> paramsMap = new HashMap<String, String>();
-            paramsMap.put("category_id", String.valueOf(i));
+            paramsMap.put("category_id", String.valueOf(id));
 
 
             Call<ArrayList<Item>> call = RetrofitClient
@@ -87,11 +93,10 @@ public class Food_DetailActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
 
-                    if(response.isSuccessful() && response.body() != null)
-                    {
+                    if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
                         itemList = response.body();
 
-                        mAdapter = new ItemListAdapter(getApplicationContext(), itemList,recyclerView);
+                        mAdapter = new ItemListAdapter(getApplicationContext(), itemList, recyclerView);
                         recyclerView.setAdapter(mAdapter);
 
 
@@ -100,10 +105,14 @@ public class Food_DetailActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ArrayList<Item>> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
+    }
+    public boolean onOptionsItemSelected(MenuItem item){
+       finish();
+        return true;
     }
 
 }
