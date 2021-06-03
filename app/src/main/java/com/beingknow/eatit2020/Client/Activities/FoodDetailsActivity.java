@@ -11,9 +11,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.beingknow.eatit2020.Client.Adapters.ItemDetailAdapter;
 import com.beingknow.eatit2020.Client.Adapters.ItemListAdapter;
@@ -25,8 +27,10 @@ import com.beingknow.eatit2020.Models.Order;
 import com.beingknow.eatit2020.R;
 import com.beingknow.eatit2020.RetrofitClient;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,14 +49,15 @@ import retrofit2.Response;
 
 public class FoodDetailsActivity extends AppCompatActivity {
 
-    TextView food_name, food_price, food_description, food_quantity1;
-    ImageView food_image;
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    FloatingActionButton btnCart;
-    ElegantNumberButton numberButton;
+    private TextView food_name, food_price, food_description, food_quantity1;
+    private ImageView food_image;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private FloatingActionButton btnCart;
+    private ElegantNumberButton numberButton;
     private ItemDetailAdapter itemDetailAdapter;
     private RecyclerView recyclerView;
     private ArrayList<Item> itemList;
+    private ImageView plus, minus;
 
 
 
@@ -63,42 +68,54 @@ public class FoodDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_details);
 
-        numberButton = findViewById(R.id.number_button);
-//        numberButton.setOnClickListener(new ElegantNumberButton.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String number = numberButton.getNumber();
-//                food_quantity1.setText(number);
-//                int qty = Integer.parseInt(food_quantity1.getText().toString());
-//                double price = Double.parseDouble(food_price.getText().toString());
-//                double after_price = (qty * price);
-//                food_price.setText(Double.toString(after_price));
-//            }
-//        });
-        btnCart = findViewById(R.id.btn_cart);
 
-//        btnCart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(FoodDetailsActivity.this, "Added to Cart...!",Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(FoodDetailsActivity.this, CartActivity.class);
-//                startActivity(intent);
-//            }
-//        });
 
-        food_name = findViewById(R.id.food_name);
-        food_description = findViewById(R.id.food_description);
-        food_quantity1 = findViewById(R.id.food_quantity1);
-        food_price = findViewById(R.id.food_price);
-        food_image = findViewById(R.id.food_image);
 
-       // collapsingToolbarLayout = findViewById(R.id.collapsing);
+
+
+
+        btnCart = (FloatingActionButton) findViewById(R.id.btn_cart);
+        if(btnCart != null) {
+            btnCart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(FoodDetailsActivity.this, "Added to Cart...!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(FoodDetailsActivity.this, CartActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
+
+        food_name = (TextView) findViewById(R.id.food_name);
+        food_description = (TextView) findViewById(R.id.food_description);
+        food_quantity1 = (TextView) findViewById(R.id.food_quantity1);
+        food_price = (TextView) findViewById(R.id.food_price);
+        food_image = (ImageView) findViewById(R.id.food_image);
+        plus = (ImageView) findViewById(R.id.plus);
+        minus = (ImageView) findViewById(R.id.minus);
+
+//        collapsingToolbarLayout = findViewById(R.id.collapsing1);
 //        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpanededAppBar);
 //        collapsingToolbarLayout.setCollapsedTitleTextAppearance((R.style.CollapsedAppBar));
 
         Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.food_detail));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+//        if(numberButton != null) {
+//            numberButton.setOnClickListener(new ElegantNumberButton.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    String number = numberButton.getNumber();
+//                    food_quantity1.setText(number);
+//                    int qty = Integer.parseInt(food_quantity1.getText().toString());
+//                    double price = Double.parseDouble(food_price.getText().toString());
+//                    double after_price = (qty * price);
+//                    food_price.setText(Double.toString(after_price));
+//                }
+//            });
+//        }
 
         recyclerView = findViewById(R.id.recycler_view);
         itemList = new ArrayList<>();
@@ -138,6 +155,20 @@ public class FoodDetailsActivity extends AppCompatActivity {
 
                         itemDetailAdapter = new ItemDetailAdapter(getApplicationContext(), itemList, recyclerView);
                         recyclerView.setAdapter(itemDetailAdapter);
+
+//                        if(numberButton != null) {
+//                            numberButton.setOnClickListener(new ElegantNumberButton.OnClickListener() {
+//                                @Override
+//                                public void onClick(View view) {
+//                                    String number = numberButton.getNumber();
+//                                    food_quantity1.setText(number);
+//                                    int qty = Integer.parseInt(food_quantity1.getText().toString());
+//                                    double price = Double.parseDouble(food_price.getText().toString());
+//                                    double after_price = (qty * price);
+//                                    food_price.setText(Double.toString(after_price));
+//                                }
+//                            });
+//                        }
 
 
                     }

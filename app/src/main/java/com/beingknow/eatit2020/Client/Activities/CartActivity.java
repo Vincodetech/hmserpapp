@@ -62,7 +62,7 @@ public class CartActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.my_cart));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        numberButton = findViewById(R.id.number_button);
+     //   numberButton = findViewById(R.id.quantity_number_button);
 //        numberButton.setOnClickListener(new ElegantNumberButton.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
