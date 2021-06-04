@@ -1,6 +1,7 @@
 package com.beingknow.eatit2020;
 
 import com.beingknow.eatit2020.ModelResponse.CafeCategory;
+import com.beingknow.eatit2020.ModelResponse.CartResponse;
 import com.beingknow.eatit2020.ModelResponse.FoodCategoryResponse;
 import com.beingknow.eatit2020.ModelResponse.LoginResponse;
 import com.beingknow.eatit2020.ModelResponse.RegisterResponse;
@@ -78,5 +79,14 @@ public interface Api
     @GET("singlefooditem")
     Call<ArrayList<Item>> singleFoodItem(
             @QueryMap Map<String, String> paramsMap
+    );
+
+    @FormUrlEncoded
+    @POST("addcartitem")
+    Call<ArrayList<CartResponse>> addcartitem(
+            @Field("item_id") int item_id,
+            @Field("order_id") int order_id,
+            @Field("quantity") String quantity,
+            @Field("amount") float amount
     );
 }

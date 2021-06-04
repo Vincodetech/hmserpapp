@@ -3,6 +3,7 @@ package com.beingknow.eatit2020.Client.Activities;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,11 +22,13 @@ import com.beingknow.eatit2020.Client.Adapters.CartAdapter;
 import com.beingknow.eatit2020.Client.Adapters.ItemListAdapter;
 import com.beingknow.eatit2020.Common.Common;
 import com.beingknow.eatit2020.Database.Database;
+import com.beingknow.eatit2020.ModelResponse.CartResponse;
 import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.Models.Order;
 import com.beingknow.eatit2020.Models.Request;
 import com.beingknow.eatit2020.R;
 
+import com.beingknow.eatit2020.RetrofitClient;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +40,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class CartActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
@@ -44,7 +51,7 @@ public class CartActivity extends AppCompatActivity {
     ElegantNumberButton numberButton;
     TextView txtTotalPrice;
     MaterialButton btnPlace;
-
+    CardView cardView;
     ArrayList<Order> cart = new ArrayList<>();
     CartAdapter adapter;
 
@@ -163,8 +170,6 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
-//        Intent myIntent = new Intent(getApplicationContext(), DashboardFragment.class);
-//        startActivityForResult(myIntent, 0);
         finish();
         return true;
     }
@@ -184,5 +189,21 @@ public class CartActivity extends AppCompatActivity {
         }
 
         return list;
+    }
+
+    public void addCartItem()
+    {
+        Intent intent = getIntent();
+        if (intent.hasExtra(Intent.EXTRA_TEXT))
+        {
+            int id = intent.getIntExtra(Intent.EXTRA_TEXT, 1);
+            String item_name = intent.getStringExtra(Intent.EXTRA_TEXT);
+            String quantity = intent.getStringExtra(Intent.EXTRA_TEXT);
+            double price = intent.getDoubleExtra(Intent.EXTRA_TEXT, 1.0);
+            Double D = Double.valueOf(price);
+            float f = D.floatValue();
+
+
+        }
     }
 }

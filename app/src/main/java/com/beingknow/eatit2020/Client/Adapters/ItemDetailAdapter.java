@@ -1,20 +1,25 @@
 package com.beingknow.eatit2020.Client.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.beingknow.eatit2020.Client.Activities.CartActivity;
+import com.beingknow.eatit2020.Client.Activities.FoodDetailsActivity;
 import com.beingknow.eatit2020.Interface.ItemClickListener;
 import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.R;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 import org.jsoup.Jsoup;
 
@@ -27,8 +32,8 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
     private ArrayList<Item> cartList =  new ArrayList();
     RecyclerView recyclerView;
     CardView cardView;
-
-
+    double tot = 0.0;
+    private ItemClickListener mOnItemClickInterface;
 
     public ItemDetailAdapter(Context context, ArrayList<Item> cartList, RecyclerView recyclerView) {
         inflater = LayoutInflater.from(context);
@@ -61,7 +66,7 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
         String desc = Jsoup.parse(item.getDescription()).text();
         holder.description.setText(desc);
         holder.price.setText(String.valueOf(item.getPrice()));
-
+        tot = item.getPrice();
 //        Glide.with(context)
 //                .load(item.getThumbnail())
 //                .into(holder.thumbnail);
@@ -83,8 +88,9 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
     {
         public TextView name, description, price, quantity;
         public ImageView thumbnail,plus,minus;
+        public FloatingActionButton btnCart;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull final View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.food_name1);
             quantity = itemView.findViewById(R.id.food_quantity1);
@@ -93,6 +99,31 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
             thumbnail = itemView.findViewById(R.id.food_image1);
             plus = itemView.findViewById(R.id.plus);
             minus = itemView.findViewById(R.id.minus);
+            btnCart = (FloatingActionButton) itemView.findViewById(R.id.btn_cart);
+            if(btnCart != null) {
+                btnCart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (cartList != null) {
+
+                            System.out.println("Position: " + cartList.get(getAdapterPosition()).getId());
+                            Intent intent = new Intent(itemView.getContext(), CartActivity.class);
+                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getId());
+                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getName());
+                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getQuantity());
+                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getPrice());
+                            Toast.makeText(itemView.getContext(), "Added to Cart...!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(itemView.getContext(), "Position:" + cartList.get(getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
+                            v.getContext().startActivity(intent);
+
+                            if (mOnItemClickInterface != null) {
+                                mOnItemClickInterface.onClick(v, getAdapterPosition(), true);
+                            }
+                        }
+                    }
+                });
+            }
 
 
             if (plus != null)
@@ -100,61 +131,47 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
                 plus.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String q = quantity.getText().toString();
-                        String p = price.getText().toString();
-                        int qty = Integer.parseInt(q);
-                        double pr = Double.parseDouble(p);
-                        int qty1 = qty + 1;
-                        double after_price = (qty1 * pr);
-                        quantity.setText(String.valueOf(qty1));
-                        price.setText(String.valueOf(after_price));
+                        String old_qty = quantity.getText().toString().trim();
+                        String old_price = price.getText().toString().trim();
+                        int qty = Integer.parseInt(old_qty);
+                        double pr = Double.parseDouble(old_price);
+                        qty++;
+                        if(qty == 2) {
+                            double pr1 = (qty * pr);
+                            price.setText(String.valueOf(pr1));
+                        }
+                        else {
+                            double pr1 = (qty * tot);
+                            price.setText(String.valueOf(pr1));
+                        }
+                        quantity.setText(String.valueOf(qty));
+
                     }
                 });
-             }
+            }
 
             if(minus != null) {
                 minus.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (Integer.parseInt(quantity.getText().toString()) > 0)
+                        if (Integer.parseInt(quantity.getText().toString()) >= 1)
                         {
-                            String q = quantity.getText().toString();
-                            String p = price.getText().toString();
-                            int qty = Integer.parseInt(q);
-                            double pr = Double.parseDouble(p);
-                            int qty1 = qty - 1;
-                            double after_price = (qty1 * pr);
-                            quantity.setText(String.valueOf(qty1));
-                            price.setText(String.valueOf(after_price));
-
-                        }
-                        else if(Integer.parseInt(quantity.getText().toString()) == 0)
-                        {
-                            int qty1 = 1;
-                            quantity.setText(String.valueOf(qty1));
-                        }
-                        else
-                        {
-                            int qty1 = 1;
-                            quantity.setText(String.valueOf(qty1));
+                            String old_qty = quantity.getText().toString().trim();
+                            String old_price = price.getText().toString().trim();
+                            int qty = Integer.parseInt(old_qty);
+                            double pr = Double.parseDouble(old_price);
+                            qty--;
+                            if(qty < 1) {
+                                qty = 1;
+                            }
+                            double pr1 = (qty * tot);
+                            price.setText(String.valueOf(pr1));
+                            quantity.setText(String.valueOf(qty));
                         }
                     }
                 });
             }
-//            if(numberButton != null) {
-//                numberButton.setOnClickListener(new ElegantNumberButton.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        String number = numberButton.getNumber();
-//                        quantity.setText(number);
-//                        int qty = Integer.parseInt(quantity.getText().toString());
-//                        double price1 = Double.parseDouble(price.getText().toString());
-//                        double after_price = (qty * price1);
-//                        price.setText(Double.toString(after_price));
-//
-//                    }
-//                });
-//            }
+
         }
     }
     @Override

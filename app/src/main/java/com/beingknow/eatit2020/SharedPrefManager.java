@@ -3,6 +3,7 @@ package com.beingknow.eatit2020;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.beingknow.eatit2020.ModelResponse.CartResponse;
 import com.beingknow.eatit2020.ModelResponse.LoginResponse;
 import com.beingknow.eatit2020.ModelResponse.UserResponse;
 
@@ -43,6 +44,17 @@ public class SharedPrefManager
                 sharedPreferences.getString("email",null),
                 sharedPreferences.getString("phone", null),
                 sharedPreferences.getInt("active", 0));
+    }
+
+    public void addCartItem(CartResponse cartResponse)
+    {
+        sharedPreferences = context.getSharedPreferences(Shared_Pref,Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        editor.putInt("item_id", cartResponse.getItem_id());
+        editor.putInt("order_id", cartResponse.getOrder_id());
+        editor.putString("quantity",cartResponse.getQuantity());
+        editor.putFloat("amount", cartResponse.getAmount());
+        editor.apply();
     }
 
     public void logout()

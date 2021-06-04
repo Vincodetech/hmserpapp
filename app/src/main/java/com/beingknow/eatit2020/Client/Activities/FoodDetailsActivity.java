@@ -95,10 +95,11 @@ public class FoodDetailsActivity extends AppCompatActivity {
         plus = (ImageView) findViewById(R.id.plus);
         minus = (ImageView) findViewById(R.id.minus);
 
-//        collapsingToolbarLayout = findViewById(R.id.collapsing1);
-//        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpanededAppBar);
-//        collapsingToolbarLayout.setCollapsedTitleTextAppearance((R.style.CollapsedAppBar));
-
+        collapsingToolbarLayout = findViewById(R.id.collapsing1);
+        if(collapsingToolbarLayout != null) {
+            collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpanededAppBar);
+            collapsingToolbarLayout.setCollapsedTitleTextAppearance((R.style.CollapsedAppBar));
+        }
         Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.food_detail));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -137,7 +138,7 @@ public class FoodDetailsActivity extends AppCompatActivity {
     {
         Intent intent = getIntent();
         if (intent.hasExtra(Intent.EXTRA_TEXT)) {
-            int id = intent.getIntExtra(Intent.EXTRA_TEXT, 2);
+            int id = intent.getIntExtra(Intent.EXTRA_TEXT, 1);
 
             Map<String, String> paramsMap = new HashMap<String, String>();
             paramsMap.put("id", String.valueOf(id));

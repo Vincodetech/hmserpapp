@@ -15,12 +15,12 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+            android:id="@+id/collapsing1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
 
             <ImageView
@@ -37,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -161,19 +162,19 @@
                         android:layout_height="wrap_content">
                     <ImageView
                         android:id="@+id/minus"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="50dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="100dp"
                         android:src="@drawable/minus"
                         android:contentDescription="@string/todo"
-                        android:layout_marginStart="50dp"
+                        android:layout_marginStart="100dp"
                         />
 
                     <ImageView
                         android:id="@+id/plus"
                         android:layout_toRightOf="@id/minus"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_marginStart="50dp"
                         android:layout_marginLeft="50dp"
                         android:contentDescription="@string/todo"
