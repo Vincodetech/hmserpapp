@@ -16,6 +16,10 @@ public class Item {
         this.price = price;
         this.server_url_image = server_url_image;
     }
+    public Item()
+    {
+
+    }
 
     public int getId() {
         return id;

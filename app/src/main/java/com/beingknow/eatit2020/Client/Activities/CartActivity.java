@@ -19,16 +19,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beingknow.eatit2020.Client.Adapters.CartAdapter;
+import com.beingknow.eatit2020.Client.Adapters.ItemDetailAdapter;
 import com.beingknow.eatit2020.Client.Adapters.ItemListAdapter;
 import com.beingknow.eatit2020.Common.Common;
 import com.beingknow.eatit2020.Database.Database;
+import com.beingknow.eatit2020.Database.DatabaseHelper;
 import com.beingknow.eatit2020.ModelResponse.CartResponse;
+import com.beingknow.eatit2020.ModelResponse.LoginResponse;
 import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.Models.Order;
 import com.beingknow.eatit2020.Models.Request;
 import com.beingknow.eatit2020.R;
 
 import com.beingknow.eatit2020.RetrofitClient;
+import com.beingknow.eatit2020.SharedPrefManager;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DatabaseReference;
@@ -36,8 +40,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -48,16 +54,13 @@ public class CartActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    ElegantNumberButton numberButton;
     TextView txtTotalPrice;
     MaterialButton btnPlace;
     CardView cardView;
-    ArrayList<Order> cart = new ArrayList<>();
-    CartAdapter adapter;
-
-    private String[] myNameList = new String[]{"Kashmiri Kofta", "Veg Toofani", "Veg Kofta", "Baingan ka Bharta"};
-    private int[] myQuantity = new int[]{1,1,1,1};
-    private Double [] myprice = new Double[]{150.00,140.00,130.00,140.00};
+    ArrayList<Item> cart = new ArrayList<>();
+    CartAdapter cartAdapter;
+    SharedPrefManager sharedPrefManager;
+    private DatabaseHelper databaseHelper;
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -69,29 +72,17 @@ public class CartActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.my_cart));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-     //   numberButton = findViewById(R.id.quantity_number_button);
-//        numberButton.setOnClickListener(new ElegantNumberButton.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                String number = numberButton.getNumber();
-////                food_quantity1.setText(number);
-////                int qty = Integer.parseInt(food_quantity1.getText().toString());
-////                double price = 150.00;
-////                double after_price = (qty * price);
-////                food_price.setText(Double.toString(after_price));
-//            }
-//        });
-
-
+        databaseHelper = new DatabaseHelper(this);
+        sharedPrefManager = new SharedPrefManager(getApplicationContext());
         //init
         recyclerView =findViewById(R.id.listCart);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setHasFixedSize(true);
+//        layoutManager = new LinearLayoutManager(this);
+//        recyclerView.setLayoutManager(layoutManager);
 
 
-        adapter = new CartAdapter(this, cart);
-
+      //  adapter = new CartAdapter(this, cart);
+        cart = new ArrayList<>(databaseHelper.getCartData());
         txtTotalPrice = findViewById(R.id.total);
         btnPlace = findViewById(R.id.btn_place_order);
         btnPlace.setOnClickListener(new View.OnClickListener() {
@@ -102,10 +93,11 @@ public class CartActivity extends AppCompatActivity {
         });
 
         loadFoodList();
+        addCartItem();
 
-        cart = cartList();
-        adapter = new CartAdapter(getApplicationContext(), cart,recyclerView);
-        recyclerView.setAdapter(adapter);
+      //  cart = cartList();
+//        adapter = new CartAdapter(getApplicationContext(), cart,recyclerView);
+//        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(CartActivity.this, LinearLayoutManager.VERTICAL, false));
 
     }
@@ -133,13 +125,7 @@ public class CartActivity extends AppCompatActivity {
                 Intent intent = new Intent(CartActivity.this, OrderStatusActivity.class);
                 startActivity(intent);
                 Toast.makeText(CartActivity.this, "Thank You...! Your Order has Placed...!",Toast.LENGTH_SHORT).show();
-//                Request request = new Request(
-//
-//                );
-//
-//                new Database(getBaseContext()).cleanCart();
-//                Toast.makeText(CartActivity.this, "Thank You...! Your Order has Placed...!", Toast.LENGTH_SHORT).show();
-//                finish();
+
             }
         });
 
@@ -155,17 +141,6 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void loadFoodList() {
-       // cart = new Database(this).getCarts();
-     //   adapter = new CartAdapter(cart,this);
-      //  recyclerView.setAdapter(adapter);
-
-        //calculate total price
-  //      int total = 0;
-  //      for (Order order:cart)
-  //          total+=(Integer.parseInt(order.getPrice()))*Integer.parseInt(order.getQuantity());
-//        Locale locale = new Locale("en","US");
-//        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
-//        txtTotalPrice.setText(total);
 
     }
 
@@ -174,36 +149,66 @@ public class CartActivity extends AppCompatActivity {
         return true;
     }
 
-    private ArrayList<Order> cartList()
-    {
-        ArrayList<Order> list = new ArrayList<>();
 
-        for (int i = 0; i < 4; i++) {
-            Order fruitModel = new Order();
-            fruitModel.setProductName(myNameList[i]);
-            fruitModel.setQuantity(myQuantity[i]);
-            fruitModel.setPrice(myprice[i]);
-            list.add(fruitModel);
-
-
-        }
-
-        return list;
-    }
 
     public void addCartItem()
     {
+//        Intent intent = getIntent();
+//        if (intent.hasExtra(Intent.EXTRA_TEXT))
+//        {
+//            int id = intent.getIntExtra(Intent.EXTRA_TEXT, 1);
+//            String item_name = intent.getStringExtra(Intent.EXTRA_TEXT);
+//            String quantity = intent.getStringExtra(Intent.EXTRA_TEXT);
+//            double price = intent.getDoubleExtra(Intent.EXTRA_TEXT, 1.0);
+//            Double D = Double.valueOf(price);
+//            float f = D.floatValue();
+//
+//           Call<ArrayList<CartResponse>> call = RetrofitClient
+//                   .getInstance()
+//                   .getApi()
+//                   .addcartitem(id,17,quantity,f);
+//
+//           call.enqueue(new Callback<ArrayList<CartResponse>>() {
+//               @Override
+//               public void onResponse(Call<ArrayList<CartResponse>> call, Response<ArrayList<CartResponse>> response) {
+//
+//               }
+//
+//               @Override
+//               public void onFailure(Call<ArrayList<CartResponse>> call, Throwable t) {
+//
+//               }
+//           });
+//        }
         Intent intent = getIntent();
-        if (intent.hasExtra(Intent.EXTRA_TEXT))
-        {
+        if (intent.hasExtra(Intent.EXTRA_TEXT)) {
             int id = intent.getIntExtra(Intent.EXTRA_TEXT, 1);
-            String item_name = intent.getStringExtra(Intent.EXTRA_TEXT);
-            String quantity = intent.getStringExtra(Intent.EXTRA_TEXT);
-            double price = intent.getDoubleExtra(Intent.EXTRA_TEXT, 1.0);
-            Double D = Double.valueOf(price);
-            float f = D.floatValue();
 
+            Map<String, String> paramsMap = new HashMap<String, String>();
+            paramsMap.put("id", String.valueOf(id));
 
+           Call<ArrayList<Item>> call = RetrofitClient
+                   .getInstance()
+                   .getApi()
+                   .singleFoodItem(paramsMap);
+           call.enqueue(new Callback<ArrayList<Item>>() {
+               @Override
+               public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
+                   if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
+                       cart = response.body();
+                      // sharedPrefManager.addCart1(cart);
+                       cartAdapter = new CartAdapter(getApplicationContext(), cart, recyclerView);
+                       recyclerView.setAdapter(cartAdapter);
+
+                   }
+               }
+
+               @Override
+               public void onFailure(Call<ArrayList<Item>> call, Throwable t) {
+                   Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+               }
+           });
         }
+
     }
 }

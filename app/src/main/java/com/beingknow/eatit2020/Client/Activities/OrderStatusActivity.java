@@ -71,8 +71,7 @@ public class OrderStatusActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
-//        Intent myIntent = new Intent(getApplicationContext(), DashboardFragment.class);
-//        startActivityForResult(myIntent, 0);
+
         finish();
         return true;
     }

@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.beingknow.eatit2020.Client.Activities.CartActivity;
 import com.beingknow.eatit2020.Client.Activities.OrderStatusActivity;
+import com.beingknow.eatit2020.Database.DatabaseHelper;
 import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.Models.Order;
 import com.beingknow.eatit2020.R;
@@ -31,19 +32,20 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
 {
     Context context;
     LayoutInflater inflater;
-    private ArrayList<Order> cartList =  new ArrayList();
+    private ArrayList<Item> cartList =  new ArrayList();
     RecyclerView recyclerView;
     CardView cardView;
     CheckBox checkBox;
     ImageView imageView;
+    DatabaseHelper databaseHelper;
 
-    public CartAdapter(Context context, ArrayList<Order> cartList, RecyclerView recyclerView) {
+    public CartAdapter(Context context, ArrayList<Item> cartList, RecyclerView recyclerView) {
         this.context = context;
         this.cartList = cartList;
         this.recyclerView = recyclerView;
     }
 
-    public CartAdapter(Context context, ArrayList<Order> itemList) {
+    public CartAdapter(Context context, ArrayList<Item> itemList) {
       //  inflater = LayoutInflater.from(context);
         this.context = context;
         this.cartList = itemList;
@@ -61,10 +63,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        final Order order = cartList.get(position);
-        holder.name.setText(order.getProductName());
-        holder.quantity.setText("" + order.getQuantity());
-        holder.price.setText("₹" + order.getPrice());
+        final Item item = cartList.get(position);
+//        holder.name.setText(order.getProductName());
+//        holder.quantity.setText("" + order.getQuantity());
+//        holder.price.setText("₹" + order.getPrice());
+        holder.name.setText(item.getName());
+        holder.quantity.setText(item.getQuantity());
+        holder.price.setText(String.valueOf(item.getPrice()));
+        databaseHelper = new DatabaseHelper(context);
     }
 
     @Override
@@ -110,6 +116,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
                     return false;
                 }
             });
+
         }
     }
 }

@@ -53,7 +53,6 @@ public class FoodDetailsActivity extends AppCompatActivity {
     private ImageView food_image;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private FloatingActionButton btnCart;
-    private ElegantNumberButton numberButton;
     private ItemDetailAdapter itemDetailAdapter;
     private RecyclerView recyclerView;
     private ArrayList<Item> itemList;
@@ -104,32 +103,14 @@ public class FoodDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-//        if(numberButton != null) {
-//            numberButton.setOnClickListener(new ElegantNumberButton.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    String number = numberButton.getNumber();
-//                    food_quantity1.setText(number);
-//                    int qty = Integer.parseInt(food_quantity1.getText().toString());
-//                    double price = Double.parseDouble(food_price.getText().toString());
-//                    double after_price = (qty * price);
-//                    food_price.setText(Double.toString(after_price));
-//                }
-//            });
-//        }
+
 
         recyclerView = findViewById(R.id.recycler_view);
         itemList = new ArrayList<>();
 
         singleFoodItem();
 
-      //  itemDetailAdapter = new ItemDetailAdapter(this, itemList);
 
-
-
-       // itemDetailAdapter = new ItemDetailAdapter(getApplicationContext(), itemList,recyclerView);
-      //  recyclerView.setAdapter(itemDetailAdapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(FoodDetailsActivity.this, LinearLayoutManager.VERTICAL, false));
      recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
     }
@@ -157,19 +138,7 @@ public class FoodDetailsActivity extends AppCompatActivity {
                         itemDetailAdapter = new ItemDetailAdapter(getApplicationContext(), itemList, recyclerView);
                         recyclerView.setAdapter(itemDetailAdapter);
 
-//                        if(numberButton != null) {
-//                            numberButton.setOnClickListener(new ElegantNumberButton.OnClickListener() {
-//                                @Override
-//                                public void onClick(View view) {
-//                                    String number = numberButton.getNumber();
-//                                    food_quantity1.setText(number);
-//                                    int qty = Integer.parseInt(food_quantity1.getText().toString());
-//                                    double price = Double.parseDouble(food_price.getText().toString());
-//                                    double after_price = (qty * price);
-//                                    food_price.setText(Double.toString(after_price));
-//                                }
-//                            });
-//                        }
+
 
 
                     }

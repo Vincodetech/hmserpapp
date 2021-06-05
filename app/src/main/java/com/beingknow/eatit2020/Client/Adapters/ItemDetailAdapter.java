@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.beingknow.eatit2020.Client.Activities.CartActivity;
 import com.beingknow.eatit2020.Client.Activities.FoodDetailsActivity;
+import com.beingknow.eatit2020.Database.DatabaseHelper;
 import com.beingknow.eatit2020.Interface.ItemClickListener;
 import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.R;
@@ -34,6 +35,7 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
     CardView cardView;
     double tot = 0.0;
     private ItemClickListener mOnItemClickInterface;
+    private DatabaseHelper databaseHelper;
 
     public ItemDetailAdapter(Context context, ArrayList<Item> cartList, RecyclerView recyclerView) {
         inflater = LayoutInflater.from(context);
@@ -99,6 +101,7 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
             thumbnail = itemView.findViewById(R.id.food_image1);
             plus = itemView.findViewById(R.id.plus);
             minus = itemView.findViewById(R.id.minus);
+            databaseHelper = new DatabaseHelper(itemView.getContext());
             btnCart = (FloatingActionButton) itemView.findViewById(R.id.btn_cart);
             if(btnCart != null) {
                 btnCart.setOnClickListener(new View.OnClickListener() {
@@ -110,12 +113,18 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
                             System.out.println("Position: " + cartList.get(getAdapterPosition()).getId());
                             Intent intent = new Intent(itemView.getContext(), CartActivity.class);
                             intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getId());
-                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getName());
-                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getQuantity());
-                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getPrice());
+//                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getName());
+//                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getQuantity());
+//                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getPrice());
+                            if(cartList.get(getAdapterPosition()).getId() > 0)
+                            {
+                                databaseHelper.insertCart(name.getText().toString(),quantity.getText().toString(),price.getText().toString(),
+                                        cartList.get(getAdapterPosition()).getId());
+                            }
                             Toast.makeText(itemView.getContext(), "Added to Cart...!", Toast.LENGTH_SHORT).show();
                             Toast.makeText(itemView.getContext(), "Position:" + cartList.get(getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
                             v.getContext().startActivity(intent);
+
 
                             if (mOnItemClickInterface != null) {
                                 mOnItemClickInterface.onClick(v, getAdapterPosition(), true);

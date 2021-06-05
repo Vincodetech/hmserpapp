@@ -89,4 +89,9 @@ public interface Api
             @Field("quantity") String quantity,
             @Field("amount") float amount
     );
+
+    @GET("singlefooditem")
+    Call<Item> singleCartItem(
+            @QueryMap Map<String, String> paramsMap
+    );
 }
