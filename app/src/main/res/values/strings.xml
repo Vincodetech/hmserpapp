@@ -59,7 +59,7 @@
     <string name="food_name">Food Name</string>
     <string name="description">Description</string>
     <string name="details">Description:</string>
-
+    <string name="rs">₹</string>
     <string name="todo">TODO</string>
     <string name="price">Price: Rs.</string>
     <string name="quantity">Quantity:</string>

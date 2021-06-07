@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -27,6 +28,7 @@ import com.beingknow.eatit2020.Database.DatabaseHelper;
 import com.beingknow.eatit2020.ModelResponse.CartResponse;
 import com.beingknow.eatit2020.ModelResponse.LoginResponse;
 import com.beingknow.eatit2020.Models.Item;
+import com.beingknow.eatit2020.Models.Item1;
 import com.beingknow.eatit2020.Models.Order;
 import com.beingknow.eatit2020.Models.Request;
 import com.beingknow.eatit2020.R;
@@ -54,10 +56,10 @@ public class CartActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    TextView txtTotalPrice;
+    private TextView txtTotalPrice,total,price;
     MaterialButton btnPlace;
     CardView cardView;
-    ArrayList<Item> cart = new ArrayList<>();
+    ArrayList<Item1> cart = new ArrayList<>();
     CartAdapter cartAdapter;
     SharedPrefManager sharedPrefManager;
     private DatabaseHelper databaseHelper;
@@ -72,17 +74,27 @@ public class CartActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.my_cart));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        databaseHelper = new DatabaseHelper(this);
+        databaseHelper = new DatabaseHelper(getApplicationContext());
         sharedPrefManager = new SharedPrefManager(getApplicationContext());
         //init
         recyclerView =findViewById(R.id.listCart);
+        price = findViewById(R.id.cart_price);
 //        recyclerView.setHasFixedSize(true);
 //        layoutManager = new LinearLayoutManager(this);
 //        recyclerView.setLayoutManager(layoutManager);
 
 
       //  adapter = new CartAdapter(this, cart);
-        cart = new ArrayList<>(databaseHelper.getCartData());
+     //   cart = databaseHelper.getCartData();
+
+//        Cursor cursor = new DatabaseHelper(this).getData();
+//        while (cursor.moveToNext())
+//        {
+//            Item1 item = new Item1(cursor.getString(1),cursor.getString(2),cursor.getDouble(3));
+//            cart.add(item);
+//        }
+
+
         txtTotalPrice = findViewById(R.id.total);
         btnPlace = findViewById(R.id.btn_place_order);
         btnPlace.setOnClickListener(new View.OnClickListener() {
@@ -187,28 +199,39 @@ public class CartActivity extends AppCompatActivity {
             Map<String, String> paramsMap = new HashMap<String, String>();
             paramsMap.put("id", String.valueOf(id));
 
-           Call<ArrayList<Item>> call = RetrofitClient
-                   .getInstance()
-                   .getApi()
-                   .singleFoodItem(paramsMap);
-           call.enqueue(new Callback<ArrayList<Item>>() {
-               @Override
-               public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
-                   if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
-                       cart = response.body();
-                      // sharedPrefManager.addCart1(cart);
-                       cartAdapter = new CartAdapter(getApplicationContext(), cart, recyclerView);
-                       recyclerView.setAdapter(cartAdapter);
+            Call<ArrayList<Item1>> call = RetrofitClient
+                    .getInstance()
+                    .getApi()
+                    .singleCartItem(paramsMap);
 
-                   }
-               }
+            call.enqueue(new Callback<ArrayList<Item1>>() {
+                @Override
+                public void onResponse(Call<ArrayList<Item1>> call, Response<ArrayList<Item1>> response) {
+                    if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
+                        cart = response.body();
+                        cart = databaseHelper.getCartData();
+                        long sum = databaseHelper.sum_Of_Price();
+                        cartAdapter = new CartAdapter(getApplicationContext(), cart, recyclerView);
+                        recyclerView.setAdapter(cartAdapter);
+                        txtTotalPrice.setText(String.valueOf(sum));
+                        cartAdapter.notifyDataSetChanged();
 
-               @Override
-               public void onFailure(Call<ArrayList<Item>> call, Throwable t) {
-                   Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-               }
-           });
+                       // long sum1 = Long.parseLong(price.getText().toString().trim()) + sum;
+                       // txtTotalPrice.setText(String.valueOf(sum1));
+                        //cartAdapter.notifyDataSetChanged();
+                       // txtTotalPrice.setText("₹" + String.valueOf(sum));
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<Item1>> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
     }
+
+
+
 }

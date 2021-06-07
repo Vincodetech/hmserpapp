@@ -23,6 +23,7 @@ import com.beingknow.eatit2020.Client.Activities.CartActivity;
 import com.beingknow.eatit2020.Client.Activities.OrderStatusActivity;
 import com.beingknow.eatit2020.Database.DatabaseHelper;
 import com.beingknow.eatit2020.Models.Item;
+import com.beingknow.eatit2020.Models.Item1;
 import com.beingknow.eatit2020.Models.Order;
 import com.beingknow.eatit2020.R;
 
@@ -32,20 +33,22 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
 {
     Context context;
     LayoutInflater inflater;
-    private ArrayList<Item> cartList =  new ArrayList();
+    private ArrayList<Item1> cartList =  new ArrayList();
     RecyclerView recyclerView;
     CardView cardView;
     CheckBox checkBox;
     ImageView imageView;
-    DatabaseHelper databaseHelper;
+    double tot = 0.0;
+    private DatabaseHelper databaseHelper;
+    private static String total_sum = null;
 
-    public CartAdapter(Context context, ArrayList<Item> cartList, RecyclerView recyclerView) {
-        this.context = context;
+    public CartAdapter(Context context, ArrayList<Item1> cartList, RecyclerView recyclerView) {
+        inflater = LayoutInflater.from(context);
         this.cartList = cartList;
         this.recyclerView = recyclerView;
     }
 
-    public CartAdapter(Context context, ArrayList<Item> itemList) {
+    public CartAdapter(Context context, ArrayList<Item1> itemList) {
       //  inflater = LayoutInflater.from(context);
         this.context = context;
         this.cartList = itemList;
@@ -63,14 +66,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        final Item item = cartList.get(position);
+        final Item1 item = cartList.get(position);
 //        holder.name.setText(order.getProductName());
 //        holder.quantity.setText("" + order.getQuantity());
 //        holder.price.setText("₹" + order.getPrice());
         holder.name.setText(item.getName());
         holder.quantity.setText(item.getQuantity());
         holder.price.setText(String.valueOf(item.getPrice()));
-        databaseHelper = new DatabaseHelper(context);
+        tot = item.getPrice();
     }
 
     @Override
@@ -80,13 +83,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
 
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView name, price, quantity;
+        public TextView name, price, quantity,total;
+        public ImageView plus,minus;
+       // final long sum = databaseHelper.sum_Of_Price();
 
         public MyViewHolder(@NonNull final View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.name);
-            price = itemView.findViewById(R.id.price);
+            name = itemView.findViewById(R.id.cart_name);
+            price = itemView.findViewById(R.id.cart_price);
             quantity = itemView.findViewById(R.id.quantity);
+            plus = itemView.findViewById(R.id.plus);
+            minus = itemView.findViewById(R.id.minus);
+            total = itemView.findViewById(R.id.total);
             cardView = (CardView) itemView.findViewById(R.id.card_myevent);
             cardView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -117,6 +125,52 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
                 }
             });
 
+            if (plus != null)
+            {
+                plus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String old_qty = quantity.getText().toString().trim();
+                        String old_price = price.getText().toString().trim();
+                        int qty = Integer.parseInt(old_qty);
+                        double pr = Double.parseDouble(old_price);
+                        qty++;
+                        if(qty == 2) {
+                            double pr1 = (qty * pr);
+                            price.setText(String.valueOf(pr1));
+
+                        }
+                        else {
+                            double pr1 = (qty * tot);
+                            price.setText(String.valueOf(pr1));
+                        }
+                        quantity.setText(String.valueOf(qty));
+
+                    }
+                });
+            }
+
+            if(minus != null) {
+                minus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (Integer.parseInt(quantity.getText().toString()) >= 1)
+                        {
+                            String old_qty = quantity.getText().toString().trim();
+                            String old_price = price.getText().toString().trim();
+                            int qty = Integer.parseInt(old_qty);
+                            double pr = Double.parseDouble(old_price);
+                            qty--;
+                            if(qty < 1) {
+                                qty = 1;
+                            }
+                            double pr1 = (qty * tot);
+                            price.setText(String.valueOf(pr1));
+                            quantity.setText(String.valueOf(qty));
+                        }
+                    }
+                });
+            }
         }
     }
 }

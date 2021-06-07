@@ -9,6 +9,7 @@ import com.beingknow.eatit2020.ModelResponse.SliderData;
 import com.beingknow.eatit2020.ModelResponse.UpdateProfileResponse;
 import com.beingknow.eatit2020.ModelResponse.UserProfileResponse;
 import com.beingknow.eatit2020.Models.Item;
+import com.beingknow.eatit2020.Models.Item1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +92,7 @@ public interface Api
     );
 
     @GET("singlefooditem")
-    Call<Item> singleCartItem(
+    Call<ArrayList<Item1>> singleCartItem(
             @QueryMap Map<String, String> paramsMap
     );
 }

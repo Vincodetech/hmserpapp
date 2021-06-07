@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.beingknow.eatit2020.Models.Item;
+import com.beingknow.eatit2020.Models.Item1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_QUANTITY = "quantity";
     public static final String COLUMN_PRICE = "price";
     public static final String COLUMN_ITEMID = "item_id";
-
+    private long Sum = 0;
     private HashMap hp;
 
     public DatabaseHelper(Context context) {
@@ -72,24 +73,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public Cursor getData(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from cart where id="+id+"", null );
+    public Cursor getData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "select * from cart";
+        Cursor res =  db.rawQuery(query, null);
         return res;
     }
-    public ArrayList<Item> getCartData() {
-        ArrayList<Item> arrayList = new ArrayList<>();
+
+    public boolean getAllreadyItem(int item_id)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select * from cart where item_id = " + item_id;
+        Cursor cursor = db.rawQuery(query,null);
+       return true;
+    }
+
+    public ArrayList<Item1> getCartData() {
+        ArrayList<Item1> arrayList = new ArrayList<>();
 
         // select all query
         String select_query= "SELECT * FROM " + TABLE_NAME;
 
         SQLiteDatabase db = this .getWritableDatabase();
         Cursor cursor = db.rawQuery(select_query, null);
-
+        cursor.moveToFirst();
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Item item = new Item();
+                Item1 item = new Item1();
                 item.setName(cursor.getString(1));
                 item.setQuantity(cursor.getString(2));
                 item.setPrice(cursor.getDouble(3));
@@ -97,6 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }while (cursor.moveToNext());
         }
        // System.out.println(arrayList);
+        cursor.close();
         return arrayList;
     }
 
@@ -110,7 +122,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
-        contentValues.put("name", name);
         contentValues.put("quantity", quantity);
         contentValues.put("price", price);
         contentValues.put("item_id", item_id);
@@ -118,7 +129,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public Integer deleteContact (Integer id) {
+    public Integer deleteCartItem (Integer id) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete("cart",
                 "id = ? ",
@@ -133,11 +144,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor res =  db.rawQuery( "select * from cart", null );
         res.moveToFirst();
 
-        while(res.isAfterLast() == false){
+        while(!res.isAfterLast()){
             array_list.add(res.getString(res.getColumnIndex(COLUMN_NAME)));
             res.moveToNext();
         }
         return array_list;
+    }
+
+    public ArrayList getAllCartItem1() {
+        ArrayList array_list = new ArrayList<>();
+
+        //hp = new HashMap();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from cart", null );
+        res.moveToFirst();
+
+        while(!res.isAfterLast()){
+            array_list.add(res.getString(res.getColumnIndex(COLUMN_NAME)));
+            res.moveToNext();
+        }
+        return array_list;
+    }
+
+
+    public long sum_Of_Price()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT SUM (" + COLUMN_PRICE + ") FROM " + TABLE_NAME , null);
+        cursor.moveToFirst();
+        int sum = cursor.getInt(0);
+        cursor.close();
+        System.out.println(sum);
+        return sum;
+
     }
 
 
