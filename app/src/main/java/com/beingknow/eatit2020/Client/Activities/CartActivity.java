@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,6 +64,7 @@ public class CartActivity extends AppCompatActivity {
     CartAdapter cartAdapter;
     SharedPrefManager sharedPrefManager;
     private DatabaseHelper databaseHelper;
+    private ImageView plus, minus;
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -79,6 +81,9 @@ public class CartActivity extends AppCompatActivity {
         //init
         recyclerView =findViewById(R.id.listCart);
         price = findViewById(R.id.cart_price);
+
+        plus = (ImageView) findViewById(R.id.plus);
+        minus = (ImageView) findViewById(R.id.minus);
 //        recyclerView.setHasFixedSize(true);
 //        layoutManager = new LinearLayoutManager(this);
 //        recyclerView.setLayoutManager(layoutManager);
@@ -100,7 +105,9 @@ public class CartActivity extends AppCompatActivity {
         btnPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShowAlertDialog();
+              //  ShowAlertDialog();
+                Intent intent = new Intent(CartActivity.this, OrderTypeActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -215,10 +222,9 @@ public class CartActivity extends AppCompatActivity {
                         recyclerView.setAdapter(cartAdapter);
                         txtTotalPrice.setText(String.valueOf(sum));
                         cartAdapter.notifyDataSetChanged();
-
-                       // long sum1 = Long.parseLong(price.getText().toString().trim()) + sum;
-                       // txtTotalPrice.setText(String.valueOf(sum1));
-                        //cartAdapter.notifyDataSetChanged();
+//                        long sum1 = Long.parseLong(price.getText().toString().trim()) + sum;
+//                        txtTotalPrice.setText(String.valueOf(sum1));
+//                        cartAdapter.notifyDataSetChanged();
                        // txtTotalPrice.setText("₹" + String.valueOf(sum));
                     }
                 }
