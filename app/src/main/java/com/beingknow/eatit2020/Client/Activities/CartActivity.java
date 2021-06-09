@@ -26,6 +26,7 @@ import com.beingknow.eatit2020.Client.Adapters.ItemListAdapter;
 import com.beingknow.eatit2020.Common.Common;
 import com.beingknow.eatit2020.Database.Database;
 import com.beingknow.eatit2020.Database.DatabaseHelper;
+import com.beingknow.eatit2020.Interface.ItemClickListener;
 import com.beingknow.eatit2020.ModelResponse.CartResponse;
 import com.beingknow.eatit2020.ModelResponse.LoginResponse;
 import com.beingknow.eatit2020.Models.Item;
@@ -102,15 +103,25 @@ public class CartActivity extends AppCompatActivity {
 
         txtTotalPrice = findViewById(R.id.total);
         btnPlace = findViewById(R.id.btn_place_order);
-        btnPlace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        if(btnPlace != null)
+        {
+            btnPlace.setOnClickListener(new View.OnClickListener() {
+             @Override
+                public void onClick(View view) {
               //  ShowAlertDialog();
-                Intent intent = new Intent(CartActivity.this, OrderTypeActivity.class);
-                startActivity(intent);
-            }
-        });
-
+                    if (cart != null) {
+                        for (int i = 1; i < cart.size(); i++) {
+                            System.out.println("Position in cart: " + cart.get(i).getId());
+                            final Intent intent = new Intent(CartActivity.this, OrderTypeActivity.class);
+                            intent.putExtra("id", cart.get(i).getId());
+                            Toast.makeText(getApplicationContext(), "Place Order...!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Position in cart:" + cart.get(i).getId(), Toast.LENGTH_SHORT).show();
+                            startActivity(intent);
+                        }
+                    }
+                }
+            });
+        }
         loadFoodList();
         addCartItem();
 
@@ -239,5 +250,17 @@ public class CartActivity extends AppCompatActivity {
     }
 
 
-
+//    @Override
+//    public void onClick(View view, int position, boolean isLongClick) {
+//        if (cart != null) {
+//
+//                System.out.println("Position in cart: " + cart.get(position).getId());
+//                final Intent intent = new Intent(CartActivity.this, OrderTypeActivity.class);
+//                intent.putExtra("id", cart.get(position).getId());
+//                Toast.makeText(getApplicationContext(), "Place Order...!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Position in cart:" + cart.get(position).getId(), Toast.LENGTH_SHORT).show();
+//                startActivity(intent);
+//
+//        }
+//    }
 }

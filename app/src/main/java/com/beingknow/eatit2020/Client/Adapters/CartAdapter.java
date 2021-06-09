@@ -21,11 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.beingknow.eatit2020.Client.Activities.CartActivity;
 import com.beingknow.eatit2020.Client.Activities.OrderStatusActivity;
+import com.beingknow.eatit2020.Client.Activities.OrderTypeActivity;
 import com.beingknow.eatit2020.Database.DatabaseHelper;
+import com.beingknow.eatit2020.Interface.ItemClickListener;
 import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.Models.Item1;
 import com.beingknow.eatit2020.Models.Order;
 import com.beingknow.eatit2020.R;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 
@@ -41,6 +44,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
     double tot = 0.0;
     private DatabaseHelper databaseHelper;
     private static String total_sum = null;
+    private ItemClickListener mOnItemClickInterface;
 
     public CartAdapter(Context context, ArrayList<Item1> cartList, RecyclerView recyclerView) {
         inflater = LayoutInflater.from(context);
@@ -52,6 +56,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
       //  inflater = LayoutInflater.from(context);
         this.context = context;
         this.cartList = itemList;
+    }
+    public void setOnItemClickListener(ItemClickListener mOnItemClickInterface) {
+        this.mOnItemClickInterface = mOnItemClickInterface;
     }
 
     @NonNull
@@ -78,13 +85,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
 
     @Override
     public int getItemCount() {
-        return cartList.size();
+        if(cartList != null) {
+            return cartList.size();
+        }
+        return 0;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
         public TextView name, price, quantity,total;
         public ImageView plus,minus;
+        public MaterialButton btnPlace;
        // final long sum = databaseHelper.sum_Of_Price();
 
         public MyViewHolder(@NonNull final View itemView) {
@@ -95,7 +106,41 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
             plus = itemView.findViewById(R.id.plus);
             minus = itemView.findViewById(R.id.minus);
             total = itemView.findViewById(R.id.total);
+            btnPlace = (MaterialButton) itemView.findViewById(R.id.btn_place_order);
+            if(btnPlace != null) {
+                btnPlace.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (itemView.getContext() != null) { // check if activity not null
+                            Intent intent = new Intent(itemView.getContext(), OrderTypeActivity.class);
+                            v.getContext().startActivity(intent);
+                        }
+                    }
+                });
+            }
+//            btnPlace = (MaterialButton) itemView.findViewById(R.id.btn_place_order);
+//            if(btnPlace != null)
+//            {
+//                btnPlace.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        if (cartList != null) {
+//                            System.out.println("Position in cart: " + cartList.get(getAdapterPosition()).getId());
+//                            final Intent intent = new Intent(itemView.getContext(), OrderTypeActivity.class);
+//                            intent.putExtra("id", cartList.get(getAdapterPosition()).getId());
+//                            Toast.makeText(itemView.getContext(), "Place Order...!", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(itemView.getContext(), "Position in cart:" + cartList.get(getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
+//                            v.getContext().startActivity(intent);
+//
+//                            if (mOnItemClickInterface != null) {
+//                                mOnItemClickInterface.onClick(v, getAdapterPosition(), true);
+//                            }
+//                        }
+//                    }
+//                });
+//            }
             cardView = (CardView) itemView.findViewById(R.id.card_myevent);
+
             cardView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -171,6 +216,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
                     }
                 });
             }
+
         }
     }
 }
