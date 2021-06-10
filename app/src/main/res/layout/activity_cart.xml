@@ -20,9 +20,11 @@
         android:id="@+id/listCart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="vertical"
         android:background="@android:color/transparent"/>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_total"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@color/cardview_dark_background"
@@ -59,7 +61,7 @@
 
                 </LinearLayout>
 
-                <com.google.android.material.button.MaterialButton
+                <Button
                     android:id="@+id/btn_place_order"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

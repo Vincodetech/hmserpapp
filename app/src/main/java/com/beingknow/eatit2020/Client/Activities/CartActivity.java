@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -59,7 +60,7 @@ public class CartActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     private TextView txtTotalPrice,total,price;
-    MaterialButton btnPlace;
+    Button btnPlace;
     CardView cardView;
     ArrayList<Item1> cart = new ArrayList<>();
     CartAdapter cartAdapter;
