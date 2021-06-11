@@ -34,6 +34,7 @@ import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.Models.Item1;
 import com.beingknow.eatit2020.Models.Order;
 import com.beingknow.eatit2020.Models.Request;
+import com.beingknow.eatit2020.NavFragment.DeliveryFragment;
 import com.beingknow.eatit2020.R;
 
 import com.beingknow.eatit2020.RetrofitClient;
@@ -114,7 +115,12 @@ public class CartActivity extends AppCompatActivity {
                         for (int i = 1; i < cart.size(); i++) {
                             System.out.println("Position in cart: " + cart.get(i).getId());
                             final Intent intent = new Intent(CartActivity.this, OrderTypeActivity.class);
-                            intent.putExtra("id", cart.get(i).getId());
+                          //  intent.putExtra("id", cart.get(i).getId());
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("id", cart.get(i).getId());
+                                // set MyFragment Arguments
+                            DeliveryFragment myObj = new DeliveryFragment();
+                            myObj.setArguments(bundle);
                             Toast.makeText(getApplicationContext(), "Place Order...!", Toast.LENGTH_SHORT).show();
                             Toast.makeText(getApplicationContext(), "Position in cart:" + cart.get(i).getId(), Toast.LENGTH_SHORT).show();
                             startActivity(intent);

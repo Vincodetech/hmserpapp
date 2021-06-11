@@ -117,9 +117,7 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
                             System.out.println("Position: " + cartList.get(getAdapterPosition()).getId());
                             final Intent intent = new Intent(itemView.getContext(), CartActivity.class);
                             intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getId());
-//                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getName());
-//                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getQuantity());
-//                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getPrice());
+
                             if(cartList.get(getAdapterPosition()).getId() > 0 )
                             {
                                 databaseHelper.insertCart(name.getText().toString(),quantity.getText().toString(),price.getText().toString(),

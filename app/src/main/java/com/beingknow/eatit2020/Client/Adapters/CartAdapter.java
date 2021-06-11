@@ -111,7 +111,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
             total = itemView.findViewById(R.id.total);
             cardView = itemView.findViewById(R.id.cardview_total);
 
-            btnPlace = itemView.findViewById(R.id.btn_place_order);
+            btnPlace = (Button) itemView.findViewById(R.id.btn_place_order);
             if(btnPlace != null) {
                 btnPlace.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -133,27 +133,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
                     }
                 });
             }
-//            btnPlace = (MaterialButton) itemView.findViewById(R.id.btn_place_order);
-//            if(btnPlace != null)
-//            {
-//                btnPlace.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        if (cartList != null) {
-//                            System.out.println("Position in cart: " + cartList.get(getAdapterPosition()).getId());
-//                            final Intent intent = new Intent(itemView.getContext(), OrderTypeActivity.class);
-//                            intent.putExtra("id", cartList.get(getAdapterPosition()).getId());
-//                            Toast.makeText(itemView.getContext(), "Place Order...!", Toast.LENGTH_SHORT).show();
-//                            Toast.makeText(itemView.getContext(), "Position in cart:" + cartList.get(getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
-//                            v.getContext().startActivity(intent);
-//
-//                            if (mOnItemClickInterface != null) {
-//                                mOnItemClickInterface.onClick(v, getAdapterPosition(), true);
-//                            }
-//                        }
-//                    }
-//                });
-//            }
+
             cardView = (CardView) itemView.findViewById(R.id.card_myevent);
 
             cardView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -233,5 +213,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
             }
 
         }
+    }
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
     }
 }

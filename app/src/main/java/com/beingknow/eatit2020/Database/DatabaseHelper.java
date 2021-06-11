@@ -88,6 +88,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
        return true;
     }
 
+    public boolean getItem(int id)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select * from cart where id = " + id;
+        Cursor cursor = db.rawQuery(query,null);
+        return true;
+    }
+
     public ArrayList<Item1> getCartData() {
         ArrayList<Item1> arrayList = new ArrayList<>();
 
