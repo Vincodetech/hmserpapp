@@ -45,7 +45,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     @Override
     public OrderAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_delivery, parent, false);
+                .inflate(R.layout.cart_layout, parent, false);
 
         return new OrderAdapter.MyViewHolder(itemView);
     }
@@ -82,7 +82,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             plus = itemView.findViewById(R.id.plus);
             minus = itemView.findViewById(R.id.minus);
             total = itemView.findViewById(R.id.total);
-            cardView = itemView.findViewById(R.id.cardview_total);
+           // cardView = itemView.findViewById(R.id.cardview_total);
 
         }
     }
