@@ -105,30 +105,25 @@ public class CartActivity extends AppCompatActivity {
 
         txtTotalPrice = findViewById(R.id.total);
         btnPlace = findViewById(R.id.btn_place_order);
-//        if(btnPlace != null)
-//        {
-//            btnPlace.setOnClickListener(new View.OnClickListener() {
-//             @Override
-//                public void onClick(View view) {
-//              //  ShowAlertDialog();
-//                    if (cart != null) {
-//                        for (int i = 1; i < cart.size(); i++) {
-//                            System.out.println("Position in cart: " + cart.get(i).getId());
-//                            final Intent intent = new Intent(CartActivity.this, OrderTypeActivity.class);
-//                          //  intent.putExtra("id", cart.get(i).getId());
-//                            Bundle bundle = new Bundle();
-//                            bundle.putInt("id", cart.get(i).getId());
-//                                // set MyFragment Arguments
-//                            DeliveryFragment myObj = new DeliveryFragment();
-//                            myObj.setArguments(bundle);
-//                            Toast.makeText(getApplicationContext(), "Place Order...!", Toast.LENGTH_SHORT).show();
-//                            Toast.makeText(getApplicationContext(), "Position in cart:" + cart.get(i).getId(), Toast.LENGTH_SHORT).show();
-//                            startActivity(intent);
-//                        }
-//                    }
-//                }
-//            });
-//        }
+        if(btnPlace != null)
+        {
+            btnPlace.setOnClickListener(new View.OnClickListener() {
+             @Override
+                public void onClick(View view) {
+              //  ShowAlertDialog();
+                    if (cart != null) {
+                        for (int i = 1; i < cart.size(); i++) {
+                            System.out.println("Position in cart: " + cart.get(i).getId());
+                            final Intent intent = new Intent(CartActivity.this, OrderTypeActivity.class);
+
+                            Toast.makeText(getApplicationContext(), "Place Order...!", Toast.LENGTH_SHORT).show();
+
+                            startActivity(intent);
+                        }
+                    }
+                }
+            });
+        }
         loadFoodList();
         addCartItem();
 

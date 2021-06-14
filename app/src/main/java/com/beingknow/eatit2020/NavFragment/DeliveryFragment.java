@@ -64,23 +64,18 @@ public class DeliveryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_delivery, container, false);
         // Inflate the layout for this fragment
-        Bundle bundle = this.getArguments();
 
-        if(bundle != null){
-            String infoName = bundle.getString("id");
-        }
 
         databaseHelper = new DatabaseHelper(getContext());
         recyclerView =(RecyclerView) view.findViewById(R.id.del_recyclerview);
-        plus = (ImageView) view.findViewById(R.id.plus);
-        minus = (ImageView) view.findViewById(R.id.minus);
+
 
         itemArrayList = new ArrayList<>();
 
         if(getActivity() != null) {
             showFoodDelivery();
 
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+          //  recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         }
         
         return view;
@@ -89,34 +84,6 @@ public class DeliveryFragment extends Fragment {
     public void showFoodDelivery()
     {
 
-        if (getArguments() != null) {
-            int id = getArguments().getInt("id");
 
-            Map<String, String> paramsMap = new HashMap<String, String>();
-            paramsMap.put("id", String.valueOf(id));
-
-            Call<ArrayList<Item1>> call = RetrofitClient
-                    .getInstance()
-                    .getApi()
-                    .singleCartItem(paramsMap);
-
-            call.enqueue(new Callback<ArrayList<Item1>>() {
-                @Override
-                public void onResponse(Call<ArrayList<Item1>> call, Response<ArrayList<Item1>> response) {
-                    if (response.isSuccessful() && response.body() != null && getContext() != null) {
-                        itemArrayList = response.body();
-
-                        orderAdapter = new OrderAdapter(getContext(), itemArrayList, recyclerView);
-                        recyclerView.setAdapter(orderAdapter);
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ArrayList<Item1>> call, Throwable t) {
-                    Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
     }
 }

@@ -112,27 +112,27 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
             cardView = itemView.findViewById(R.id.cardview_total);
 
             btnPlace = (Button) itemView.findViewById(R.id.btn_place_order);
-            if(btnPlace != null) {
-                btnPlace.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (itemView.getContext() != null) {      // check if activity not null
-                            if (cartList != null) {
-                                System.out.println("Position in cart: " + cartList.get(getAdapterPosition()).getId());
-                                final Intent intent = new Intent(itemView.getContext(), OrderTypeActivity.class);
-                                intent.putExtra("id", cartList.get(getAdapterPosition()).getId());
-                                Toast.makeText(itemView.getContext(), "Place Order...!", Toast.LENGTH_SHORT).show();
-                                Toast.makeText(itemView.getContext(), "Position in cart:" + cartList.get(getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
-                                v.getContext().startActivity(intent);
-
-                                if (mOnItemClickInterface != null) {
-                                    mOnItemClickInterface.onItemClick(itemView, getAdapterPosition(), true);
-                                }
-                            }
-                        }
-                    }
-                });
-            }
+//            if(btnPlace != null) {
+//                btnPlace.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        if (itemView.getContext() != null) {      // check if activity not null
+//                            if (cartList != null) {
+//                                System.out.println("Position in cart: " + cartList.get(getAdapterPosition()).getId());
+//                                final Intent intent = new Intent(itemView.getContext(), OrderTypeActivity.class);
+//                                intent.putExtra("id", cartList.get(getAdapterPosition()).getId());
+//                                Toast.makeText(itemView.getContext(), "Place Order...!", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(itemView.getContext(), "Position in cart:" + cartList.get(getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
+//                                v.getContext().startActivity(intent);
+//
+//                                if (mOnItemClickInterface != null) {
+//                                    mOnItemClickInterface.onClick(itemView, getAdapterPosition(), true);
+//                                }
+//                            }
+//                        }
+//                    }
+//                });
+//            }
 
             cardView = (CardView) itemView.findViewById(R.id.card_myevent);
 
@@ -148,6 +148,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
                         public void onClick(DialogInterface dialogInterface, int i) {
 
                             cartList.remove(getAdapterPosition());
+                            databaseHelper.deleteCartItem(getAdapterPosition());
                             notifyItemRemoved(getAdapterPosition());
                             Toast.makeText(context, "Cart Item Deleted Successfully...!", Toast.LENGTH_SHORT).show();
                         }
