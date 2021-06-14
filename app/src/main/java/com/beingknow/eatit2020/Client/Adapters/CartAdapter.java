@@ -126,7 +126,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
                                 v.getContext().startActivity(intent);
 
                                 if (mOnItemClickInterface != null) {
-                                    mOnItemClickInterface.onClick(itemView, getAdapterPosition(), true);
+                                    mOnItemClickInterface.onItemClick(itemView, getAdapterPosition(), true);
                                 }
                             }
                         }
