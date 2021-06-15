@@ -30,8 +30,8 @@ public class OrderTypeActivity extends AppCompatActivity {
         tabLayout=(TabLayout)findViewById(R.id.tabs);
         viewPager=(ViewPager)findViewById(R.id.viewpager);
 
-        tabLayout.addTab(tabLayout.newTab().setText("Food Delivery"));
         tabLayout.addTab(tabLayout.newTab().setText("Takeaway"));
+        tabLayout.addTab(tabLayout.newTab().setText("Food Delivery"));
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 

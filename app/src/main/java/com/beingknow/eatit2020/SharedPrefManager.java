@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.beingknow.eatit2020.ModelResponse.CartResponse;
 import com.beingknow.eatit2020.ModelResponse.LoginResponse;
+import com.beingknow.eatit2020.ModelResponse.OrderResponse1;
 import com.beingknow.eatit2020.ModelResponse.UserResponse;
 import com.beingknow.eatit2020.Models.Item;
 
@@ -30,6 +31,15 @@ public class SharedPrefManager {
         editor.apply();
     }
 
+    public void saveOrder(OrderResponse1 orderResponse1)
+    {
+        sharedPreferences = context.getSharedPreferences(Shared_Pref, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        editor.putInt("order_id", orderResponse1.getId());
+        editor.putString("order_no", orderResponse1.getOrder_no());
+        editor.apply();
+    }
+
     public boolean isLoggedIn() {
         sharedPreferences = context.getSharedPreferences(Shared_Pref, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("logged", false);
@@ -43,6 +53,14 @@ public class SharedPrefManager {
                 sharedPreferences.getString("email", null),
                 sharedPreferences.getString("phone", null),
                 sharedPreferences.getInt("active", 0));
+    }
+
+    public OrderResponse1 getOrderId()
+    {
+        sharedPreferences = context.getSharedPreferences(Shared_Pref, Context.MODE_PRIVATE);
+        return new OrderResponse1(
+                sharedPreferences.getInt("order_id", 0),
+                sharedPreferences.getString("order_no", null));
     }
 
     public void addCartItem(CartResponse cartResponse) {

@@ -20,6 +20,7 @@
         android:theme="@style/Hotel_Theme"
         android:usesCleartextTraffic="true"
         tools:replace="android:icon,android:theme">
+        <activity android:name=".Client.Activities.OrderSummaryActivity"></activity>
         <activity android:name=".Client.Activities.OrderTypeActivity" />
         <activity android:name=".Client.Activities.CafeDetailsActivity" />
         <activity android:name=".Client.Activities.CafeDetailActivity" />

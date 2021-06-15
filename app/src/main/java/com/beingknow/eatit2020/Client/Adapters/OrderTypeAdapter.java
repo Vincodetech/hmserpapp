@@ -26,11 +26,11 @@ public class OrderTypeAdapter extends FragmentPagerAdapter
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                DeliveryFragment deliveryFragment = new DeliveryFragment();
-                return deliveryFragment;
-            case 1:
                 TakeawayFragment takeawayFragment = new TakeawayFragment();
                 return takeawayFragment;
+            case 1:
+                DeliveryFragment deliveryFragment = new DeliveryFragment();
+                return deliveryFragment;
             default:
                 return null;
         }

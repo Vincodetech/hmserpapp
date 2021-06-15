@@ -4,6 +4,9 @@ import com.beingknow.eatit2020.ModelResponse.CafeCategory;
 import com.beingknow.eatit2020.ModelResponse.CartResponse;
 import com.beingknow.eatit2020.ModelResponse.FoodCategoryResponse;
 import com.beingknow.eatit2020.ModelResponse.LoginResponse;
+import com.beingknow.eatit2020.ModelResponse.OrderResponse;
+import com.beingknow.eatit2020.ModelResponse.OrderResponse1;
+import com.beingknow.eatit2020.ModelResponse.OrderResponse2;
 import com.beingknow.eatit2020.ModelResponse.RegisterResponse;
 import com.beingknow.eatit2020.ModelResponse.SliderData;
 import com.beingknow.eatit2020.ModelResponse.UpdateProfileResponse;
@@ -94,5 +97,23 @@ public interface Api
     @GET("singlefooditem")
     Call<ArrayList<Item1>> singleCartItem(
             @QueryMap Map<String, String> paramsMap
+    );
+
+    @FormUrlEncoded
+    @POST("addorder")
+    Call<OrderResponse> addorder(
+            @Field("order_no") String order_no,
+            @Field("active") int active
+
+    );
+
+    @GET("getorderid")
+    Call<OrderResponse1> getorderid();
+
+    @FormUrlEncoded
+    @POST("updateorderid/{id}")
+    Call<OrderResponse2> updateOrderId(
+            @Path("id") int id,
+            @Field("order_type") String order_type
     );
 }

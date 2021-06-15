@@ -7,6 +7,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -30,13 +31,16 @@ import com.beingknow.eatit2020.Database.DatabaseHelper;
 import com.beingknow.eatit2020.Interface.ItemClickListener;
 import com.beingknow.eatit2020.ModelResponse.CartResponse;
 import com.beingknow.eatit2020.ModelResponse.LoginResponse;
+import com.beingknow.eatit2020.ModelResponse.OrderResponse;
 import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.Models.Item1;
 import com.beingknow.eatit2020.Models.Order;
 import com.beingknow.eatit2020.Models.Request;
 import com.beingknow.eatit2020.NavFragment.DeliveryFragment;
+import com.beingknow.eatit2020.NavFragment.TakeawayFragment;
 import com.beingknow.eatit2020.R;
 
+import com.beingknow.eatit2020.RandomString;
 import com.beingknow.eatit2020.RetrofitClient;
 import com.beingknow.eatit2020.SharedPrefManager;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
@@ -112,14 +116,16 @@ public class CartActivity extends AppCompatActivity {
                 public void onClick(View view) {
               //  ShowAlertDialog();
                     if (cart != null) {
-                        for (int i = 1; i < cart.size(); i++) {
-                            System.out.println("Position in cart: " + cart.get(i).getId());
-                            final Intent intent = new Intent(CartActivity.this, OrderTypeActivity.class);
-
-                            Toast.makeText(getApplicationContext(), "Place Order...!", Toast.LENGTH_SHORT).show();
-
-                            startActivity(intent);
-                        }
+                                addOrder();
+//                            final Intent intent = new Intent(CartActivity.this, OrderTypeActivity.class);
+//
+//                            Toast.makeText(getApplicationContext(), "Place Order...!", Toast.LENGTH_SHORT).show();
+//
+//                            startActivity(intent);
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "Cart is Empty...!", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -134,6 +140,63 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
+    private void addOrder()
+    {
+        final ProgressDialog mDialog = new ProgressDialog(CartActivity.this);
+        mDialog.setMessage("Please Waiting...");
+        mDialog.show();
+
+        int n = 10;
+        final String order_no = RandomString.getAlphaNumericString(n);
+
+
+
+        Call<OrderResponse> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .addorder(order_no,1);
+
+        call.enqueue(new Callback<OrderResponse>() {
+            @Override
+            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+                OrderResponse orderResponse = response.body();
+                if(response.isSuccessful())
+                {
+                    if (orderResponse != null && orderResponse.getError().equals("000"))
+                    {
+                      //  Toast.makeText(CartActivity.this,orderResponse.getMessage(),Toast.LENGTH_SHORT).show();
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("order_no", order_no);
+
+                        // Your fragment
+                        TakeawayFragment obj = new TakeawayFragment();
+                        obj.setArguments(bundle);
+
+                        mDialog.dismiss();
+
+                        final Intent intent = new Intent(CartActivity.this, OrderTypeActivity.class);
+
+                        Toast.makeText(getApplicationContext(), "Place Order...!", Toast.LENGTH_SHORT).show();
+
+                        startActivity(intent);
+                    }
+                }
+                else
+                {
+                    if (orderResponse != null) {
+                        Toast.makeText(CartActivity.this,orderResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                        mDialog.dismiss();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
     private void ShowAlertDialog() {

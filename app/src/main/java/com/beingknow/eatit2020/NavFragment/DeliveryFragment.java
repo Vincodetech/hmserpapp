@@ -67,7 +67,7 @@ public class DeliveryFragment extends Fragment {
 
 
         databaseHelper = new DatabaseHelper(getContext());
-        recyclerView =(RecyclerView) view.findViewById(R.id.del_recyclerview);
+        recyclerView =(RecyclerView) view.findViewById(R.id.listCart);
 
 
         itemArrayList = new ArrayList<>();

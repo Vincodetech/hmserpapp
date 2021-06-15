@@ -68,5 +68,11 @@
     <string name="hello_blank_fragment">Hello Delivery</string>
     <string name="hello_blank1_fragment">Hello Takeaway</string>
 
+    <string name="order_no">Order No:</string>
+    <string name="order_type">Order Type:</string>
+    <string name="order_type1">Takeaway</string>
+    <string name="order_type2">Delivery</string>
+    <string name="checkout">Checkout</string>
+    <string name="order_summary">Order Summary</string>
 
 </resources>
