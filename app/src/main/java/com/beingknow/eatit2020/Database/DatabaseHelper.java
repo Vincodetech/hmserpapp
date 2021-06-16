@@ -26,6 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_QUANTITY = "quantity";
     public static final String COLUMN_PRICE = "price";
+    public static final String COLUMN_AMOUNT = "amount";
     public static final String COLUMN_ITEMID = "item_id";
     private long Sum = 0;
     private HashMap hp;
@@ -51,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL(
                 "create table cart " +
-                        "(id integer primary key, name text, quantity text, price text, item_id integer)"
+                        "(id integer primary key, name text, quantity text, price text, amount text, item_id integer)"
         );
     }
 
@@ -62,12 +63,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertCart (String name, String quantity, String price, int item_id) {
+    public boolean insertCart (String name, String quantity, String price, String amount, int item_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
         contentValues.put("quantity", quantity);
         contentValues.put("price", price);
+        contentValues.put("amount", amount);
         contentValues.put("item_id", item_id);
         db.insert("cart", null, contentValues);
         return true;
@@ -179,6 +181,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT SUM (" + COLUMN_PRICE + ") FROM " + TABLE_NAME , null);
+        cursor.moveToFirst();
+        int sum = cursor.getInt(0);
+        cursor.close();
+        System.out.println(sum);
+        return sum;
+
+    }
+
+    public long sum_Of_Amount()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT SUM (" + COLUMN_AMOUNT + ") FROM " + TABLE_NAME , null);
         cursor.moveToFirst();
         int sum = cursor.getInt(0);
         cursor.close();

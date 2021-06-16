@@ -109,6 +109,21 @@
 <!--                        android:layout_weight="1"-->
 <!--                        android:gravity="center_horizontal" />-->
 
+                    <TextView
+                        android:id="@+id/cart_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Price"
+                        android:layout_marginLeft="20dp"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        android:textSize="13sp"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:layout_marginStart="20dp" />
+
+
                     <ImageView
                         android:id="@+id/minus"
                         android:layout_width="20dp"
@@ -159,11 +174,11 @@
 <!--                        android:layout_marginLeft="8dp" />-->
 
                     <TextView
-                        android:id="@+id/cart_price"
+                        android:id="@+id/cart_amount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Total"
+                        android:text="Amount"
                         android:layout_marginLeft="20dp"
                         android:textAlignment="center"
                         android:textStyle="bold"

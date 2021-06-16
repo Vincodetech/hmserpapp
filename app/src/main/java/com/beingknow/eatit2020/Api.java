@@ -7,6 +7,7 @@ import com.beingknow.eatit2020.ModelResponse.LoginResponse;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse1;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse2;
+import com.beingknow.eatit2020.ModelResponse.OrderResponse3;
 import com.beingknow.eatit2020.ModelResponse.RegisterResponse;
 import com.beingknow.eatit2020.ModelResponse.SliderData;
 import com.beingknow.eatit2020.ModelResponse.UpdateProfileResponse;
@@ -116,4 +117,7 @@ public interface Api
             @Path("id") int id,
             @Field("order_type") String order_type
     );
+
+    @GET("getorder")
+    Call<OrderResponse3> getorder();
 }

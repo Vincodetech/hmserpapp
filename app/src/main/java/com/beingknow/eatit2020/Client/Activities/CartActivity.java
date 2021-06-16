@@ -64,7 +64,7 @@ public class CartActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    private TextView txtTotalPrice,total,price;
+    private TextView txtTotalPrice,total,price,cart_amount;
     Button btnPlace;
     CardView cardView;
     ArrayList<Item1> cart = new ArrayList<>();
@@ -88,7 +88,7 @@ public class CartActivity extends AppCompatActivity {
         //init
         recyclerView =findViewById(R.id.listCart);
         price = findViewById(R.id.cart_price);
-
+        cart_amount = findViewById(R.id.cart_amount);
         plus = (ImageView) findViewById(R.id.plus);
         minus = (ImageView) findViewById(R.id.minus);
 //        recyclerView.setHasFixedSize(true);
@@ -165,7 +165,7 @@ public class CartActivity extends AppCompatActivity {
                     if (orderResponse != null && orderResponse.getError().equals("000"))
                     {
                       //  Toast.makeText(CartActivity.this,orderResponse.getMessage(),Toast.LENGTH_SHORT).show();
-
+                        sharedPrefManager.saveOrder(orderResponse);
                         Bundle bundle = new Bundle();
                         bundle.putString("order_no", order_no);
 
@@ -293,7 +293,7 @@ public class CartActivity extends AppCompatActivity {
                     if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
                         cart = response.body();
                         cart = databaseHelper.getCartData();
-                        long sum = databaseHelper.sum_Of_Price();
+                        long sum = databaseHelper.sum_Of_Amount();
                         cartAdapter = new CartAdapter(getApplicationContext(), cart, recyclerView);
                         recyclerView.setAdapter(cartAdapter);
                         txtTotalPrice.setText(String.valueOf(sum));

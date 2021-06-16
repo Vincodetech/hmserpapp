@@ -8,6 +8,11 @@ public class OrderResponse
     private String error;
     private String message;
 
+    public OrderResponse()
+    {
+
+    }
+
     public OrderResponse(int id, String order_no, int active, String error, String message) {
         this.id = id;
         this.order_no = order_no;

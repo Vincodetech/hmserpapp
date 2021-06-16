@@ -6,6 +6,11 @@ public class OrderResponse2
     private String order_no;
     private String order_type;
 
+    public OrderResponse2()
+    {
+
+    }
+
     public OrderResponse2(int id, String order_no, String order_type) {
         this.id = id;
         this.order_no = order_no;

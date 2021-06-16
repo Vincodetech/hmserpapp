@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 
 import com.beingknow.eatit2020.ModelResponse.CartResponse;
 import com.beingknow.eatit2020.ModelResponse.LoginResponse;
+import com.beingknow.eatit2020.ModelResponse.OrderResponse;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse1;
+import com.beingknow.eatit2020.ModelResponse.OrderResponse2;
 import com.beingknow.eatit2020.ModelResponse.UserResponse;
 import com.beingknow.eatit2020.Models.Item;
 
@@ -31,12 +33,13 @@ public class SharedPrefManager {
         editor.apply();
     }
 
-    public void saveOrder(OrderResponse1 orderResponse1)
+    public void saveOrder(OrderResponse orderResponse)
     {
         sharedPreferences = context.getSharedPreferences(Shared_Pref, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        editor.putInt("order_id", orderResponse1.getId());
-        editor.putString("order_no", orderResponse1.getOrder_no());
+        editor.putInt("order_id", orderResponse.getId());
+        editor.putString("order_no", orderResponse.getOrder_no());
+        editor.putInt("active", orderResponse.isActive());
         editor.apply();
     }
 
@@ -55,12 +58,13 @@ public class SharedPrefManager {
                 sharedPreferences.getInt("active", 0));
     }
 
-    public OrderResponse1 getOrderId()
+    public OrderResponse2 getOrderId()
     {
         sharedPreferences = context.getSharedPreferences(Shared_Pref, Context.MODE_PRIVATE);
-        return new OrderResponse1(
+        return new OrderResponse2(
                 sharedPreferences.getInt("order_id", 0),
-                sharedPreferences.getString("order_no", null));
+                sharedPreferences.getString("order_no", null),
+                sharedPreferences.getString("order_type", null));
     }
 
     public void addCartItem(CartResponse cartResponse) {

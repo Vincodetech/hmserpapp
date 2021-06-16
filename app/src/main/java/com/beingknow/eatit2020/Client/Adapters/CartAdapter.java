@@ -83,6 +83,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
         holder.name.setText(item.getName());
         holder.quantity.setText(item.getQuantity());
         holder.price.setText(String.valueOf(item.getPrice()));
+        holder.cart_amount.setText(String.valueOf(item.getPrice()));
         tot = item.getPrice();
     }
 
@@ -96,7 +97,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
 
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView name, price, quantity,total;
+        public TextView name, price, quantity,total,cart_amount;
         public ImageView plus,minus;
         public Button btnPlace;
        // final long sum = databaseHelper.sum_Of_Price();
@@ -106,6 +107,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
             name = itemView.findViewById(R.id.cart_name);
             price = itemView.findViewById(R.id.cart_price);
             quantity = itemView.findViewById(R.id.quantity);
+            cart_amount = itemView.findViewById(R.id.cart_amount);
             plus = itemView.findViewById(R.id.plus);
             minus = itemView.findViewById(R.id.minus);
             total = itemView.findViewById(R.id.total);
@@ -172,18 +174,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
                     @Override
                     public void onClick(View v) {
                         String old_qty = quantity.getText().toString().trim();
-                        String old_price = price.getText().toString().trim();
+                        String old_price = cart_amount.getText().toString().trim();
                         int qty = Integer.parseInt(old_qty);
                         double pr = Double.parseDouble(old_price);
                         qty++;
                         if(qty == 2) {
                             double pr1 = (qty * pr);
-                            price.setText(String.valueOf(pr1));
+                            cart_amount.setText(String.valueOf(pr1));
 
                         }
                         else {
                             double pr1 = (qty * tot);
-                            price.setText(String.valueOf(pr1));
+                            cart_amount.setText(String.valueOf(pr1));
                         }
                         quantity.setText(String.valueOf(qty));
 
@@ -198,7 +200,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
                         if (Integer.parseInt(quantity.getText().toString()) >= 1)
                         {
                             String old_qty = quantity.getText().toString().trim();
-                            String old_price = price.getText().toString().trim();
+                            String old_price = cart_amount.getText().toString().trim();
                             int qty = Integer.parseInt(old_qty);
                             double pr = Double.parseDouble(old_price);
                             qty--;
@@ -206,7 +208,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
                                 qty = 1;
                             }
                             double pr1 = (qty * tot);
-                            price.setText(String.valueOf(pr1));
+                            cart_amount.setText(String.valueOf(pr1));
                             quantity.setText(String.valueOf(qty));
                         }
                     }

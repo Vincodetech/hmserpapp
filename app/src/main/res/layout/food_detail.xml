@@ -105,7 +105,7 @@
                             android:padding="5dp"
                             android:text="@string/price"
                             android:textColor="@color/golden"
-                            android:textSize="18sp"
+                            android:textSize="12sp"
                             android:textStyle="bold"
                             android:layout_marginLeft="10dp" />
 
@@ -116,7 +116,7 @@
                             android:layout_weight="8"
                             android:padding="5dp"
                             android:textColor="@color/golden"
-                            android:textSize="18sp"
+                            android:textSize="13sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -127,7 +127,7 @@
                             android:padding="5dp"
                             android:text="@string/quantity"
                             android:textColor="@color/golden"
-                            android:textSize="18sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -137,7 +137,28 @@
                             android:layout_weight="7"
                             android:padding="5dp"
                             android:textColor="@color/golden"
-                            android:textSize="18sp"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/food_amount"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="8"
+                            android:padding="5dp"
+                            android:text="@string/amount"
+                            android:textColor="@color/golden"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/food_amount1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:padding="5dp"
+                            android:textColor="@color/golden"
+                            android:textSize="13sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -164,10 +185,10 @@
                         android:id="@+id/minus"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginLeft="100dp"
+                        android:layout_marginLeft="120dp"
                         android:src="@drawable/minus"
                         android:contentDescription="@string/todo"
-                        android:layout_marginStart="100dp"
+                        android:layout_marginStart="120dp"
                         />
 
                     <ImageView
@@ -175,8 +196,8 @@
                         android:layout_toRightOf="@id/minus"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginStart="50dp"
-                        android:layout_marginLeft="50dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginLeft="30dp"
                         android:contentDescription="@string/todo"
                         android:src="@drawable/plus"
                         android:layout_toEndOf="@id/minus" />

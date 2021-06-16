@@ -71,6 +71,7 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
         String desc = Jsoup.parse(item.getDescription()).text();
         holder.description.setText(desc);
         holder.price.setText(String.valueOf(item.getPrice()));
+        holder.amount.setText(String.valueOf(item.getPrice()));
         tot = item.getPrice();
 //        Glide.with(context)
 //                .load(item.getThumbnail())
@@ -92,7 +93,7 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView name, description, price, quantity;
+        public TextView name, description, price, quantity, amount;
         public ImageView thumbnail,plus,minus;
         public FloatingActionButton btnCart;
 
@@ -102,6 +103,7 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
             quantity = itemView.findViewById(R.id.food_quantity1);
             description = itemView.findViewById(R.id.food_description);
             price = itemView.findViewById(R.id.food_price);
+            amount = itemView.findViewById(R.id.food_amount1);
             thumbnail = itemView.findViewById(R.id.food_image1);
             plus = itemView.findViewById(R.id.plus);
             minus = itemView.findViewById(R.id.minus);
@@ -121,7 +123,7 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
                             if(cartList.get(getAdapterPosition()).getId() > 0 )
                             {
                                 databaseHelper.insertCart(name.getText().toString(),quantity.getText().toString(),price.getText().toString(),
-                                        cartList.get(getAdapterPosition()).getId());
+                                        amount.getText().toString(),cartList.get(getAdapterPosition()).getId());
                             }
 //                            if(databaseHelper.getAllreadyItem(cartList.get(getAdapterPosition()).getId()))
 //                            {
@@ -173,11 +175,11 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
                         qty++;
                         if(qty == 2) {
                             double pr1 = (qty * pr);
-                            price.setText(String.valueOf(pr1));
+                            amount.setText(String.valueOf(pr1));
                         }
                         else {
                             double pr1 = (qty * tot);
-                            price.setText(String.valueOf(pr1));
+                            amount.setText(String.valueOf(pr1));
                         }
                         quantity.setText(String.valueOf(qty));
 
@@ -192,7 +194,7 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
                         if (Integer.parseInt(quantity.getText().toString()) >= 1)
                         {
                             String old_qty = quantity.getText().toString().trim();
-                            String old_price = price.getText().toString().trim();
+                            String old_price = amount.getText().toString().trim();
                             int qty = Integer.parseInt(old_qty);
                             double pr = Double.parseDouble(old_price);
                             qty--;
@@ -200,7 +202,7 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
                                 qty = 1;
                             }
                             double pr1 = (qty * tot);
-                            price.setText(String.valueOf(pr1));
+                            amount.setText(String.valueOf(pr1));
                             quantity.setText(String.valueOf(qty));
                         }
                     }

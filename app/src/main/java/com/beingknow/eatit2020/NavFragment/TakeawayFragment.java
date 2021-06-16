@@ -52,7 +52,7 @@ public class TakeawayFragment extends Fragment {
     private TextView order_no_text, order_no, order_type_text, order_type;
     private Button btn_checkout;
     private SharedPrefManager sharedPrefManager;
-
+    private int oid = 0;
 
     public TakeawayFragment() {
 
@@ -116,13 +116,13 @@ public class TakeawayFragment extends Fragment {
 
 
         String otype = order_type.getText().toString();
-        int id = orderResponse1.getId();
+      //  int id = orderResponse.getId();
 
 
         Call<OrderResponse2> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .updateOrderId(id,otype);
+                .updateOrderId(oid,otype);
 
         call.enqueue(new Callback<OrderResponse2>() {
             @Override
@@ -135,6 +135,7 @@ public class TakeawayFragment extends Fragment {
                         mDialog.dismiss();
                         Toast.makeText(getContext(),"Checkout",Toast.LENGTH_SHORT).show();
                         final Intent intent = new Intent(getContext(), OrderSummaryActivity.class);
+                        intent.putExtra(Intent.EXTRA_TEXT,oid);
                         startActivity(intent);
                     }
                 }
@@ -178,10 +179,12 @@ public class TakeawayFragment extends Fragment {
                 {
                     if (orderResponse1 != null)
                     {
-                        sharedPrefManager.saveOrder(orderResponse1);
+                       // sharedPrefManager.saveOrder(orderResponse1);
                         mDialog.dismiss();
                         order_no.setText(orderResponse1.getOrder_no());
                         Toast.makeText(getContext(),"Takeaway",Toast.LENGTH_SHORT).show();
+                        oid = orderResponse1.getId();
+                        Toast.makeText(getContext(),"New order id:" + oid,Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
