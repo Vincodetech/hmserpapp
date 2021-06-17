@@ -7,12 +7,10 @@ import android.database.DatabaseErrorHandler;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.Models.Item1;
 
 import java.util.ArrayList;
@@ -120,6 +118,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
        // System.out.println(arrayList);
         cursor.close();
         return arrayList;
+    }
+
+    public ArrayList<Item1> getCartData1() {
+        ArrayList<Item1> arrayList1 = new ArrayList<>();
+
+        // select all query
+        String select_query1= "SELECT name,quantity,amount FROM " + TABLE_NAME;
+
+        SQLiteDatabase db = this .getWritableDatabase();
+        Cursor cursor1 = db.rawQuery(select_query1, null);
+        cursor1.moveToFirst();
+        // looping through all rows and adding to list
+        if (cursor1.moveToFirst()) {
+            do {
+                Item1 item = new Item1();
+                item.setName(cursor1.getString(0));
+                item.setQuantity(cursor1.getString(1));
+                item.setPrice(cursor1.getDouble(2));
+                arrayList1.add(item);
+            }while (cursor1.moveToNext());
+        }
+        // System.out.println(arrayList);
+        cursor1.close();
+        return arrayList1;
+    }
+
+    public boolean getCartData2(int item_id) {
+        ArrayList<Item1> arrayList2 = new ArrayList<>();
+
+        // select all query
+        String select_query2= "SELECT name,quantity,amount FROM " + TABLE_NAME + " where item_id = " + item_id;
+
+        SQLiteDatabase db = this .getWritableDatabase();
+        Cursor cursor2 = db.rawQuery(select_query2, null);
+        cursor2.moveToFirst();
+        // looping through all rows and adding to list
+        if (cursor2.moveToFirst()) {
+            do {
+                Item1 item = new Item1();
+                item.setName(cursor2.getString(0));
+                item.setQuantity(cursor2.getString(1));
+                item.setPrice(cursor2.getDouble(2));
+                arrayList2.add(item);
+            }while (cursor2.moveToNext());
+        }
+        // System.out.println(arrayList);
+        cursor2.close();
+        return true;
     }
 
     public int numberOfRows(){

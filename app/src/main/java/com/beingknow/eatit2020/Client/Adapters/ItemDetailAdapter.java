@@ -125,6 +125,12 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
                                 databaseHelper.insertCart(name.getText().toString(),quantity.getText().toString(),price.getText().toString(),
                                         amount.getText().toString(),cartList.get(getAdapterPosition()).getId());
                             }
+//                            if(databaseHelper.getCartData2(cartList.get(getAdapterPosition()).getId()))
+//                            {
+//                                String old_qty = quantity.getText().toString().trim();
+//                                int qty = Integer.parseInt(old_qty);
+//                                qty++;
+//                            }
 //                            if(databaseHelper.getAllreadyItem(cartList.get(getAdapterPosition()).getId()))
 //                            {
 //                                AlertDialog.Builder alertDialog = new AlertDialog.Builder(itemView.getContext());

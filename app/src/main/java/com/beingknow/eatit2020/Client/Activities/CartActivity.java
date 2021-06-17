@@ -88,7 +88,7 @@ public class CartActivity extends AppCompatActivity {
         //init
         recyclerView =findViewById(R.id.listCart);
         price = findViewById(R.id.cart_price);
-        cart_amount = findViewById(R.id.cart_amount);
+      //  cart_amount = findViewById(R.id.cart_amount);
         plus = (ImageView) findViewById(R.id.plus);
         minus = (ImageView) findViewById(R.id.minus);
 //        recyclerView.setHasFixedSize(true);
@@ -292,7 +292,7 @@ public class CartActivity extends AppCompatActivity {
                 public void onResponse(Call<ArrayList<Item1>> call, Response<ArrayList<Item1>> response) {
                     if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
                         cart = response.body();
-                        cart = databaseHelper.getCartData();
+                        cart = databaseHelper.getCartData1();
                         long sum = databaseHelper.sum_Of_Amount();
                         cartAdapter = new CartAdapter(getApplicationContext(), cart, recyclerView);
                         recyclerView.setAdapter(cartAdapter);

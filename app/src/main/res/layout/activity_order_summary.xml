@@ -16,7 +16,7 @@
         android:layout_alignParentLeft="true"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/order_no"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="70dp"
         android:layout_marginLeft="50dp"
         android:textStyle="bold"
         android:textSize="20sp"
@@ -31,7 +31,7 @@
         android:layout_toRightOf="@id/order_no_text_summary"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="70dp"
         android:layout_marginLeft="50dp"
         android:textStyle="bold"
         android:textSize="20sp"
@@ -51,7 +51,7 @@
         android:layout_alignParentLeft="true"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/order_type"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="120dp"
         android:layout_marginLeft="50dp"
         android:textStyle="bold"
         android:textSize="20sp"
@@ -66,7 +66,7 @@
         android:layout_toRightOf="@id/order_type_text_summary"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="120dp"
         android:layout_marginLeft="50dp"
         android:textStyle="bold"
         android:textSize="20sp"
@@ -76,6 +76,72 @@
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@id/order_no_text_summary"
         android:layout_marginStart="50dp" />
+
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recycler"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="255dp"-->
+<!--        android:padding="10dp" />-->
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="215dp"
+        android:layout_marginBottom="100dp" />
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_below="@id/listview"-->
+<!--        android:layout_above="@id/btn_continue"-->
+<!--        android:gravity="center_vertical">-->
+
+    <!--    </LinearLayout>-->
+
+    <TextView
+        android:id="@+id/total_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_continue"
+        android:layout_marginStart="200dp"
+        android:layout_marginLeft="200dp"
+        android:layout_marginBottom="6dp"
+        android:gravity="center_horizontal"
+        android:text="Total: "
+        android:textColor="@color/black"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/text_rs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_continue"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@id/total_text"
+        android:layout_toRightOf="@id/total_text"
+        android:text="@string/rs"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_continue"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@id/text_rs"
+        android:layout_toRightOf="@id/text_rs"
+        android:text="0"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
 
     <Button
         android:id="@+id/btn_continue"

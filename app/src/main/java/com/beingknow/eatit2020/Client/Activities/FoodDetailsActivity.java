@@ -49,7 +49,7 @@ import retrofit2.Response;
 
 public class FoodDetailsActivity extends AppCompatActivity {
 
-    private TextView food_name, food_price, food_description, food_quantity1;
+    private TextView food_name, food_price, food_description, food_quantity1, food_amount1;
     private ImageView food_image;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private FloatingActionButton btnCart;
@@ -90,6 +90,7 @@ public class FoodDetailsActivity extends AppCompatActivity {
         food_description = (TextView) findViewById(R.id.food_description);
         food_quantity1 = (TextView) findViewById(R.id.food_quantity1);
         food_price = (TextView) findViewById(R.id.food_price);
+        food_amount1 = (TextView) findViewById(R.id.food_amount1);
         food_image = (ImageView) findViewById(R.id.food_image);
         plus = (ImageView) findViewById(R.id.plus);
         minus = (ImageView) findViewById(R.id.minus);

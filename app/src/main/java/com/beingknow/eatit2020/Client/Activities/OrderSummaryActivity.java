@@ -9,16 +9,22 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.beingknow.eatit2020.ModelResponse.OrderResponse1;
+import com.beingknow.eatit2020.Client.Adapters.OrderSummaryAdapter;
+import com.beingknow.eatit2020.Client.Adapters.OrderSummaryAdapter1;
+import com.beingknow.eatit2020.Database.DatabaseHelper;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse3;
+import com.beingknow.eatit2020.Models.Item1;
 import com.beingknow.eatit2020.R;
 import com.beingknow.eatit2020.RetrofitClient;
 import com.beingknow.eatit2020.SharedPrefManager;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -27,11 +33,16 @@ import retrofit2.Response;
 
 public class OrderSummaryActivity extends AppCompatActivity {
 
-    private TextView order_no_text, order_no, order_type_text, order_type;
-    private Button btn_checkout;
+    private TextView order_no_text, order_no, order_type_text, order_type,total;
+    private Button btn_continue;
     private SharedPrefManager sharedPrefManager;
     private int oid = 0;
     private RecyclerView recyclerView;
+    ArrayList<Item1> cart = new ArrayList<>();
+    private OrderSummaryAdapter orderSummaryAdapter;
+    private OrderSummaryAdapter1 orderSummaryAdapter1;
+    private DatabaseHelper databaseHelper;
+    private ListView listView;
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -51,15 +62,26 @@ public class OrderSummaryActivity extends AppCompatActivity {
             Toast.makeText(OrderSummaryActivity.this, "Oid:" + id, Toast.LENGTH_SHORT).show();
         }
 
+        databaseHelper = new DatabaseHelper(getApplicationContext());
+
         order_no_text = (TextView) findViewById(R.id.order_no_text_summary);
         order_no = (TextView) findViewById(R.id.order_no_summary);
         order_type_text = (TextView) findViewById(R.id.order_type_text_summary);
         order_type = (TextView) findViewById(R.id.order_type_summary);
-        recyclerView = (RecyclerView) findViewById(R.id.listCart);
-        btn_checkout = (Button) findViewById(R.id.btn_checkout);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        total = (TextView) findViewById(R.id.total);
+        listView = (ListView) findViewById(R.id.listview);
+        btn_continue = (Button) findViewById(R.id.btn_continue);
+        btn_continue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(OrderSummaryActivity.this, ConfirmOrderActivity.class);
+                startActivity(intent1);
+            }
+        });
 
         checkOrder();
-
+        //recyclerView.setLayoutManager(new LinearLayoutManager(OrderSummaryActivity.this, LinearLayoutManager.VERTICAL, false));
     }
 
     private void checkOrder()
@@ -81,10 +103,16 @@ public class OrderSummaryActivity extends AppCompatActivity {
                 {
                     if (orderResponse3 != null)
                     {
+                        cart = databaseHelper.getCartData1();
                         // sharedPrefManager.saveOrder(orderResponse1);
                         mDialog.dismiss();
                         order_no.setText(orderResponse3.getOrder_no());
                         order_type.setText(orderResponse3.getOrder_type());
+                        orderSummaryAdapter1 = new OrderSummaryAdapter1(getApplicationContext(), cart);
+                        listView.setAdapter(orderSummaryAdapter1);
+                        orderSummaryAdapter1.notifyDataSetChanged();
+                        long sum = databaseHelper.sum_Of_Amount();
+                        total.setText(String.valueOf(sum));
                         Toast.makeText(OrderSummaryActivity.this,"Continue Order",Toast.LENGTH_SHORT).show();
                         oid = orderResponse3.getId();
                         Toast.makeText(OrderSummaryActivity.this,"New order id:" + oid,Toast.LENGTH_SHORT).show();

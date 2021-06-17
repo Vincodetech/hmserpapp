@@ -127,7 +127,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         startActivity(intent);
                         Toast.makeText(HomeActivity.this, "My Cart",Toast.LENGTH_SHORT).show();break;
                     case R.id.nav_orders:
-                        Intent intent1 = new Intent(HomeActivity.this, OrderStatusActivity.class);
+                        Intent intent1 = new Intent(HomeActivity.this, OrderSummaryActivity.class);
                         startActivity(intent1);
                         Toast.makeText(HomeActivity.this, "My Orders",Toast.LENGTH_SHORT).show();break;
                     case R.id.nav_sign_out:
