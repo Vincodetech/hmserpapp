@@ -154,10 +154,11 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
+            android:justificationMode="inter_word"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="70dp"
             android:text="@string/hotel_add1"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginLeft="10dp" />
 
@@ -172,7 +173,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="120dp"
             android:text="@string/hotel_add2"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginLeft="10dp" />
 
@@ -187,19 +188,9 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="170dp"
             android:text="@string/hotel_add3"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginLeft="10dp" />
-
-        <ImageView
-            android:id="@+id/phone"
-            android:layout_width="51dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="210dp"
-            android:contentDescription="@string/todo"
-            android:src="@drawable/ic_baseline_phone_android_24"
-            android:layout_marginLeft="40dp" />
 
         <TextView
             android:id="@+id/hotel_mo"
@@ -237,32 +228,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="250dp"
             android:text="@string/email_text"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="10dp" />
-
-        <ImageView
-            android:id="@+id/website"
-            android:layout_width="51dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="280dp"
-            android:contentDescription="@string/todo"
-            android:src="@drawable/ic_baseline_blur_circular_24"
-            android:layout_marginLeft="40dp" />
-
-        <TextView
-            android:id="@+id/website_text"
-            android:layout_width="223dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="280dp"
-            android:text="@string/website_text"
-            android:textSize="15sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginLeft="10dp" />
 

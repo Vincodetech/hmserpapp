@@ -80,4 +80,14 @@
     <string name="order_summary">Order Summary</string>
     <string name="confirm_order">Confirm Order</string>
 
+    <string name="our_address"><u>Hotel Address</u></string>
+    <string name="hotel_name">Hotel The Grand Piano</string>
+    <string name="hotel_add1">Vanita Avenue, Sankhari Turning,</string>
+    <string name="hotel_add2">Chanasma Highway Road, Gujarat,</string>
+    <string name="hotel_add3">Patan-384265</string>
+    <string name="hotel_mo">+91-7046062440 +91-9316009307</string>
+    <string name="email_text">hotelthegrandpiano@gmail.com</string>
+    <string name="website_text">www.hotelthegrandpiano.com</string>
+    <string name="shipping_address_text"><u>Shipping Address</u></string>
+
 </resources>

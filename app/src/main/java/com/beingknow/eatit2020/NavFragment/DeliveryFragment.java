@@ -27,11 +27,15 @@ import com.beingknow.eatit2020.Interface.ItemClickListener;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse1;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse2;
+import com.beingknow.eatit2020.ModelResponse.UpdateAddressResponse;
+import com.beingknow.eatit2020.ModelResponse.UpdateProfileResponse;
+import com.beingknow.eatit2020.ModelResponse.UserProfileResponse;
 import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.Models.Item1;
 import com.beingknow.eatit2020.R;
 import com.beingknow.eatit2020.RetrofitClient;
 import com.beingknow.eatit2020.SharedPrefManager;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +55,8 @@ public class DeliveryFragment extends Fragment {
     private OrderResponse orderResponse;
     private OrderResponse2 orderResponse2;
     private OrderResponse1 orderResponse1;
-    private TextView order_no_text, order_no, order_type_text, order_type;
+    private TextView order_no_text, order_no, order_type_text, order_type,shipping_address_text;
+    private TextInputLayout street1, street2, city, state, country, pincode;
     private Button btn_checkout;
     private SharedPrefManager sharedPrefManager;
     private int oid = 0;
@@ -82,6 +87,13 @@ public class DeliveryFragment extends Fragment {
         order_no = (TextView) view.findViewById(R.id.order_no);
         order_type_text = (TextView) view.findViewById(R.id.order_type_text);
         order_type = (TextView) view.findViewById(R.id.order_type);
+        shipping_address_text = (TextView) view.findViewById(R.id.shipping_address_text);
+        street1 = (TextInputLayout)view.findViewById(R.id.txtStreet1);
+        street2 = (TextInputLayout)view.findViewById(R.id.txtStreet2);
+        city = (TextInputLayout)view.findViewById(R.id.txtCity);
+        state = (TextInputLayout)view.findViewById(R.id.txtState);
+        country = (TextInputLayout)view.findViewById(R.id.txtCountry);
+        pincode = (TextInputLayout)view.findViewById(R.id.pincode);
         recyclerView = (RecyclerView) view.findViewById(R.id.listCart);
         btn_checkout = (Button) view.findViewById(R.id.btn_checkout);
         sharedPrefManager = new SharedPrefManager(getContext());
@@ -92,6 +104,7 @@ public class DeliveryFragment extends Fragment {
         if(getActivity() != null) {
 
             showFoodDelivery();
+            fetchUserAddress();
         }
 
         if(btn_checkout != null)
@@ -100,12 +113,87 @@ public class DeliveryFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     checkoutOrder();
+                    updateUserAddress();
                 }
             });
 
         }
         
         return view;
+    }
+
+    private void updateUserAddress()
+    {
+        String add1 = street1.getEditText().getText().toString().trim();
+        String add2 = street2.getEditText().getText().toString().trim();
+        String usercity = city.getEditText().getText().toString().trim();
+        String userstate = state.getEditText().getText().toString().trim();
+        String usercountry = country.getEditText().getText().toString().trim();
+        String userpincode = pincode.getEditText().getText().toString().trim();
+
+        final ProgressDialog mDialog = new ProgressDialog(getContext());
+        mDialog.setMessage("Please Waiting...");
+        mDialog.show();
+
+        Call<UpdateAddressResponse> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .updateAddress(sharedPrefManager.getUser().getId(),add1, add2, usercity,userstate, usercountry, userpincode);
+
+        call.enqueue(new Callback<UpdateAddressResponse>() {
+            @Override
+            public void onResponse(Call<UpdateAddressResponse> call, Response<UpdateAddressResponse> response) {
+                UpdateAddressResponse updateAddressResponse = response.body();
+                if(response.isSuccessful())
+                {
+                    if(updateAddressResponse != null)
+                    {
+                        Toast.makeText(getContext(), "Address Update Successfully..!", Toast.LENGTH_SHORT).show();
+                        mDialog.dismiss();
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateAddressResponse> call, Throwable t) {
+                Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                mDialog.dismiss();
+            }
+        });
+    }
+
+    private void fetchUserAddress()
+    {
+        Call<UserProfileResponse> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .profile(sharedPrefManager.getUser().getId());
+
+        call.enqueue(new Callback<UserProfileResponse>() {
+            @Override
+            public void onResponse(Call<UserProfileResponse> call, Response<UserProfileResponse> response) {
+                UserProfileResponse userProfileResponse = response.body();
+                if(response.isSuccessful())
+                {
+                    if(userProfileResponse != null)
+                    {
+                      //  System.out.println(userProfileResponse);
+                        street1.getEditText().setText(userProfileResponse.getStreet1());
+                        street2.getEditText().setText(userProfileResponse.getStreet2());
+                        city.getEditText().setText(userProfileResponse.getCity());
+                        state.getEditText().setText(userProfileResponse.getState());
+                        country.getEditText().setText(userProfileResponse.getCountry());
+                        pincode.getEditText().setText(userProfileResponse.getPincode());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserProfileResponse> call, Throwable t) {
+                Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void checkoutOrder()

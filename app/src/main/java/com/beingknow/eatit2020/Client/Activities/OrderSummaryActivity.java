@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.beingknow.eatit2020.Client.Adapters.OrderSummaryAdapter;
 import com.beingknow.eatit2020.Client.Adapters.OrderSummaryAdapter1;
 import com.beingknow.eatit2020.Database.DatabaseHelper;
+import com.beingknow.eatit2020.ModelResponse.OrderDetailResponse;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse3;
 import com.beingknow.eatit2020.Models.Item1;
 import com.beingknow.eatit2020.R;
@@ -37,8 +38,12 @@ public class OrderSummaryActivity extends AppCompatActivity {
     private Button btn_continue;
     private SharedPrefManager sharedPrefManager;
     private int oid = 0;
+    private int i_id = 0;
+    private String quantity = null;
+    private double price = 0;
     private RecyclerView recyclerView;
-    ArrayList<Item1> cart = new ArrayList<>();
+    private ArrayList<Item1> cart = new ArrayList<>();
+    private final Item1 item1 = null;
     private OrderSummaryAdapter orderSummaryAdapter;
     private OrderSummaryAdapter1 orderSummaryAdapter1;
     private DatabaseHelper databaseHelper;
@@ -72,16 +77,69 @@ public class OrderSummaryActivity extends AppCompatActivity {
         total = (TextView) findViewById(R.id.total);
         listView = (ListView) findViewById(R.id.listview);
         btn_continue = (Button) findViewById(R.id.btn_continue);
+
+        checkOrder();
+
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(OrderSummaryActivity.this, ConfirmOrderActivity.class);
-                startActivity(intent1);
+//                Intent intent1 = new Intent(OrderSummaryActivity.this, ConfirmOrderActivity.class);
+//                startActivity(intent1);
+                addOrderDetail();
+                Toast.makeText(OrderSummaryActivity.this, "Add Order Detail Successfully..!", Toast.LENGTH_SHORT).show();
             }
         });
-
-        checkOrder();
         //recyclerView.setLayoutManager(new LinearLayoutManager(OrderSummaryActivity.this, LinearLayoutManager.VERTICAL, false));
+    }
+
+    private void addOrderDetail()
+    {
+        final ProgressDialog mDialog = new ProgressDialog(OrderSummaryActivity.this);
+        mDialog.setMessage("Please Waiting...");
+        mDialog.show();
+
+        Call<OrderDetailResponse> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .addorderdetail(i_id,oid,quantity,price,1);
+
+        call.enqueue(new Callback<OrderDetailResponse>() {
+            @Override
+            public void onResponse(Call<OrderDetailResponse> call, Response<OrderDetailResponse> response) {
+                OrderDetailResponse orderDetailResponse = response.body();
+                if(response.isSuccessful())
+                {
+                    if(orderDetailResponse != null)
+                    {
+                        i_id = orderDetailResponse.getItem_id();
+                        quantity = orderDetailResponse.getQuantity();
+                        price = orderDetailResponse.getAmount();
+//                        i_id = databaseHelper.getItemId();
+//                        quantity = databaseHelper.getQuantity();
+//                        price = databaseHelper.getAmount();
+                       // cart = databaseHelper.getCartData1();
+//                        i_id = item1.getId();
+//                         quantity = item1.getQuantity();
+//                         price = item1.getPrice();
+                        mDialog.dismiss();
+                        Toast.makeText(OrderSummaryActivity.this, "item_id = " + i_id, Toast.LENGTH_SHORT).show();
+                     //   mDialog.dismiss();
+                        Toast.makeText(OrderSummaryActivity.this, "Add Order Detail Successfully..!", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(OrderSummaryActivity.this, "Not Respond", Toast.LENGTH_SHORT).show();
+                        mDialog.dismiss();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderDetailResponse> call, Throwable t) {
+                Toast.makeText(OrderSummaryActivity.this,t.getMessage(),Toast.LENGTH_SHORT).show();
+                mDialog.dismiss();
+            }
+        });
     }
 
     private void checkOrder()

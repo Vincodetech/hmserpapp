@@ -147,7 +147,7 @@ public class CartActivity extends AppCompatActivity {
         mDialog.show();
 
         int n = 10;
-        final String order_no = RandomString.getAlphaNumericString(n);
+        final String order_no = "H-" + RandomString.getAlphaNumericString(n);
 
 
 

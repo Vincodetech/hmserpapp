@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,8 +51,10 @@ public class TakeawayFragment extends Fragment {
     private OrderResponse orderResponse;
     private OrderResponse2 orderResponse2;
     private OrderResponse1 orderResponse1;
-    private TextView order_no_text, order_no, order_type_text, order_type;
+    private TextView order_no_text, order_no, order_type_text, order_type,hotel_address,hotel_name,hotel_add1,hotel_add2,hotel_add3,hotel_mo;
+    private ImageView location;
     private Button btn_checkout;
+    private CardView card_myevent;
     private SharedPrefManager sharedPrefManager;
     private int oid = 0;
 
@@ -84,8 +88,16 @@ public class TakeawayFragment extends Fragment {
         order_no = (TextView) view.findViewById(R.id.order_no_takeaway);
         order_type_text = (TextView) view.findViewById(R.id.order_type_takeaway_text);
         order_type = (TextView) view.findViewById(R.id.order_type_takeaway);
+        hotel_address = (TextView) view.findViewById(R.id.hotel_address);
+        hotel_name = (TextView) view.findViewById(R.id.hotel_name);
+        hotel_add1 = (TextView) view.findViewById(R.id.hotel_add1);
+        hotel_add2 = (TextView) view.findViewById(R.id.hotel_add2);
+        hotel_add3 = (TextView) view.findViewById(R.id.hotel_add3);
+        hotel_mo = (TextView) view.findViewById(R.id.hotel_mo);
+        card_myevent = (CardView) view.findViewById(R.id.card_myevent);
         recyclerView = (RecyclerView) view.findViewById(R.id.listCart);
         btn_checkout = (Button) view.findViewById(R.id.btn_checkout);
+        location = (ImageView) view.findViewById(R.id.location);
         sharedPrefManager = new SharedPrefManager(getContext());
         orderResponses = new ArrayList<>();
 

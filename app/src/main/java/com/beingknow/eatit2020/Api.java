@@ -4,12 +4,14 @@ import com.beingknow.eatit2020.ModelResponse.CafeCategory;
 import com.beingknow.eatit2020.ModelResponse.CartResponse;
 import com.beingknow.eatit2020.ModelResponse.FoodCategoryResponse;
 import com.beingknow.eatit2020.ModelResponse.LoginResponse;
+import com.beingknow.eatit2020.ModelResponse.OrderDetailResponse;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse1;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse2;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse3;
 import com.beingknow.eatit2020.ModelResponse.RegisterResponse;
 import com.beingknow.eatit2020.ModelResponse.SliderData;
+import com.beingknow.eatit2020.ModelResponse.UpdateAddressResponse;
 import com.beingknow.eatit2020.ModelResponse.UpdateProfileResponse;
 import com.beingknow.eatit2020.ModelResponse.UserProfileResponse;
 import com.beingknow.eatit2020.Models.Item;
@@ -120,4 +122,26 @@ public interface Api
 
     @GET("getorder")
     Call<OrderResponse3> getorder();
+
+    @FormUrlEncoded
+    @POST("updateaddress/{id}")
+    Call<UpdateAddressResponse> updateAddress(
+            @Path("id") int id,
+            @Field("street1") String street1,
+            @Field("street2") String street2,
+            @Field("city") String city,
+            @Field("state") String state,
+            @Field("country") String country,
+            @Field("pincode") String pincode
+    );
+
+    @FormUrlEncoded
+    @POST("addorderdetail")
+    Call<OrderDetailResponse> addorderdetail(
+            @Field("item_id") int item_id,
+            @Field("order_id") int order_id,
+            @Field("quantity") String quantity,
+            @Field("amount") double amount,
+            @Field("active") int active
+    );
 }

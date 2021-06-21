@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.beingknow.eatit2020.ModelResponse.OrderDetailResponse;
 import com.beingknow.eatit2020.Models.Item1;
 
 import java.util.ArrayList;
@@ -142,6 +143,58 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // System.out.println(arrayList);
         cursor1.close();
         return arrayList1;
+    }
+
+    public int getItemId()
+    {
+        String select_query1= "SELECT item_id FROM " + TABLE_NAME;
+        SQLiteDatabase db = this .getWritableDatabase();
+        Cursor cursor1 = db.rawQuery(select_query1, null);
+        cursor1.close();
+       int i_id = cursor1.getInt(5);
+        return i_id;
+    }
+    public String getQuantity()
+    {
+        String select_query1= "SELECT quantity FROM " + TABLE_NAME;
+        SQLiteDatabase db = this .getWritableDatabase();
+        Cursor cursor1 = db.rawQuery(select_query1, null);
+        cursor1.close();
+        String qty = cursor1.getString(2);
+        return qty;
+    }
+    public float getAmount()
+    {
+        String select_query1= "SELECT amount FROM " + TABLE_NAME;
+        SQLiteDatabase db = this .getWritableDatabase();
+        Cursor cursor1 = db.rawQuery(select_query1, null);
+        cursor1.close();
+        float amt = cursor1.getFloat(4);
+        return amt;
+    }
+
+    public ArrayList<OrderDetailResponse> addOrderDetail()
+    {
+        ArrayList<OrderDetailResponse> arrayList = new ArrayList<>();
+        String select_query1= "SELECT item_id,quantity,amount FROM " + TABLE_NAME;
+
+        SQLiteDatabase db = this .getWritableDatabase();
+        Cursor cursor1 = db.rawQuery(select_query1, null);
+        cursor1.moveToFirst();
+
+        if (cursor1.moveToFirst()) {
+            do {
+                OrderDetailResponse orderDetailResponse = new OrderDetailResponse();
+                orderDetailResponse.setItem_id(cursor1.getInt(0));
+                orderDetailResponse.setQuantity(cursor1.getString(2));
+                orderDetailResponse.setAmount(cursor1.getFloat(3));
+                arrayList.add(orderDetailResponse);
+            }while (cursor1.moveToNext());
+        }
+        // System.out.println(arrayList);
+        cursor1.close();
+        return arrayList;
+
     }
 
     public boolean getCartData2(int item_id) {
