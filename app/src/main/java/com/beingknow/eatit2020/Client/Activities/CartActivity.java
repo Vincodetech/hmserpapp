@@ -292,6 +292,7 @@ public class CartActivity extends AppCompatActivity {
                 public void onResponse(Call<ArrayList<Item1>> call, Response<ArrayList<Item1>> response) {
                     if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
                         cart = response.body();
+                      //  sharedPrefManager.saveCartDetail(databaseHelper);
                         cart = databaseHelper.getCartData1();
                         long sum = databaseHelper.sum_Of_Amount();
                         cartAdapter = new CartAdapter(getApplicationContext(), cart, recyclerView);

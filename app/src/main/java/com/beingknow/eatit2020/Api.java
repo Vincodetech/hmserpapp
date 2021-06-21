@@ -1,5 +1,6 @@
 package com.beingknow.eatit2020;
 
+import com.beingknow.eatit2020.Interface.OrderResponse4;
 import com.beingknow.eatit2020.ModelResponse.CafeCategory;
 import com.beingknow.eatit2020.ModelResponse.CartResponse;
 import com.beingknow.eatit2020.ModelResponse.FoodCategoryResponse;
@@ -143,5 +144,13 @@ public interface Api
             @Field("quantity") String quantity,
             @Field("amount") double amount,
             @Field("active") int active
+    );
+
+    @FormUrlEncoded
+    @POST("updatestatus/{id}")
+    Call<OrderResponse4> updateStatus(
+            @Path("id") int id,
+            @Field("order_status") String order_status,
+            @Field("payment_status") String payment_status
     );
 }

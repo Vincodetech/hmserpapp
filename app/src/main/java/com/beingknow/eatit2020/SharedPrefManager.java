@@ -3,13 +3,16 @@ package com.beingknow.eatit2020;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.beingknow.eatit2020.Database.DatabaseHelper;
 import com.beingknow.eatit2020.ModelResponse.CartResponse;
 import com.beingknow.eatit2020.ModelResponse.LoginResponse;
+import com.beingknow.eatit2020.ModelResponse.OrderDetailResponse;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse1;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse2;
 import com.beingknow.eatit2020.ModelResponse.UserResponse;
 import com.beingknow.eatit2020.Models.Item;
+import com.beingknow.eatit2020.Models.Item1;
 
 import java.util.ArrayList;
 
@@ -43,6 +46,16 @@ public class SharedPrefManager {
         editor.apply();
     }
 
+    public void saveCartDetail(DatabaseHelper databaseHelper)
+    {
+        sharedPreferences = context.getSharedPreferences(Shared_Pref, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        editor.putInt("item_id", databaseHelper.getItemId());
+        editor.putString("quantity", databaseHelper.getQuantity());
+        editor.putFloat("amount", databaseHelper.getAmount());
+        editor.apply();
+    }
+
     public boolean isLoggedIn() {
         sharedPreferences = context.getSharedPreferences(Shared_Pref, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("logged", false);
@@ -57,6 +70,8 @@ public class SharedPrefManager {
                 sharedPreferences.getString("phone", null),
                 sharedPreferences.getInt("active", 0));
     }
+
+
 
     public OrderResponse2 getOrderId()
     {

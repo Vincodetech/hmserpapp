@@ -46,6 +46,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, name, version, openParams);
     }
 
+
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
@@ -73,6 +75,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert("cart", null, contentValues);
         return true;
     }
+
+
 
     public Cursor getData() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -148,28 +152,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int getItemId()
     {
         String select_query1= "SELECT item_id FROM " + TABLE_NAME;
-        SQLiteDatabase db = this .getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor1 = db.rawQuery(select_query1, null);
-        cursor1.close();
        int i_id = cursor1.getInt(5);
+       cursor1.close();
         return i_id;
     }
     public String getQuantity()
     {
         String select_query1= "SELECT quantity FROM " + TABLE_NAME;
-        SQLiteDatabase db = this .getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor1 = db.rawQuery(select_query1, null);
-        cursor1.close();
         String qty = cursor1.getString(2);
+        cursor1.close();
         return qty;
     }
     public float getAmount()
     {
         String select_query1= "SELECT amount FROM " + TABLE_NAME;
-        SQLiteDatabase db = this .getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor1 = db.rawQuery(select_query1, null);
-        cursor1.close();
         float amt = cursor1.getFloat(4);
+        cursor1.close();
         return amt;
     }
 

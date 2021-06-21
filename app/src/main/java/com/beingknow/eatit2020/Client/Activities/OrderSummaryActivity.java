@@ -86,7 +86,10 @@ public class OrderSummaryActivity extends AppCompatActivity {
 //                Intent intent1 = new Intent(OrderSummaryActivity.this, ConfirmOrderActivity.class);
 //                startActivity(intent1);
                 addOrderDetail();
+                final Intent intent = new Intent(OrderSummaryActivity.this, ConfirmOrderActivity.class);
+                intent.putExtra(Intent.EXTRA_TEXT,oid);
                 Toast.makeText(OrderSummaryActivity.this, "Add Order Detail Successfully..!", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
             }
         });
         //recyclerView.setLayoutManager(new LinearLayoutManager(OrderSummaryActivity.this, LinearLayoutManager.VERTICAL, false));
@@ -101,7 +104,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
         Call<OrderDetailResponse> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .addorderdetail(i_id,oid,quantity,price,1);
+                .addorderdetail(i_id,oid,String.valueOf(quantity),price,1);
 
         call.enqueue(new Callback<OrderDetailResponse>() {
             @Override

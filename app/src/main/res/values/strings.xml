@@ -89,5 +89,9 @@
     <string name="email_text">hotelthegrandpiano@gmail.com</string>
     <string name="website_text">www.hotelthegrandpiano.com</string>
     <string name="shipping_address_text"><u>Shipping Address</u></string>
+    <string name="payment_type">Payment Type</string>
+    <string name="cash">Cash</string>
+    <string name="online">Online</string>
+    <string name="confirm">Confirm</string>
 
 </resources>
