@@ -127,7 +127,7 @@ public class SignInActivity extends AppCompatActivity {
         Call<LoginResponse> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .login(userEmail,userPassword);
+                .login(userEmail,userPassword,1);
 
         call.enqueue(new Callback<LoginResponse>() {
             @Override

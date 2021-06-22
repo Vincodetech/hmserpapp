@@ -123,7 +123,7 @@ public class SignUpActivity extends AppCompatActivity {
         Call<RegisterResponse> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .register(username,userEmail,userPhone,userPassword);
+                .register(username,userEmail,userPhone,userPassword,1,2);
 
         call.enqueue(new Callback<RegisterResponse>() {
             @Override

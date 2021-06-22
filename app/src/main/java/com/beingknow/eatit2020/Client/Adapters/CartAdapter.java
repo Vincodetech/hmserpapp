@@ -114,6 +114,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
             cardView = itemView.findViewById(R.id.cardview_total);
 
             btnPlace = (Button) itemView.findViewById(R.id.btn_place_order);
+
 //            if(btnPlace != null) {
 //                btnPlace.setOnClickListener(new View.OnClickListener() {
 //                    @Override

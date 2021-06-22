@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
@@ -17,12 +18,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beingknow.eatit2020.Client.Adapters.OrderSummaryAdapter1;
+import com.beingknow.eatit2020.Database.DatabaseHelper;
 import com.beingknow.eatit2020.Interface.OrderResponse4;
+import com.beingknow.eatit2020.ModelResponse.BillDetailResponse;
+import com.beingknow.eatit2020.ModelResponse.GetBillNo;
 import com.beingknow.eatit2020.ModelResponse.OrderDetailResponse;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse3;
 import com.beingknow.eatit2020.R;
 import com.beingknow.eatit2020.RetrofitClient;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -33,11 +39,14 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
 
     private int oid = 0;
+    private int b_no = 0;
+    private double total = 0;
     private TextView order_no_text, order_no, order_type_text, order_type;
     private CardView cardView;
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     private Button btn_confirm;
+    private DatabaseHelper databaseHelper;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -62,8 +71,12 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         cardView = (CardView) findViewById(R.id.card);
         radioGroup = findViewById(R.id.radioPayment);
         btn_confirm = (Button) findViewById(R.id.btn_confirm);
+        databaseHelper = new DatabaseHelper(getApplicationContext());
 
         displayOrder();
+        getBillNo();
+
+        total = databaseHelper.sum_Of_Amount();
 
         final int selectedID = radioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(selectedID);
@@ -73,10 +86,85 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 updateStatus();
-
+                addBillDetail();
             }
         });
 
+    }
+
+    private void addBillDetail()
+    {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDate = sdf.format(new Date());
+
+        final ProgressDialog mDialog = new ProgressDialog(ConfirmOrderActivity.this);
+        mDialog.setMessage("Please Waiting...");
+        mDialog.show();
+
+        Call<BillDetailResponse> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .addBillDetail(b_no,currentDate,oid,total,1);
+
+        call.enqueue(new Callback<BillDetailResponse>() {
+            @Override
+            public void onResponse(Call<BillDetailResponse> call, Response<BillDetailResponse> response) {
+                BillDetailResponse billDetailResponse = response.body();
+                if(response.isSuccessful())
+                {
+                    if(billDetailResponse != null)
+                    {
+                        mDialog.dismiss();
+                        Toast.makeText(ConfirmOrderActivity.this, "Add Bill Detail Successfully..!", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(ConfirmOrderActivity.this, "Not Respond", Toast.LENGTH_SHORT).show();
+                        mDialog.dismiss();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BillDetailResponse> call, Throwable t) {
+                Toast.makeText(ConfirmOrderActivity.this,t.getMessage(),Toast.LENGTH_SHORT).show();
+                mDialog.dismiss();
+            }
+        });
+
+    }
+
+    private void getBillNo()
+    {
+        Call<GetBillNo> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .getBillNo();
+
+        call.enqueue(new Callback<GetBillNo>() {
+            @Override
+            public void onResponse(Call<GetBillNo> call, Response<GetBillNo> response) {
+                GetBillNo getBillNo = response.body();
+                if(response.isSuccessful())
+                {
+                    if(getBillNo != null)
+                    {
+                        b_no = getBillNo.getBill_no();
+                        b_no++;
+                        Toast.makeText(ConfirmOrderActivity.this, "Bill No: " + b_no , Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(ConfirmOrderActivity.this, "Not Respond", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetBillNo> call, Throwable t) {
+                Toast.makeText(ConfirmOrderActivity.this,t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void updateStatus()

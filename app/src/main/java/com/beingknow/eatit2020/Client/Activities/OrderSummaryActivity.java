@@ -78,6 +78,11 @@ public class OrderSummaryActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listview);
         btn_continue = (Button) findViewById(R.id.btn_continue);
 
+       i_id = databaseHelper.getItemId();
+//        Toast.makeText(OrderSummaryActivity.this, "Item_id = " + i_id, Toast.LENGTH_SHORT).show();
+        quantity = databaseHelper.getQuantity();
+        price = databaseHelper.getAmount();
+
         checkOrder();
 
         btn_continue.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +93,8 @@ public class OrderSummaryActivity extends AppCompatActivity {
                 addOrderDetail();
                 final Intent intent = new Intent(OrderSummaryActivity.this, ConfirmOrderActivity.class);
                 intent.putExtra(Intent.EXTRA_TEXT,oid);
-                Toast.makeText(OrderSummaryActivity.this, "Add Order Detail Successfully..!", Toast.LENGTH_SHORT).show();
+
+               // Toast.makeText(OrderSummaryActivity.this, "Add Order Detail Successfully..!", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });
@@ -100,6 +106,10 @@ public class OrderSummaryActivity extends AppCompatActivity {
         final ProgressDialog mDialog = new ProgressDialog(OrderSummaryActivity.this);
         mDialog.setMessage("Please Waiting...");
         mDialog.show();
+
+        i_id = databaseHelper.getItemId();
+        quantity = databaseHelper.getQuantity();
+        price = databaseHelper.getAmount();
 
         Call<OrderDetailResponse> call = RetrofitClient
                 .getInstance()
@@ -114,19 +124,8 @@ public class OrderSummaryActivity extends AppCompatActivity {
                 {
                     if(orderDetailResponse != null)
                     {
-                        i_id = orderDetailResponse.getItem_id();
-                        quantity = orderDetailResponse.getQuantity();
-                        price = orderDetailResponse.getAmount();
-//                        i_id = databaseHelper.getItemId();
-//                        quantity = databaseHelper.getQuantity();
-//                        price = databaseHelper.getAmount();
-                       // cart = databaseHelper.getCartData1();
-//                        i_id = item1.getId();
-//                         quantity = item1.getQuantity();
-//                         price = item1.getPrice();
                         mDialog.dismiss();
-                        Toast.makeText(OrderSummaryActivity.this, "item_id = " + i_id, Toast.LENGTH_SHORT).show();
-                     //   mDialog.dismiss();
+                        //Toast.makeText(OrderSummaryActivity.this, "item_id = " + i_id, Toast.LENGTH_SHORT).show();
                         Toast.makeText(OrderSummaryActivity.this, "Add Order Detail Successfully..!", Toast.LENGTH_SHORT).show();
                     }
                     else

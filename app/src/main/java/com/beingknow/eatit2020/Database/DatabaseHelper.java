@@ -88,8 +88,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean getAllreadyItem(int item_id)
     {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "select * from cart where item_id = " + item_id;
+        String query = "select name,quantity,amount from cart where item_id = " + item_id;
         Cursor cursor = db.rawQuery(query,null);
+        cursor.moveToFirst();
+        cursor.close();
        return true;
     }
 
@@ -154,7 +156,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String select_query1= "SELECT item_id FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor1 = db.rawQuery(select_query1, null);
-       int i_id = cursor1.getInt(5);
+        cursor1.moveToFirst();
+       int i_id = cursor1.getInt(0);
+       System.out.println("Item_id = " + i_id);
        cursor1.close();
         return i_id;
     }
@@ -163,7 +167,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String select_query1= "SELECT quantity FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor1 = db.rawQuery(select_query1, null);
-        String qty = cursor1.getString(2);
+        cursor1.moveToFirst();
+        String qty = cursor1.getString(0);
         cursor1.close();
         return qty;
     }
@@ -172,7 +177,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String select_query1= "SELECT amount FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor1 = db.rawQuery(select_query1, null);
-        float amt = cursor1.getFloat(4);
+        cursor1.moveToFirst();
+        float amt = cursor1.getFloat(0);
         cursor1.close();
         return amt;
     }
@@ -190,8 +196,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 OrderDetailResponse orderDetailResponse = new OrderDetailResponse();
                 orderDetailResponse.setItem_id(cursor1.getInt(0));
-                orderDetailResponse.setQuantity(cursor1.getString(2));
-                orderDetailResponse.setAmount(cursor1.getFloat(3));
+                orderDetailResponse.setQuantity(cursor1.getString(1));
+                orderDetailResponse.setAmount(cursor1.getFloat(2));
                 arrayList.add(orderDetailResponse);
             }while (cursor1.moveToNext());
         }

@@ -1,9 +1,11 @@
 package com.beingknow.eatit2020;
 
 import com.beingknow.eatit2020.Interface.OrderResponse4;
+import com.beingknow.eatit2020.ModelResponse.BillDetailResponse;
 import com.beingknow.eatit2020.ModelResponse.CafeCategory;
 import com.beingknow.eatit2020.ModelResponse.CartResponse;
 import com.beingknow.eatit2020.ModelResponse.FoodCategoryResponse;
+import com.beingknow.eatit2020.ModelResponse.GetBillNo;
 import com.beingknow.eatit2020.ModelResponse.LoginResponse;
 import com.beingknow.eatit2020.ModelResponse.OrderDetailResponse;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse;
@@ -19,6 +21,7 @@ import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.Models.Item1;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -38,14 +41,17 @@ public interface Api
             @Field("user_name") String user_name,
             @Field("email") String email,
             @Field("phone") String phone,
-            @Field("password") String password
+            @Field("password") String password,
+            @Field("active") int active,
+            @Field("user_role") int user_role
     );
 
     @FormUrlEncoded
     @POST("loginuser")
     Call<LoginResponse> login(
             @Field("email") String email,
-            @Field("password") String password
+            @Field("password") String password,
+            @Field("active") int active
     );
 
     @GET("user/{id}")
@@ -152,5 +158,18 @@ public interface Api
             @Path("id") int id,
             @Field("order_status") String order_status,
             @Field("payment_status") String payment_status
+    );
+
+    @GET("getbillno")
+    Call<GetBillNo> getBillNo();
+
+    @FormUrlEncoded
+    @POST("addbilldetail")
+    Call<BillDetailResponse> addBillDetail(
+            @Field("bill_no") int bill_no,
+            @Field("bill_date") String bill_date,
+            @Field("order_id") int order_id,
+            @Field("grand_total") double grand_total,
+            @Field("active") int active
     );
 }
