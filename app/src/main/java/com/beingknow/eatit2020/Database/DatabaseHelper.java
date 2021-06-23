@@ -76,6 +76,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean insertAmount(String amount)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("amount", amount);
+        db.insert("cart", null, contentValues);
+        return true;
+    }
+
+    public void getallAmount()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select amount from cart";
+        Cursor cursor = db.rawQuery(query,null);
+        cursor.moveToFirst();
+        cursor.close();
+    }
+
     public boolean updateCart (Integer id, String quantity, String amount) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
