@@ -174,6 +174,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
                 plus.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        databaseHelper.updateCart(cartList.get(getAdapterPosition()).getId(),quantity.getText().toString(),
+                                price.getText().toString());
                         String old_qty = quantity.getText().toString().trim();
                         String old_price = price.getText().toString().trim();
                         int qty = Integer.parseInt(old_qty);

@@ -76,6 +76,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean updateCart (Integer id, String quantity, String amount) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("quantity", quantity);
+        contentValues.put("amount", amount);
+        db.update("cart", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
+        return true;
+    }
 
 
     public Cursor getData() {
@@ -237,16 +245,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return numRows;
     }
 
-    public boolean updateContact (Integer id, String name, String quantity, String price, int item_id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("name", name);
-        contentValues.put("quantity", quantity);
-        contentValues.put("price", price);
-        contentValues.put("item_id", item_id);
-        db.update("cart", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
-        return true;
-    }
+
 
     public Integer deleteCartItem (Integer id) {
         SQLiteDatabase db = this.getWritableDatabase();

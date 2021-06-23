@@ -9,9 +9,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ import com.beingknow.eatit2020.ModelResponse.BillDetailResponse;
 import com.beingknow.eatit2020.ModelResponse.GetBillNo;
 import com.beingknow.eatit2020.ModelResponse.OrderDetailResponse;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse3;
+import com.beingknow.eatit2020.NavFragment.ScanPaymentFragment;
 import com.beingknow.eatit2020.R;
 import com.beingknow.eatit2020.RetrofitClient;
 
@@ -44,7 +47,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private TextView order_no_text, order_no, order_type_text, order_type;
     private CardView cardView;
     private RadioGroup radioGroup;
-    private RadioButton radioButton;
+    private RadioButton radioButton,radioCash,radioOnline;
     private Button btn_confirm;
     private DatabaseHelper databaseHelper;
 
@@ -70,6 +73,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         order_type = (TextView) findViewById(R.id.order_type_confirm);
         cardView = (CardView) findViewById(R.id.card);
         radioGroup = findViewById(R.id.radioPayment);
+        radioCash = (RadioButton) findViewById(R.id.radioCash);
+        radioOnline = (RadioButton) findViewById(R.id.radioOnline);
         btn_confirm = (Button) findViewById(R.id.btn_confirm);
         databaseHelper = new DatabaseHelper(getApplicationContext());
 
@@ -81,6 +86,15 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         final int selectedID = radioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(selectedID);
         Toast.makeText(ConfirmOrderActivity.this, radioButton.getText(),Toast.LENGTH_SHORT).show();
+
+        radioOnline.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                final Intent intent = new Intent(ConfirmOrderActivity.this, PaymentActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override

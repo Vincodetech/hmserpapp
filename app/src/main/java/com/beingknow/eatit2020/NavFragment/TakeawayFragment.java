@@ -134,7 +134,7 @@ public class TakeawayFragment extends Fragment {
         Call<OrderResponse2> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .updateOrderId(oid,otype);
+                .updateOrderId(oid,otype,"Pending");
 
         call.enqueue(new Callback<OrderResponse2>() {
             @Override

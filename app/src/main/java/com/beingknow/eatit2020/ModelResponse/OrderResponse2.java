@@ -5,16 +5,26 @@ public class OrderResponse2
     private int id;
     private String order_no;
     private String order_type;
+    private String order_status;
 
     public OrderResponse2()
     {
 
     }
 
-    public OrderResponse2(int id, String order_no, String order_type) {
+    public OrderResponse2(int id, String order_no, String order_type, String order_status) {
         this.id = id;
         this.order_no = order_no;
         this.order_type = order_type;
+        this.order_status = order_status;
+    }
+
+    public String getOrder_status() {
+        return order_status;
+    }
+
+    public void setOrder_status(String order_status) {
+        this.order_status = order_status;
     }
 
     public int getId() {

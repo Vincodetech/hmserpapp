@@ -79,7 +79,8 @@ public class SharedPrefManager {
         return new OrderResponse2(
                 sharedPreferences.getInt("order_id", 0),
                 sharedPreferences.getString("order_no", null),
-                sharedPreferences.getString("order_type", null));
+                sharedPreferences.getString("order_type", null),
+                sharedPreferences.getString("order_status",null));
     }
 
     public void addCartItem(CartResponse cartResponse) {

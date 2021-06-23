@@ -124,7 +124,8 @@ public interface Api
     @POST("updateorderid/{id}")
     Call<OrderResponse2> updateOrderId(
             @Path("id") int id,
-            @Field("order_type") String order_type
+            @Field("order_type") String order_type,
+            @Field("order_status") String order_status
     );
 
     @GET("getorder")
