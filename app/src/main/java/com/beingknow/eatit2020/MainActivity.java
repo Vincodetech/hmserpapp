@@ -22,42 +22,7 @@ import android.widget.ProgressBar;
 
 import java.util.Objects;
 
-//public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-//
-//    public ActivityMainBinding activityMainBinding;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-//
-//        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/NABILA.TTF");
-//        activityMainBinding.txtSlogan.setTypeface(typeface);
-//
-//        // set on click listener
-//        activityMainBinding.btnSignIn.setOnClickListener(this);
-//        activityMainBinding.btnSignUp.setOnClickListener(this);
-//        activityMainBinding.btnSignInRestaurant.setOnClickListener(this);
-//    }
-//
-//    @Override
-//    public void onClick(View view) {
-//        if (view == activityMainBinding.btnSignIn) {
-//            Intent intent = new Intent(this, SignInActivity.class);
-//            startActivity(intent);
-//
-//        }
-//        if (view == activityMainBinding.btnSignUp) {
-//            Intent intent = new Intent(this, SignUpActivity.class);
-//            startActivity(intent);
-//        }
-//        if (view == activityMainBinding.btnSignInRestaurant) {
-//            Intent intent = new Intent(this, SignInActivityRes.class);
-//            startActivity(intent);
-//        }
-//
-//    }
-//}
+
 public class MainActivity extends AppCompatActivity {
 
     private BroadcastReceiver MyReceiver = null;

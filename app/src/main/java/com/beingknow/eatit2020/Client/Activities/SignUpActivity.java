@@ -24,6 +24,7 @@ import com.beingknow.eatit2020.RetrofitClient;
 
 import java.util.Objects;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -136,6 +137,11 @@ public class SignUpActivity extends AppCompatActivity {
                     {
                         Toast.makeText(SignUpActivity.this,registerResponse.getMessage(),Toast.LENGTH_SHORT).show();
                         mDialog.dismiss();
+                        new SweetAlertDialog(
+                                SignUpActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                                .setTitleText("Register")
+                                .setContentText("You have Registered Successfully...!")
+                                .show();
                         Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

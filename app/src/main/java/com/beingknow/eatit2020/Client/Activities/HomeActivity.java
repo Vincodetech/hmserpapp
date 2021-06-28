@@ -46,6 +46,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Objects;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
 //    private AppBarConfiguration mAppBarConfiguration;
@@ -132,6 +134,11 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         Toast.makeText(HomeActivity.this, "My Orders",Toast.LENGTH_SHORT).show();break;
                     case R.id.nav_sign_out:
                         logout();
+                        new SweetAlertDialog(
+                                HomeActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                                .setTitleText("Logout")
+                                .setContentText("You have Logout Successfully...!")
+                                .show();
                         Toast.makeText(HomeActivity.this, "Sign Out",Toast.LENGTH_SHORT).show();break;
                         default:
                         return true;

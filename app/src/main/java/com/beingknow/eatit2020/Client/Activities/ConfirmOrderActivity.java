@@ -34,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -129,7 +130,13 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                     if(billDetailResponse != null)
                     {
                         mDialog.dismiss();
+                        new SweetAlertDialog(
+                                ConfirmOrderActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                                .setTitleText("Confirm Order")
+                                .setContentText("Your Order has Finished Successfully...!")
+                                .show();
                         Toast.makeText(ConfirmOrderActivity.this, "Add Bill Detail Successfully..!", Toast.LENGTH_SHORT).show();
+                        databaseHelper.deleteAllItems();
                     }
                     else
                     {

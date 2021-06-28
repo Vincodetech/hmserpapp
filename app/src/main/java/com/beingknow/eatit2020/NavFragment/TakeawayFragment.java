@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beingknow.eatit2020.Client.Activities.CartActivity;
+import com.beingknow.eatit2020.Client.Activities.ConfirmOrderActivity;
 import com.beingknow.eatit2020.Client.Activities.OrderSummaryActivity;
 import com.beingknow.eatit2020.Client.Activities.OrderTypeActivity;
 import com.beingknow.eatit2020.Client.Activities.SignInActivity;
@@ -37,6 +38,7 @@ import com.beingknow.eatit2020.SharedPrefManager;
 
 import java.util.ArrayList;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,6 +59,7 @@ public class TakeawayFragment extends Fragment {
     private CardView card_myevent;
     private SharedPrefManager sharedPrefManager;
     private int oid = 0;
+    public final String o_status = "Pending";
 
     public TakeawayFragment() {
 
@@ -134,7 +137,7 @@ public class TakeawayFragment extends Fragment {
         Call<OrderResponse2> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .updateOrderId(oid,otype,"Pending");
+                .updateOrderId(oid,otype,o_status);
 
         call.enqueue(new Callback<OrderResponse2>() {
             @Override
@@ -145,6 +148,11 @@ public class TakeawayFragment extends Fragment {
                     if (orderResponse2 != null)
                     {
                         mDialog.dismiss();
+                        new SweetAlertDialog(
+                                getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                                .setTitleText("Checkout Order")
+                                .setContentText("Your Order have to Checkout Successfully...!")
+                                .show();
                         Toast.makeText(getContext(),"Checkout",Toast.LENGTH_SHORT).show();
                         final Intent intent = new Intent(getContext(), OrderSummaryActivity.class);
                         intent.putExtra(Intent.EXTRA_TEXT,oid);

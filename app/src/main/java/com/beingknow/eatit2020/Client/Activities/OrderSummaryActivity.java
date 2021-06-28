@@ -28,6 +28,7 @@ import com.beingknow.eatit2020.SharedPrefManager;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -125,6 +126,11 @@ public class OrderSummaryActivity extends AppCompatActivity {
                     if(orderDetailResponse != null)
                     {
                         mDialog.dismiss();
+                        new SweetAlertDialog(
+                                OrderSummaryActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                                .setTitleText("Order Detail")
+                                .setContentText("Add Order Detail Successfully...!")
+                                .show();
                         //Toast.makeText(OrderSummaryActivity.this, "item_id = " + i_id, Toast.LENGTH_SHORT).show();
                         Toast.makeText(OrderSummaryActivity.this, "Add Order Detail Successfully..!", Toast.LENGTH_SHORT).show();
                     }

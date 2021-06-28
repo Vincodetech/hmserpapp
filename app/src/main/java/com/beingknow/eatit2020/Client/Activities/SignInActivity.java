@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -140,6 +141,11 @@ public class SignInActivity extends AppCompatActivity {
                         sharedPrefManager.saveUser(loginResponse);
                         Toast.makeText(SignInActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
                         mDialog.dismiss();
+                        new SweetAlertDialog(
+                                SignInActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                                .setTitleText("Login")
+                                .setContentText("You have Login Successfully...!")
+                                .show();
                         Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

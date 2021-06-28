@@ -272,6 +272,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[] { Integer.toString(id) });
     }
 
+    public boolean deleteAllItems()
+    {
+        String query= "DELETE FROM " + TABLE_NAME;
+
+        SQLiteDatabase db = this .getWritableDatabase();
+        Cursor cursor1 = db.rawQuery(query, null);
+        cursor1.moveToFirst();
+        cursor1.close();
+        return true;
+    }
+
     public ArrayList<String> getAllCartItem() {
         ArrayList<String> array_list = new ArrayList<String>();
 

@@ -9,8 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.beingknow.eatit2020.NavFragment.ScanFragment;
-import com.beingknow.eatit2020.NavFragment.ScanPaymentFragment;
+
 import com.beingknow.eatit2020.R;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -38,7 +37,7 @@ public class PaymentActivity extends AppCompatActivity {
         integrator.setCameraId(0);
         integrator.setBarcodeImageEnabled(true);
         integrator.initiateScan();
-        //integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+
 
 
         integrator.initiateScan();

@@ -5,6 +5,7 @@ public class OrderResponse
     private int id;
     private String order_no;
     private int active;
+    private int user_id;
     private String error;
     private String message;
 
@@ -13,10 +14,11 @@ public class OrderResponse
 
     }
 
-    public OrderResponse(int id, String order_no, int active, String error, String message) {
+    public OrderResponse(int id, String order_no, int active, int user_id, String error, String message) {
         this.id = id;
         this.order_no = order_no;
         this.active = active;
+        this.user_id = user_id;
         this.error = error;
         this.message = message;
     }
@@ -43,6 +45,15 @@ public class OrderResponse
 
     public void setActive(int active) {
         this.active = active;
+    }
+
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     public String getError() {

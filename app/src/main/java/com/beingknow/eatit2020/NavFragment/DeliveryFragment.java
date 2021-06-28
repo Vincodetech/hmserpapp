@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -221,6 +222,11 @@ public class DeliveryFragment extends Fragment {
                     if (orderResponse2 != null)
                     {
                         mDialog.dismiss();
+                        new SweetAlertDialog(
+                                getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                                .setTitleText("Checkout Order")
+                                .setContentText("Your Order have to Checkout Successfully...!")
+                                .show();
                         Toast.makeText(getContext(),"Checkout",Toast.LENGTH_SHORT).show();
                         final Intent intent = new Intent(getContext(), OrderSummaryActivity.class);
                         intent.putExtra(Intent.EXTRA_TEXT,oid);
