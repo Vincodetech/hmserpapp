@@ -10,10 +10,6 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-<!--    <include-->
-<!--        layout="@layout/app_bar_main"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent" />-->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,16 +25,6 @@
             android:padding="5dp"
             android:layout_alignParentBottom="true"/>
 
-
-
-        <!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Main"-->
-<!--            android:textSize="50dp"-->
-<!--            android:id="@+id/textView"-->
-<!--            android:layout_marginTop="200dp"-->
-<!--            android:layout_marginLeft="130dp"/>-->
 
 
     </RelativeLayout>

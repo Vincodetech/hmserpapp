@@ -163,20 +163,6 @@
 
                     </LinearLayout>
 
-<!--                    <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton-->
-<!--                        android:id="@+id/quantity_number_button"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:layout_marginBottom="8dp"-->
-<!--                        android:clickable="true"-->
-<!--                        app:backGroundColor="@color/golden"-->
-<!--                        app:finalNumber="20"-->
-<!--                        app:initialNumber="1"-->
-<!--                        app:textSize="12sp"-->
-<!--                        android:layout_marginLeft="8dp"-->
-<!--                        android:focusable="true" />-->
                     <RelativeLayout
                         android:id="@+id/r1"
                         android:layout_width="wrap_content"

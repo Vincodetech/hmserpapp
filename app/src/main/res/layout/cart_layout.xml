@@ -1,54 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<androidx.cardview.widget.CardView-->
-<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:layout_margin="8dp"-->
-<!--    app:cardElevation="4dp">-->
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:layout_marginBottom="16dp"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:layout_gravity="center_vertical">-->
-<!--        <LinearLayout-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_weight="9"-->
-<!--            android:orientation="vertical"-->
-<!--            android:layout_height="wrap_content">-->
-
-<!--            <TextView-->
-<!--            android:id="@+id/cart_item_name"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:textStyle="bold"-->
-<!--            android:textAllCaps="true"-->
-<!--            android:layout_marginLeft="10dp"-->
-<!--            android:gravity="center_vertical|start"-->
-<!--                android:layout_marginStart="10dp" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/cart_item_price"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textStyle="normal"-->
-<!--                android:textAllCaps="true"-->
-<!--                android:layout_marginLeft="10dp"-->
-<!--                android:gravity="center_vertical|start"-->
-<!--                android:layout_marginStart="10dp" />-->
-
-
-
-<!--        </LinearLayout>-->
-
-
-
-<!--    </LinearLayout>-->
-
-<!--</androidx.cardview.widget.CardView>-->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -98,30 +48,6 @@
                         android:textStyle="bold"
                         />
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/quantity"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:textAppearance="?android:attr/textAppearanceMedium"-->
-<!--                        android:text="Size"-->
-<!--                        android:textSize="13sp"-->
-<!--                        android:textAlignment="center"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:gravity="center_horizontal" />-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/cart_price"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:textAppearance="?android:attr/textAppearanceMedium"-->
-<!--                        android:text="Price"-->
-<!--                        android:layout_marginLeft="20dp"-->
-<!--                        android:textAlignment="center"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:textSize="13sp"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:gravity="center_horizontal"-->
-<!--                        android:layout_marginStart="20dp" />-->
 
 
                     <ImageView
@@ -150,28 +76,6 @@
                         android:layout_height="20dp"
                         android:contentDescription="@string/todo"
                         android:src="@drawable/plus" />
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_rate"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:textAppearance="?android:attr/textAppearanceMedium"-->
-<!--                        android:text="Rate"-->
-<!--                        android:textAlignment="center"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:textSize="13sp"-->
-<!--                        android:gravity="center_horizontal" />-->
-<!--                    <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton-->
-<!--                        android:id="@+id/number_button"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:layout_marginBottom="8dp"-->
-<!--                        app:backGroundColor="@color/golden"-->
-<!--                        app:finalNumber="20"-->
-<!--                        app:initialNumber="1"-->
-<!--                        app:textSize="12sp"-->
-<!--                        android:layout_marginLeft="8dp" />-->
 
                     <TextView
                         android:id="@+id/cart_price"
@@ -187,28 +91,6 @@
                         android:gravity="center_horizontal"
                         android:layout_marginStart="20dp" />
 
-<!--                    <CheckBox-->
-<!--                        android:id="@+id/chk_selectitem"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginLeft="20dp"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:clickable="true"-->
-<!--                        android:focusable="true"-->
-<!--                        android:layout_marginStart="20dp" />-->
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/delete"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:src="@drawable/ic_baseline_delete_24"-->
-<!--                        android:textAppearance="?android:attr/textAppearanceMedium"-->
-<!--                        android:clickable="true"-->
-<!--                        android:text="Delete"-->
-<!--                        android:textAlignment="center"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:gravity="center_horizontal"-->
-<!--                        android:focusable="true" />-->
                 </LinearLayout>
 
             </LinearLayout>
