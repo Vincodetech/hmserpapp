@@ -145,11 +145,15 @@ public class SignInActivity extends AppCompatActivity {
                                 SignInActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                 .setTitleText("Login")
                                 .setContentText("You have Login Successfully...!")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                    }
+                                })
                                 .show();
-                        Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-
                     }
                 }
                 else
@@ -157,6 +161,10 @@ public class SignInActivity extends AppCompatActivity {
                     if (loginResponse != null) {
                         Toast.makeText(SignInActivity.this,loginResponse.getMessage(),Toast.LENGTH_SHORT).show();
                         mDialog.dismiss();
+                        new SweetAlertDialog(SignInActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("Oops...")
+                                .setContentText("Something Went Wrong!")
+                                .show();
                     }
                 }
 
@@ -167,6 +175,10 @@ public class SignInActivity extends AppCompatActivity {
             {
                 Toast.makeText(SignInActivity.this,t.getMessage(),Toast.LENGTH_SHORT).show();
                 mDialog.dismiss();
+                new SweetAlertDialog(SignInActivity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Oops...")
+                        .setContentText("Something Went Wrong!")
+                        .show();
             }
         });
     }

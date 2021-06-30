@@ -2,8 +2,10 @@ package com.beingknow.eatit2020.NavFragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,6 +39,7 @@ import com.beingknow.eatit2020.RetrofitClient;
 import com.beingknow.eatit2020.SharedPrefManager;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
@@ -140,6 +143,7 @@ public class TakeawayFragment extends Fragment {
                 .updateOrderId(oid,otype,o_status);
 
         call.enqueue(new Callback<OrderResponse2>() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onResponse(Call<OrderResponse2> call, Response<OrderResponse2> response) {
                 OrderResponse2 orderResponse2 = response.body();
@@ -149,14 +153,19 @@ public class TakeawayFragment extends Fragment {
                     {
                         mDialog.dismiss();
                         new SweetAlertDialog(
-                                getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                                requireContext(), SweetAlertDialog.SUCCESS_TYPE)
                                 .setTitleText("Checkout Order")
                                 .setContentText("Your Order have to Checkout Successfully...!")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        Toast.makeText(getContext(),"Checkout",Toast.LENGTH_SHORT).show();
+                                        final Intent intent = new Intent(getContext(), OrderSummaryActivity.class);
+                                        intent.putExtra(Intent.EXTRA_TEXT,oid);
+                                        startActivity(intent);
+                                    }
+                                })
                                 .show();
-                        Toast.makeText(getContext(),"Checkout",Toast.LENGTH_SHORT).show();
-                        final Intent intent = new Intent(getContext(), OrderSummaryActivity.class);
-                        intent.putExtra(Intent.EXTRA_TEXT,oid);
-                        startActivity(intent);
                     }
                 }
                 else
@@ -164,6 +173,10 @@ public class TakeawayFragment extends Fragment {
                     if (orderResponse2 != null) {
                         Toast.makeText(getContext(),"Not Respond",Toast.LENGTH_SHORT).show();
                         mDialog.dismiss();
+                        new SweetAlertDialog(requireContext(), SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("Oops...")
+                                .setContentText("Something Went Wrong!")
+                                .show();
                     }
                 }
             }
@@ -172,6 +185,10 @@ public class TakeawayFragment extends Fragment {
             public void onFailure(Call<OrderResponse2> call, Throwable t) {
                 Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
                 mDialog.dismiss();
+                new SweetAlertDialog(requireContext(), SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Oops...")
+                        .setContentText("Something Went Wrong!")
+                        .show();
             }
         });
     }
@@ -182,8 +199,6 @@ public class TakeawayFragment extends Fragment {
         mDialog.setMessage("Please Waiting...");
         mDialog.show();
 
-//        if (getArguments() != null) {
-//            final String data = getArguments().getString("order_no");// data which sent from activity
 
 
         Call<OrderResponse1> call = RetrofitClient

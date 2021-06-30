@@ -155,13 +155,15 @@ public class CartActivity extends AppCompatActivity {
                                 CartActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                 .setTitleText("Place Order")
                                 .setContentText("Your Order has Placed Successfully...!")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        Toast.makeText(getApplicationContext(), "Place Order...!", Toast.LENGTH_SHORT).show();
+                                        final Intent intent = new Intent(CartActivity.this, OrderTypeActivity.class);
+                                        startActivity(intent);
+                                    }
+                                })
                                 .show();
-
-                        final Intent intent = new Intent(CartActivity.this, OrderTypeActivity.class);
-
-                        Toast.makeText(getApplicationContext(), "Place Order...!", Toast.LENGTH_SHORT).show();
-
-                        startActivity(intent);
                     }
                 }
                 else
@@ -169,6 +171,10 @@ public class CartActivity extends AppCompatActivity {
                     if (orderResponse != null) {
                         Toast.makeText(CartActivity.this,orderResponse.getMessage(),Toast.LENGTH_SHORT).show();
                         mDialog.dismiss();
+                        new SweetAlertDialog(CartActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("Oops...")
+                                .setContentText("Something Went Wrong!")
+                                .show();
                     }
                 }
             }
@@ -176,6 +182,11 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<OrderResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                mDialog.dismiss();
+                new SweetAlertDialog(CartActivity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Oops...")
+                        .setContentText("Something Went Wrong!")
+                        .show();
             }
         });
     }

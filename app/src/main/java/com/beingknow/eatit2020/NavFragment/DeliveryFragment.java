@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beingknow.eatit2020.Client.Activities.OrderSummaryActivity;
+import com.beingknow.eatit2020.Client.Activities.SignInActivity;
 import com.beingknow.eatit2020.Client.Adapters.ItemDetailAdapter;
 import com.beingknow.eatit2020.Client.Adapters.MenuAdapter;
 import com.beingknow.eatit2020.Client.Adapters.OrderAdapter;
@@ -40,6 +41,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
@@ -151,7 +153,20 @@ public class DeliveryFragment extends Fragment {
                     {
                         Toast.makeText(getContext(), "Address Update Successfully..!", Toast.LENGTH_SHORT).show();
                         mDialog.dismiss();
-
+                        new SweetAlertDialog(
+                                requireContext(), SweetAlertDialog.SUCCESS_TYPE)
+                                .setTitleText("Update Address")
+                                .setContentText("Address Update Successfully..!")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        Toast.makeText(getContext(),"Address Update Successfully..!",Toast.LENGTH_SHORT).show();
+                                        final Intent intent = new Intent(getContext(), OrderSummaryActivity.class);
+                                        intent.putExtra(Intent.EXTRA_TEXT,oid);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .show();
                     }
                 }
             }
@@ -160,6 +175,10 @@ public class DeliveryFragment extends Fragment {
             public void onFailure(Call<UpdateAddressResponse> call, Throwable t) {
                 Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
                 mDialog.dismiss();
+                new SweetAlertDialog(requireContext(), SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Oops...")
+                        .setContentText("Something Went Wrong!")
+                        .show();
             }
         });
     }
@@ -223,14 +242,19 @@ public class DeliveryFragment extends Fragment {
                     {
                         mDialog.dismiss();
                         new SweetAlertDialog(
-                                getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                                requireContext(), SweetAlertDialog.SUCCESS_TYPE)
                                 .setTitleText("Checkout Order")
                                 .setContentText("Your Order have to Checkout Successfully...!")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        Toast.makeText(getContext(),"Checkout",Toast.LENGTH_SHORT).show();
+                                        final Intent intent = new Intent(getContext(), OrderSummaryActivity.class);
+                                        intent.putExtra(Intent.EXTRA_TEXT,oid);
+                                        startActivity(intent);
+                                    }
+                                })
                                 .show();
-                        Toast.makeText(getContext(),"Checkout",Toast.LENGTH_SHORT).show();
-                        final Intent intent = new Intent(getContext(), OrderSummaryActivity.class);
-                        intent.putExtra(Intent.EXTRA_TEXT,oid);
-                        startActivity(intent);
                     }
                 }
                 else
@@ -238,6 +262,10 @@ public class DeliveryFragment extends Fragment {
                     if (orderResponse2 != null) {
                         Toast.makeText(getContext(),"Not Respond",Toast.LENGTH_SHORT).show();
                         mDialog.dismiss();
+                        new SweetAlertDialog(requireContext(), SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("Oops...")
+                                .setContentText("Something Went Wrong!")
+                                .show();
                     }
                 }
             }
@@ -246,6 +274,10 @@ public class DeliveryFragment extends Fragment {
             public void onFailure(Call<OrderResponse2> call, Throwable t) {
                 Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
                 mDialog.dismiss();
+                new SweetAlertDialog(requireContext(), SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Oops...")
+                        .setContentText("Something Went Wrong!")
+                        .show();
             }
         });
     }

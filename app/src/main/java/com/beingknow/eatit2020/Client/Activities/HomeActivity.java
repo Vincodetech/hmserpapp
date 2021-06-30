@@ -50,10 +50,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
-//    private AppBarConfiguration mAppBarConfiguration;
-//    SharedPrefManager sharedPrefManager;
-//    RecyclerView recyclerMenu;
-//    RecyclerView.LayoutManager layoutManager;
+
     BottomNavigationView bottomNavigationView;
     SharedPrefManager sharedPrefManager;
     private SharedPreferences sharedPreferences;
@@ -138,6 +135,14 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                                 HomeActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                 .setTitleText("Logout")
                                 .setContentText("You have Logout Successfully...!")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                    }
+                                })
                                 .show();
                         Toast.makeText(HomeActivity.this, "Sign Out",Toast.LENGTH_SHORT).show();break;
                         default:
@@ -194,14 +199,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     public void logout()
     {
-//        sharedPreferences = context.getSharedPreferences(Shared_Pref, Context.MODE_PRIVATE);
-//        editor = sharedPreferences.edit();
-//        editor.clear();
-//        editor.apply();
         sharedPrefManager.logout();
-        Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-
     }
 }

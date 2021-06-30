@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -79,8 +80,18 @@ public class FoodDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(FoodDetailsActivity.this, "Added to Cart...!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(FoodDetailsActivity.this, CartActivity.class);
-                    startActivity(intent);
+                    new SweetAlertDialog(
+                            FoodDetailsActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText("Cart")
+                            .setContentText("Added to Cart Successfully...!")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    Intent intent = new Intent(FoodDetailsActivity.this, CartActivity.class);
+                                    startActivity(intent);
+                                }
+                            })
+                            .show();
                 }
             });
         }
@@ -138,9 +149,6 @@ public class FoodDetailsActivity extends AppCompatActivity {
 
                         itemDetailAdapter = new ItemDetailAdapter(getApplicationContext(), itemList, recyclerView);
                         recyclerView.setAdapter(itemDetailAdapter);
-
-
-
 
                     }
                 }

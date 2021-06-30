@@ -79,8 +79,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listview);
         btn_continue = (Button) findViewById(R.id.btn_continue);
 
-       i_id = databaseHelper.getItemId();
-//        Toast.makeText(OrderSummaryActivity.this, "Item_id = " + i_id, Toast.LENGTH_SHORT).show();
+        i_id = databaseHelper.getItemId();
         quantity = databaseHelper.getQuantity();
         price = databaseHelper.getAmount();
 
@@ -89,17 +88,11 @@ public class OrderSummaryActivity extends AppCompatActivity {
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent1 = new Intent(OrderSummaryActivity.this, ConfirmOrderActivity.class);
-//                startActivity(intent1);
-                addOrderDetail();
-                final Intent intent = new Intent(OrderSummaryActivity.this, ConfirmOrderActivity.class);
-                intent.putExtra(Intent.EXTRA_TEXT,oid);
 
-               // Toast.makeText(OrderSummaryActivity.this, "Add Order Detail Successfully..!", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
+                addOrderDetail();
             }
         });
-        //recyclerView.setLayoutManager(new LinearLayoutManager(OrderSummaryActivity.this, LinearLayoutManager.VERTICAL, false));
+
     }
 
     private void addOrderDetail()
@@ -130,14 +123,25 @@ public class OrderSummaryActivity extends AppCompatActivity {
                                 OrderSummaryActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                 .setTitleText("Order Detail")
                                 .setContentText("Add Order Detail Successfully...!")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        final Intent intent = new Intent(OrderSummaryActivity.this, ConfirmOrderActivity.class);
+                                        intent.putExtra(Intent.EXTRA_TEXT,oid);
+                                        Toast.makeText(OrderSummaryActivity.this, "Add Order Detail Successfully..!", Toast.LENGTH_SHORT).show();
+                                        startActivity(intent);
+                                    }
+                                })
                                 .show();
-                        //Toast.makeText(OrderSummaryActivity.this, "item_id = " + i_id, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(OrderSummaryActivity.this, "Add Order Detail Successfully..!", Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
                         Toast.makeText(OrderSummaryActivity.this, "Not Respond", Toast.LENGTH_SHORT).show();
                         mDialog.dismiss();
+                        new SweetAlertDialog(OrderSummaryActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("Oops...")
+                                .setContentText("Something Went Wrong!")
+                                .show();
                     }
                 }
             }
@@ -146,6 +150,10 @@ public class OrderSummaryActivity extends AppCompatActivity {
             public void onFailure(Call<OrderDetailResponse> call, Throwable t) {
                 Toast.makeText(OrderSummaryActivity.this,t.getMessage(),Toast.LENGTH_SHORT).show();
                 mDialog.dismiss();
+                new SweetAlertDialog(OrderSummaryActivity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Oops...")
+                        .setContentText("Something Went Wrong!")
+                        .show();
             }
         });
     }

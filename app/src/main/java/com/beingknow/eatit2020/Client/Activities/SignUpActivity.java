@@ -141,10 +141,15 @@ public class SignUpActivity extends AppCompatActivity {
                                 SignUpActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                 .setTitleText("Register")
                                 .setContentText("You have Registered Successfully...!")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                    }
+                                })
                                 .show();
-                        Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
                     }
                 }
                 else
@@ -152,6 +157,10 @@ public class SignUpActivity extends AppCompatActivity {
                     if (registerResponse != null) {
                         Toast.makeText(SignUpActivity.this,registerResponse.getMessage(),Toast.LENGTH_SHORT).show();
                         mDialog.dismiss();
+                        new SweetAlertDialog(SignUpActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("Oops...")
+                                .setContentText("Something Went Wrong!")
+                                .show();
                     }
                 }
 
@@ -162,6 +171,10 @@ public class SignUpActivity extends AppCompatActivity {
             {
                 Toast.makeText(SignUpActivity.this,t.getMessage(),Toast.LENGTH_SHORT).show();
                 mDialog.dismiss();
+                new SweetAlertDialog(SignUpActivity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Oops...")
+                        .setContentText("Something Went Wrong!")
+                        .show();
             }
         });
     }

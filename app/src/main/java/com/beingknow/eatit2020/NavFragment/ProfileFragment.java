@@ -2,6 +2,7 @@ package com.beingknow.eatit2020.NavFragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -23,6 +25,9 @@ import com.beingknow.eatit2020.RetrofitClient;
 import com.beingknow.eatit2020.SharedPrefManager;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.Objects;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -89,26 +94,7 @@ public class ProfileFragment extends Fragment {
                 .getInstance()
                 .getApi()
                 .profile(manager.getUser().getId());
-//        call.enqueue(new Callback<UserResponse>() {
-//            @Override
-//            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-//                UserResponse userResponse = response.body();
-//                if (response.isSuccessful()) {
-//                    if (userResponse != null) {
-//                        name.getEditText().setText(userResponse.getUser_Name());
-//                        email.getEditText().setText(userResponse.getEmail());
-//                        phone.getEditText().setText(userResponse.getPhone());
-//
-//
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<UserResponse> call, Throwable t) {
-//                displayAlert(t.getMessage());
-//            }
-//        });
+
         call.enqueue(new Callback<UserProfileResponse>() {
             @Override
             public void onResponse(Call<UserProfileResponse> call, Response<UserProfileResponse> response) {
@@ -174,14 +160,23 @@ public class ProfileFragment extends Fragment {
                     {
                         Toast.makeText(getContext(), "Profile Update Successfully..!", Toast.LENGTH_SHORT).show();
                         mDialog.dismiss();
-
+                        new SweetAlertDialog(
+                                requireContext(), SweetAlertDialog.SUCCESS_TYPE)
+                                .setTitleText("Update Profile")
+                                .setContentText("Profile Update Successfully..!")
+                                .show();
                     }
                 }
            }
 
+           @RequiresApi(api = Build.VERSION_CODES.KITKAT)
            @Override
            public void onFailure(Call<UpdateProfileResponse> call, Throwable t) {
                     displayAlert(t.getMessage());
+               new SweetAlertDialog(requireContext(), SweetAlertDialog.ERROR_TYPE)
+                       .setTitleText("Oops...")
+                       .setContentText("Something Went Wrong!")
+                       .show();
            }
        });
 

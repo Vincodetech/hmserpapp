@@ -142,6 +142,10 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                     {
                         Toast.makeText(ConfirmOrderActivity.this, "Not Respond", Toast.LENGTH_SHORT).show();
                         mDialog.dismiss();
+                        new SweetAlertDialog(ConfirmOrderActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("Oops...")
+                                .setContentText("Something Went Wrong!")
+                                .show();
                     }
                 }
             }
@@ -150,6 +154,10 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             public void onFailure(Call<BillDetailResponse> call, Throwable t) {
                 Toast.makeText(ConfirmOrderActivity.this,t.getMessage(),Toast.LENGTH_SHORT).show();
                 mDialog.dismiss();
+                new SweetAlertDialog(ConfirmOrderActivity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Oops...")
+                        .setContentText("Something Went Wrong!")
+                        .show();
             }
         });
 
