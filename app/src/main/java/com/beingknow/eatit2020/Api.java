@@ -174,4 +174,7 @@ public interface Api
             @Field("grand_total") double grand_total,
             @Field("active") int active
     );
+
+    @GET("getcartdata")
+    Call<OrderResponse3> getcartdata();
 }
