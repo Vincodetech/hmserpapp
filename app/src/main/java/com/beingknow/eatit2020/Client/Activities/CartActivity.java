@@ -88,9 +88,6 @@ public class CartActivity extends AppCompatActivity {
         plus = (ImageView) findViewById(R.id.plus);
         minus = (ImageView) findViewById(R.id.minus);
 
-
-
-
         txtTotalPrice = findViewById(R.id.total);
         btnPlace = findViewById(R.id.btn_place_order);
         if(btnPlace != null)
