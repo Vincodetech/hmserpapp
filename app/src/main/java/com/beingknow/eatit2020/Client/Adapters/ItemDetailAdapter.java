@@ -1,5 +1,6 @@
 package com.beingknow.eatit2020.Client.Adapters;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,14 +20,22 @@ import com.beingknow.eatit2020.Client.Activities.CartActivity;
 import com.beingknow.eatit2020.Client.Activities.FoodDetailsActivity;
 import com.beingknow.eatit2020.Database.DatabaseHelper;
 import com.beingknow.eatit2020.Interface.ItemClickListener;
+import com.beingknow.eatit2020.ModelResponse.CartDataResponse;
 import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.R;
+import com.beingknow.eatit2020.RetrofitClient;
+import com.beingknow.eatit2020.SharedPrefManager;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 import org.jsoup.Jsoup;
 
 import java.util.ArrayList;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.MyViewHolder>
 {
@@ -36,6 +45,7 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
     RecyclerView recyclerView;
     CardView cardView;
     double tot = 0.0;
+    private SharedPrefManager sharedPrefManager;
     private ItemClickListener mOnItemClickInterface;
     private DatabaseHelper databaseHelper;
 
@@ -108,72 +118,143 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
             plus = itemView.findViewById(R.id.plus);
             minus = itemView.findViewById(R.id.minus);
             databaseHelper = new DatabaseHelper(itemView.getContext());
+            sharedPrefManager = new SharedPrefManager(itemView.getContext());
             btnCart = (FloatingActionButton) itemView.findViewById(R.id.btn_cart);
-            if(btnCart != null) {
+
+            if(btnCart != null)
+            {
                 btnCart.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
+                        if(cartList != null)
+                        {
+                            final ProgressDialog mDialog = new ProgressDialog(itemView.getContext());
+                            mDialog.setMessage("Please Waiting...");
+                            mDialog.show();
 
-                        if (cartList != null) {
+                            Call<CartDataResponse> call = RetrofitClient
+                                    .getInstance()
+                                    .getApi()
+                                    .addcartdata(name.getText().toString(),quantity.getText().toString(),Double.parseDouble(price.getText().toString()),
+                                            Double.parseDouble(amount.getText().toString()),cartList.get(getAdapterPosition()).getId(),sharedPrefManager.getUser().getId(),1);
 
-                            System.out.println("Position: " + cartList.get(getAdapterPosition()).getId());
-                            final Intent intent = new Intent(itemView.getContext(), CartActivity.class);
-                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getId());
+                            call.enqueue(new Callback<CartDataResponse>() {
+                                @Override
+                                public void onResponse(Call<CartDataResponse> call, Response<CartDataResponse> response) {
+                                    CartDataResponse cartDataResponse = response.body();
 
-                            databaseHelper.insertCart(name.getText().toString(),quantity.getText().toString(),price.getText().toString(),
-                                        amount.getText().toString(),cartList.get(getAdapterPosition()).getId());
+                                    if(response.isSuccessful())
+                                    {
+                                        if (cartDataResponse != null)
+                                        {
+                                            // sharedPrefManager.saveOrder(orderResponse1);
+                                            mDialog.dismiss();
+                                            new SweetAlertDialog(
+                                                    itemView.getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                                                    .setTitleText("Cart")
+                                                    .setContentText("Added to Cart Successfully...!")
+                                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                        @Override
+                                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                            Intent intent = new Intent(itemView.getContext(), CartActivity.class);
+                                                            Toast.makeText(itemView.getContext(), "Added to Cart Successfully...!", Toast.LENGTH_SHORT).show();
+                                                            v.getContext().startActivity(intent);
+                                                        }
+                                                    })
+                                                    .show();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(itemView.getContext(),"Not Respond",Toast.LENGTH_SHORT).show();
+                                        mDialog.dismiss();
+                                        new SweetAlertDialog(itemView.getContext(), SweetAlertDialog.ERROR_TYPE)
+                                                .setTitleText("Oops...")
+                                                .setContentText("Something Went Wrong!")
+                                                .show();
 
+                                    }
+                                }
 
-
-//                            if(databaseHelper.getCartData2(cartList.get(getAdapterPosition()).getId()))
-//                            {
-//                                String old_qty = quantity.getText().toString().trim();
-//                                int qty = Integer.parseInt(old_qty);
-//                                qty++;
-//                                quantity.setText(String.valueOf(qty));
-//                            }
-//                            if(databaseHelper.getAllreadyItem(cartList.get(getAdapterPosition()).getId()))
-//                            {
-//                                String old_qty = quantity.getText().toString().trim();
-//                                int qty = Integer.parseInt(old_qty);
-//                                qty++;
-//                            }
-//                            if(databaseHelper.getAllreadyItem(cartList.get(getAdapterPosition()).getId()))
-//                            {
-//                                AlertDialog.Builder alertDialog = new AlertDialog.Builder(itemView.getContext());
-//                                alertDialog.setTitle("This Food Item is Already exist in Your Cart...!");
-//                                alertDialog.setIcon(R.drawable.ic_baseline_warning_amber_24);
-//
-//                                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                                        dialogInterface.dismiss();
-//
-//                                    }
-//                                });
-//
-//                                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                                        dialogInterface.dismiss();
-//                                    }
-//                                });
-//                                alertDialog.show();
-//                            }
-                            Toast.makeText(itemView.getContext(), "Added to Cart...!", Toast.LENGTH_SHORT).show();
-                            Toast.makeText(itemView.getContext(), "Position:" + cartList.get(getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
-                            v.getContext().startActivity(intent);
-
-
-                            if (mOnItemClickInterface != null) {
-                                mOnItemClickInterface.onClick(v, getAdapterPosition(), true);
-                            }
+                                @Override
+                                public void onFailure(Call<CartDataResponse> call, Throwable t) {
+                                    Toast.makeText(itemView.getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                                    mDialog.dismiss();
+                                    new SweetAlertDialog(itemView.getContext(), SweetAlertDialog.ERROR_TYPE)
+                                            .setTitleText("Oops...")
+                                            .setContentText("Something Went Wrong!")
+                                            .show();
+                                }
+                            });
                         }
                     }
                 });
             }
+//            if(btnCart != null) {
+//                btnCart.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                        if (cartList != null) {
+//
+//                            System.out.println("Position: " + cartList.get(getAdapterPosition()).getId());
+//                            final Intent intent = new Intent(itemView.getContext(), CartActivity.class);
+//                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getId());
+//
+//                            databaseHelper.insertCart(name.getText().toString(),quantity.getText().toString(),price.getText().toString(),
+//                                        amount.getText().toString(),cartList.get(getAdapterPosition()).getId());
+//
+//
+//
+////                            if(databaseHelper.getCartData2(cartList.get(getAdapterPosition()).getId()))
+////                            {
+////                                String old_qty = quantity.getText().toString().trim();
+////                                int qty = Integer.parseInt(old_qty);
+////                                qty++;
+////                                quantity.setText(String.valueOf(qty));
+////                            }
+////                            if(databaseHelper.getAllreadyItem(cartList.get(getAdapterPosition()).getId()))
+////                            {
+////                                String old_qty = quantity.getText().toString().trim();
+////                                int qty = Integer.parseInt(old_qty);
+////                                qty++;
+////                            }
+////                            if(databaseHelper.getAllreadyItem(cartList.get(getAdapterPosition()).getId()))
+////                            {
+////                                AlertDialog.Builder alertDialog = new AlertDialog.Builder(itemView.getContext());
+////                                alertDialog.setTitle("This Food Item is Already exist in Your Cart...!");
+////                                alertDialog.setIcon(R.drawable.ic_baseline_warning_amber_24);
+////
+////                                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+////                                    @Override
+////                                    public void onClick(DialogInterface dialogInterface, int i) {
+////
+////                                        dialogInterface.dismiss();
+////
+////                                    }
+////                                });
+////
+////                                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+////                                    @Override
+////                                    public void onClick(DialogInterface dialogInterface, int i) {
+////
+////                                        dialogInterface.dismiss();
+////                                    }
+////                                });
+////                                alertDialog.show();
+////                            }
+//                            Toast.makeText(itemView.getContext(), "Added to Cart...!", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(itemView.getContext(), "Position:" + cartList.get(getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
+//                            v.getContext().startActivity(intent);
+//
+//
+//                            if (mOnItemClickInterface != null) {
+//                                mOnItemClickInterface.onClick(v, getAdapterPosition(), true);
+//                            }
+//                        }
+//                    }
+//                });
+//            }
 
 
             if (plus != null)

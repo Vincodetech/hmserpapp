@@ -29,6 +29,7 @@ import com.beingknow.eatit2020.Common.Common;
 import com.beingknow.eatit2020.Database.Database;
 import com.beingknow.eatit2020.Database.DatabaseHelper;
 import com.beingknow.eatit2020.Interface.ItemClickListener;
+import com.beingknow.eatit2020.ModelResponse.CartDataResponse;
 import com.beingknow.eatit2020.ModelResponse.CartResponse;
 import com.beingknow.eatit2020.ModelResponse.LoginResponse;
 import com.beingknow.eatit2020.ModelResponse.OrderResponse;
@@ -64,6 +65,7 @@ public class CartActivity extends AppCompatActivity {
     Button btnPlace;
     CardView cardView;
     ArrayList<Item1> cart = new ArrayList<>();
+    ArrayList<CartDataResponse> cartDataResponses = new ArrayList<>();
     CartAdapter cartAdapter;
     SharedPrefManager sharedPrefManager;
     private DatabaseHelper databaseHelper;
@@ -106,11 +108,45 @@ public class CartActivity extends AppCompatActivity {
                 }
             });
         }
-        addCartItem();
-
+      //  addCartItem();
+        getCartData();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(CartActivity.this, LinearLayoutManager.VERTICAL, false));
 
+    }
+
+    private void getCartData()
+    {
+        Intent intent = getIntent();
+        if (intent.hasExtra(Intent.EXTRA_TEXT)) {
+            int id = intent.getIntExtra(Intent.EXTRA_TEXT, 1);
+
+            Map<String, String> paramsMap = new HashMap<String, String>();
+            paramsMap.put("id", String.valueOf(id));
+
+            Call<ArrayList<CartDataResponse>> call = RetrofitClient
+                    .getInstance()
+                    .getApi()
+                    .getcartdata(paramsMap);
+
+            call.enqueue(new Callback<ArrayList<CartDataResponse>>() {
+                @Override
+                public void onResponse(Call<ArrayList<CartDataResponse>> call, Response<ArrayList<CartDataResponse>> response) {
+                    if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
+                        cartDataResponses = response.body();
+                        cartAdapter = new CartAdapter(getApplicationContext(), cartDataResponses, recyclerView);
+                        recyclerView.setAdapter(cartAdapter);
+                        cartAdapter.notifyDataSetChanged();
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<CartDataResponse>> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private void addOrder()
@@ -200,44 +236,44 @@ public class CartActivity extends AppCompatActivity {
 
 
 
-    public void addCartItem()
-    {
-        Intent intent = getIntent();
-        if (intent.hasExtra(Intent.EXTRA_TEXT)) {
-            int id = intent.getIntExtra(Intent.EXTRA_TEXT, 1);
-
-            Map<String, String> paramsMap = new HashMap<String, String>();
-            paramsMap.put("id", String.valueOf(id));
-
-            Call<ArrayList<Item1>> call = RetrofitClient
-                    .getInstance()
-                    .getApi()
-                    .singleCartItem(paramsMap);
-
-            call.enqueue(new Callback<ArrayList<Item1>>() {
-                @Override
-                public void onResponse(Call<ArrayList<Item1>> call, Response<ArrayList<Item1>> response) {
-                    if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
-                        cart = response.body();
-                      //  sharedPrefManager.saveCartDetail(databaseHelper);
-                        cart = databaseHelper.getCartData1();
-                        long sum = databaseHelper.sum_Of_Amount();
-                        cartAdapter = new CartAdapter(getApplicationContext(), cart, recyclerView);
-                        recyclerView.setAdapter(cartAdapter);
-                        txtTotalPrice.setText(String.valueOf(sum));
-                        cartAdapter.notifyDataSetChanged();
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ArrayList<Item1>> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-
-    }
+//    public void addCartItem()
+//    {
+//        Intent intent = getIntent();
+//        if (intent.hasExtra(Intent.EXTRA_TEXT)) {
+//            int id = intent.getIntExtra(Intent.EXTRA_TEXT, 1);
+//
+//            Map<String, String> paramsMap = new HashMap<String, String>();
+//            paramsMap.put("id", String.valueOf(id));
+//
+//            Call<ArrayList<Item1>> call = RetrofitClient
+//                    .getInstance()
+//                    .getApi()
+//                    .singleCartItem(paramsMap);
+//
+//            call.enqueue(new Callback<ArrayList<Item1>>() {
+//                @Override
+//                public void onResponse(Call<ArrayList<Item1>> call, Response<ArrayList<Item1>> response) {
+//                    if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
+//                        cart = response.body();
+//                      //  sharedPrefManager.saveCartDetail(databaseHelper);
+//                        cart = databaseHelper.getCartData1();
+//                        long sum = databaseHelper.sum_Of_Amount();
+//                        cartAdapter = new CartAdapter(getApplicationContext(), cart, recyclerView);
+//                        recyclerView.setAdapter(cartAdapter);
+//                        txtTotalPrice.setText(String.valueOf(sum));
+//                        cartAdapter.notifyDataSetChanged();
+//
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ArrayList<Item1>> call, Throwable t) {
+//                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//        }
+//
+//    }
 
 
 

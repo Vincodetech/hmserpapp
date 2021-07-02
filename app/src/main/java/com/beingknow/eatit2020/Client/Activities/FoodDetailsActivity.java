@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,11 +22,14 @@ import com.beingknow.eatit2020.Client.Adapters.ItemDetailAdapter;
 import com.beingknow.eatit2020.Client.Adapters.ItemListAdapter;
 import com.beingknow.eatit2020.Common.Common;
 import com.beingknow.eatit2020.Database.Database;
+import com.beingknow.eatit2020.ModelResponse.CartDataResponse;
+import com.beingknow.eatit2020.ModelResponse.OrderResponse1;
 import com.beingknow.eatit2020.Models.Food;
 import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.Models.Order;
 import com.beingknow.eatit2020.R;
 import com.beingknow.eatit2020.RetrofitClient;
+import com.beingknow.eatit2020.SharedPrefManager;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -58,8 +62,8 @@ public class FoodDetailsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<Item> itemList;
     private ImageView plus, minus;
-
-
+    private int i_id = 0;
+    private SharedPrefManager sharedPrefManager;
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -69,32 +73,8 @@ public class FoodDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_food_details);
 
 
-
-
-
-
-
         btnCart = (FloatingActionButton) findViewById(R.id.btn_cart);
-        if(btnCart != null) {
-            btnCart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(FoodDetailsActivity.this, "Added to Cart...!", Toast.LENGTH_SHORT).show();
-                    new SweetAlertDialog(
-                            FoodDetailsActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                            .setTitleText("Cart")
-                            .setContentText("Added to Cart Successfully...!")
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    Intent intent = new Intent(FoodDetailsActivity.this, CartActivity.class);
-                                    startActivity(intent);
-                                }
-                            })
-                            .show();
-                }
-            });
-        }
+
 
 
         food_name = (TextView) findViewById(R.id.food_name);
@@ -105,6 +85,7 @@ public class FoodDetailsActivity extends AppCompatActivity {
         food_image = (ImageView) findViewById(R.id.food_image);
         plus = (ImageView) findViewById(R.id.plus);
         minus = (ImageView) findViewById(R.id.minus);
+        sharedPrefManager = new SharedPrefManager(FoodDetailsActivity.this);
 
         collapsingToolbarLayout = findViewById(R.id.collapsing1);
         if(collapsingToolbarLayout != null) {
@@ -127,6 +108,7 @@ public class FoodDetailsActivity extends AppCompatActivity {
 
     }
 
+
     public void singleFoodItem()
     {
         Intent intent = getIntent();
@@ -146,7 +128,6 @@ public class FoodDetailsActivity extends AppCompatActivity {
                 public void onResponse(Call<ArrayList<Item>> call, Response<ArrayList<Item>> response) {
                     if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
                         itemList = response.body();
-
                         itemDetailAdapter = new ItemDetailAdapter(getApplicationContext(), itemList, recyclerView);
                         recyclerView.setAdapter(itemDetailAdapter);
 

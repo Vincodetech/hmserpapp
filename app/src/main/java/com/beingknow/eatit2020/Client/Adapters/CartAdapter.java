@@ -26,6 +26,7 @@ import com.beingknow.eatit2020.Client.Activities.OrderStatusActivity;
 import com.beingknow.eatit2020.Client.Activities.OrderTypeActivity;
 import com.beingknow.eatit2020.Database.DatabaseHelper;
 import com.beingknow.eatit2020.Interface.ItemClickListener;
+import com.beingknow.eatit2020.ModelResponse.CartDataResponse;
 import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.Models.Item1;
 import com.beingknow.eatit2020.Models.Order;
@@ -42,6 +43,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
     private ArrayList<Item1> cartList =  new ArrayList();
     RecyclerView recyclerView;
     CardView cardView;
+    private ArrayList<CartDataResponse> cartDataResponse = new ArrayList();
     CheckBox checkBox;
     ImageView imageView;
     double tot = 0.0;
@@ -49,9 +51,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
     private static String total_sum = null;
     private ItemClickListener mOnItemClickInterface;
 
-    public CartAdapter(Context context, ArrayList<Item1> cartList, RecyclerView recyclerView) {
+//    public CartAdapter(Context context, ArrayList<Item1> cartList, RecyclerView recyclerView) {
+//        inflater = LayoutInflater.from(context);
+//        this.cartList = cartList;
+//        this.recyclerView = recyclerView;
+//    }
+
+    public CartAdapter(Context context, ArrayList<CartDataResponse> cartDataResponse, RecyclerView recyclerView) {
         inflater = LayoutInflater.from(context);
-        this.cartList = cartList;
+        this.cartDataResponse = cartDataResponse;
         this.recyclerView = recyclerView;
     }
 
@@ -76,7 +84,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        final Item1 item = cartList.get(position);
+        final CartDataResponse item = cartDataResponse.get(position);
 //        holder.name.setText(order.getProductName());
 //        holder.quantity.setText("" + order.getQuantity());
 //        holder.price.setText("₹" + order.getPrice());
@@ -89,8 +97,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
 
     @Override
     public int getItemCount() {
-        if(cartList != null) {
-            return cartList.size();
+        if(cartDataResponse != null)
+        {
+            return cartDataResponse.size();
         }
         return 0;
     }

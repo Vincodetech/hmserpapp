@@ -3,6 +3,7 @@ package com.beingknow.eatit2020;
 import com.beingknow.eatit2020.Interface.OrderResponse4;
 import com.beingknow.eatit2020.ModelResponse.BillDetailResponse;
 import com.beingknow.eatit2020.ModelResponse.CafeCategory;
+import com.beingknow.eatit2020.ModelResponse.CartDataResponse;
 import com.beingknow.eatit2020.ModelResponse.CartResponse;
 import com.beingknow.eatit2020.ModelResponse.FoodCategoryResponse;
 import com.beingknow.eatit2020.ModelResponse.GetBillNo;
@@ -176,5 +177,31 @@ public interface Api
     );
 
     @GET("getcartdata")
-    Call<OrderResponse3> getcartdata();
+    Call<ArrayList<CartDataResponse>> getcartdata(
+            @QueryMap Map<String, String> paramsMap
+    );
+
+    @FormUrlEncoded
+    @POST("addcartdata")
+    Call<CartDataResponse> addcartdata(
+            @Field("name") String name,
+            @Field("quantity") String quantity,
+            @Field("price") double price,
+            @Field("amount") double amount,
+            @Field("i_id") int i_id,
+            @Field("u_id") int u_id,
+            @Field("active") int active
+    );
+
+    @FormUrlEncoded
+    @POST("updatecartdata/{id}")
+    Call<CartDataResponse> updatecartdata(
+            @Field("name") String name,
+            @Field("quantity") String quantity,
+            @Field("price") double price,
+            @Field("amount") double amount,
+            @Field("i_id") int i_id,
+            @Field("u_id") int u_id,
+            @Field("active") int active
+    );
 }
