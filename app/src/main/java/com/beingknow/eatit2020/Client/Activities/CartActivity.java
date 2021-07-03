@@ -29,6 +29,7 @@ import com.beingknow.eatit2020.Common.Common;
 import com.beingknow.eatit2020.Database.Database;
 import com.beingknow.eatit2020.Database.DatabaseHelper;
 import com.beingknow.eatit2020.Interface.ItemClickListener;
+import com.beingknow.eatit2020.ModelResponse.AmountResponse;
 import com.beingknow.eatit2020.ModelResponse.CartDataResponse;
 import com.beingknow.eatit2020.ModelResponse.CartResponse;
 import com.beingknow.eatit2020.ModelResponse.LoginResponse;
@@ -51,6 +52,7 @@ import java.util.HashMap;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.locks.ReadWriteLock;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
@@ -61,15 +63,16 @@ public class CartActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    private TextView txtTotalPrice,total,price,cart_amount;
-    Button btnPlace;
+    public TextView txtTotalPrice,total,price,cart_amount;
+    public Button btnPlace;
     CardView cardView;
-    ArrayList<Item1> cart = new ArrayList<>();
-    ArrayList<CartDataResponse> cartDataResponses = new ArrayList<>();
+    public ArrayList<Item1> cart = new ArrayList<>();
+    public ArrayList<CartDataResponse> cartDataResponses = new ArrayList<>();
+    public ArrayList<AmountResponse> amountResponses = new ArrayList<>();
     CartAdapter cartAdapter;
     SharedPrefManager sharedPrefManager;
-    private DatabaseHelper databaseHelper;
-    private ImageView plus, minus;
+    public DatabaseHelper databaseHelper;
+    public ImageView plus, minus;
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -97,7 +100,6 @@ public class CartActivity extends AppCompatActivity {
             btnPlace.setOnClickListener(new View.OnClickListener() {
              @Override
                 public void onClick(View view) {
-              //  ShowAlertDialog();
                     if (cart != null) {
                                 addOrder();
                     }
@@ -108,11 +110,34 @@ public class CartActivity extends AppCompatActivity {
                 }
             });
         }
-      //  addCartItem();
-        getCartData();
 
+        getCartData();
+        getAmount();
         recyclerView.setLayoutManager(new LinearLayoutManager(CartActivity.this, LinearLayoutManager.VERTICAL, false));
 
+    }
+
+    private void getAmount()
+    {
+       Call<ArrayList<AmountResponse>> call = RetrofitClient
+               .getInstance()
+               .getApi()
+               .getsumofamountcartdata(sharedPrefManager.getUser().getId());
+
+       call.enqueue(new Callback<ArrayList<AmountResponse>>() {
+           @Override
+           public void onResponse(Call<ArrayList<AmountResponse>> call, Response<ArrayList<AmountResponse>> response) {
+               if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
+                    Double amount = response.body().get(0).getAmount();
+                    txtTotalPrice.setText(String.valueOf(amount));
+               }
+           }
+
+           @Override
+           public void onFailure(Call<ArrayList<AmountResponse>> call, Throwable t) {
+               Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+           }
+       });
     }
 
     private void getCartData()
@@ -137,7 +162,6 @@ public class CartActivity extends AppCompatActivity {
                         cartAdapter = new CartAdapter(getApplicationContext(), cartDataResponses, recyclerView);
                         recyclerView.setAdapter(cartAdapter);
                         cartAdapter.notifyDataSetChanged();
-
                     }
                 }
 
@@ -194,6 +218,7 @@ public class CartActivity extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), "Place Order...!", Toast.LENGTH_SHORT).show();
                                         final Intent intent = new Intent(CartActivity.this, OrderTypeActivity.class);
                                         startActivity(intent);
+                                        sweetAlertDialog.dismiss();
                                     }
                                 })
                                 .show();
@@ -224,57 +249,9 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
-
     public boolean onOptionsItemSelected(MenuItem item){
         finish();
         return true;
     }
-
-
-
-//    public void addCartItem()
-//    {
-//        Intent intent = getIntent();
-//        if (intent.hasExtra(Intent.EXTRA_TEXT)) {
-//            int id = intent.getIntExtra(Intent.EXTRA_TEXT, 1);
-//
-//            Map<String, String> paramsMap = new HashMap<String, String>();
-//            paramsMap.put("id", String.valueOf(id));
-//
-//            Call<ArrayList<Item1>> call = RetrofitClient
-//                    .getInstance()
-//                    .getApi()
-//                    .singleCartItem(paramsMap);
-//
-//            call.enqueue(new Callback<ArrayList<Item1>>() {
-//                @Override
-//                public void onResponse(Call<ArrayList<Item1>> call, Response<ArrayList<Item1>> response) {
-//                    if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
-//                        cart = response.body();
-//                      //  sharedPrefManager.saveCartDetail(databaseHelper);
-//                        cart = databaseHelper.getCartData1();
-//                        long sum = databaseHelper.sum_Of_Amount();
-//                        cartAdapter = new CartAdapter(getApplicationContext(), cart, recyclerView);
-//                        recyclerView.setAdapter(cartAdapter);
-//                        txtTotalPrice.setText(String.valueOf(sum));
-//                        cartAdapter.notifyDataSetChanged();
-//
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<ArrayList<Item1>> call, Throwable t) {
-//                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }
-//
-//    }
-
-
 
 }

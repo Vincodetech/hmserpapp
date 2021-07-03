@@ -157,8 +157,10 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
                                                         @Override
                                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                                                             Intent intent = new Intent(itemView.getContext(), CartActivity.class);
+                                                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getId());
                                                             Toast.makeText(itemView.getContext(), "Added to Cart Successfully...!", Toast.LENGTH_SHORT).show();
                                                             v.getContext().startActivity(intent);
+                                                            sweetAlertDialog.dismiss();
                                                         }
                                                     })
                                                     .show();

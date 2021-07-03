@@ -40,22 +40,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
 {
     Context context;
     LayoutInflater inflater;
-    private ArrayList<Item1> cartList =  new ArrayList();
+    public ArrayList<Item1> cartList =  new ArrayList();
     RecyclerView recyclerView;
     CardView cardView;
-    private ArrayList<CartDataResponse> cartDataResponse = new ArrayList();
+    public ArrayList<CartDataResponse> cartDataResponse = new ArrayList();
     CheckBox checkBox;
     ImageView imageView;
     double tot = 0.0;
-    private DatabaseHelper databaseHelper;
-    private static String total_sum = null;
-    private ItemClickListener mOnItemClickInterface;
+    public DatabaseHelper databaseHelper;
+    public static String total_sum = null;
+    public ItemClickListener mOnItemClickInterface;
 
-//    public CartAdapter(Context context, ArrayList<Item1> cartList, RecyclerView recyclerView) {
-//        inflater = LayoutInflater.from(context);
-//        this.cartList = cartList;
-//        this.recyclerView = recyclerView;
-//    }
+
 
     public CartAdapter(Context context, ArrayList<CartDataResponse> cartDataResponse, RecyclerView recyclerView) {
         inflater = LayoutInflater.from(context);
@@ -63,10 +59,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
         this.recyclerView = recyclerView;
     }
 
-    public CartAdapter(Context context, ArrayList<Item1> itemList) {
+    public CartAdapter(Context context, ArrayList<CartDataResponse> cartDataResponse) {
       //  inflater = LayoutInflater.from(context);
         this.context = context;
-        this.cartList = itemList;
+        this.cartDataResponse = cartDataResponse;
     }
     public void setOnItemClickListener(ItemClickListener mOnItemClickInterface) {
         this.mOnItemClickInterface = mOnItemClickInterface;
@@ -85,14 +81,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         final CartDataResponse item = cartDataResponse.get(position);
-//        holder.name.setText(order.getProductName());
-//        holder.quantity.setText("" + order.getQuantity());
-//        holder.price.setText("₹" + order.getPrice());
+
         holder.name.setText(item.getName());
         holder.quantity.setText(item.getQuantity());
         holder.price.setText(String.valueOf(item.getPrice()));
      //   holder.cart_amount.setText(String.valueOf(item.getPrice()));
-        tot = item.getPrice();
+        tot = item.getAmount();
     }
 
     @Override

@@ -134,6 +134,12 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                                 ConfirmOrderActivity.this, SweetAlertDialog.SUCCESS_TYPE)
                                 .setTitleText("Confirm Order")
                                 .setContentText("Your Order has Finished Successfully...!")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                    }
+                                })
                                 .show();
                         Toast.makeText(ConfirmOrderActivity.this, "Add Bill Detail Successfully..!", Toast.LENGTH_SHORT).show();
                         databaseHelper.deleteAllItems();

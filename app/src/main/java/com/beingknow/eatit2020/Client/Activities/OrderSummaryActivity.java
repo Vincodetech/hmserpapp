@@ -130,6 +130,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
                                         intent.putExtra(Intent.EXTRA_TEXT,oid);
                                         Toast.makeText(OrderSummaryActivity.this, "Add Order Detail Successfully..!", Toast.LENGTH_SHORT).show();
                                         startActivity(intent);
+                                        sweetAlertDialog.dismiss();
                                     }
                                 })
                                 .show();

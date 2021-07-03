@@ -141,6 +141,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                                         Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
+                                        sweetAlertDialog.dismiss();
                                     }
                                 })
                                 .show();

@@ -164,6 +164,7 @@ public class DeliveryFragment extends Fragment {
                                         final Intent intent = new Intent(getContext(), OrderSummaryActivity.class);
                                         intent.putExtra(Intent.EXTRA_TEXT,oid);
                                         startActivity(intent);
+                                        sweetAlertDialog.dismiss();
                                     }
                                 })
                                 .show();
@@ -252,6 +253,7 @@ public class DeliveryFragment extends Fragment {
                                         final Intent intent = new Intent(getContext(), OrderSummaryActivity.class);
                                         intent.putExtra(Intent.EXTRA_TEXT,oid);
                                         startActivity(intent);
+                                        sweetAlertDialog.dismiss();
                                     }
                                 })
                                 .show();
@@ -287,10 +289,6 @@ public class DeliveryFragment extends Fragment {
         final ProgressDialog mDialog = new ProgressDialog(getContext());
         mDialog.setMessage("Please Waiting...");
         mDialog.show();
-
-//        if (getArguments() != null) {
-//            final String data = getArguments().getString("order_no");// data which sent from activity
-
 
         Call<OrderResponse1> call = RetrofitClient
                 .getInstance()

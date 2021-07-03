@@ -163,6 +163,7 @@ public class TakeawayFragment extends Fragment {
                                         final Intent intent = new Intent(getContext(), OrderSummaryActivity.class);
                                         intent.putExtra(Intent.EXTRA_TEXT,oid);
                                         startActivity(intent);
+                                        sweetAlertDialog.dismiss();
                                     }
                                 })
                                 .show();

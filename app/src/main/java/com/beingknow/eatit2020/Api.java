@@ -1,10 +1,12 @@
 package com.beingknow.eatit2020;
 
 import com.beingknow.eatit2020.Interface.OrderResponse4;
+import com.beingknow.eatit2020.ModelResponse.AmountResponse;
 import com.beingknow.eatit2020.ModelResponse.BillDetailResponse;
 import com.beingknow.eatit2020.ModelResponse.CafeCategory;
 import com.beingknow.eatit2020.ModelResponse.CartDataResponse;
 import com.beingknow.eatit2020.ModelResponse.CartResponse;
+import com.beingknow.eatit2020.ModelResponse.DeleteCartDataResponse;
 import com.beingknow.eatit2020.ModelResponse.FoodCategoryResponse;
 import com.beingknow.eatit2020.ModelResponse.GetBillNo;
 import com.beingknow.eatit2020.ModelResponse.LoginResponse;
@@ -203,5 +205,20 @@ public interface Api
             @Field("i_id") int i_id,
             @Field("u_id") int u_id,
             @Field("active") int active
+    );
+
+    @GET("deletecartdata/{id}")
+    Call<DeleteCartDataResponse> deletecartdata(
+            @Path("id") int id
+    );
+
+    @GET("deletecartdata/{u_id}")
+    Call<DeleteCartDataResponse> deleteCartDatabyUserId(
+            @Path("u_id") int u_id
+    );
+
+    @GET("getsumofamountcartdata/{u_id}")
+    Call<ArrayList<AmountResponse>> getsumofamountcartdata(
+            @Path("u_id") int u_id
     );
 }

@@ -164,6 +164,12 @@ public class ProfileFragment extends Fragment {
                                 requireContext(), SweetAlertDialog.SUCCESS_TYPE)
                                 .setTitleText("Update Profile")
                                 .setContentText("Profile Update Successfully..!")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                    }
+                                })
                                 .show();
                     }
                 }

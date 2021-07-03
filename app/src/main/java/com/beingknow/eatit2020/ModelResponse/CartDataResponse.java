@@ -2,6 +2,7 @@ package com.beingknow.eatit2020.ModelResponse;
 
 public class CartDataResponse
 {
+    private int id;
     private String name;
     private String quantity;
     private Double price;
@@ -10,7 +11,8 @@ public class CartDataResponse
     private int u_id;
     private int active;
 
-    public CartDataResponse(String name, String quantity, Double price, Double amount, int i_id, int u_id, int active) {
+    public CartDataResponse(int id, String name, String quantity, Double price, Double amount, int i_id, int u_id, int active) {
+        this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
@@ -21,6 +23,14 @@ public class CartDataResponse
     }
 
     public CartDataResponse() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
