@@ -183,9 +183,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor1 = db.rawQuery(select_query1, null);
         cursor1.moveToFirst();
-       int i_id = cursor1.getInt(0);
-       System.out.println("Item_id = " + i_id);
-       cursor1.close();
+        int i_id = cursor1.getInt(0);
+        System.out.println("Item_id = " + i_id);
+        cursor1.close();
         return i_id;
     }
     public String getQuantity()

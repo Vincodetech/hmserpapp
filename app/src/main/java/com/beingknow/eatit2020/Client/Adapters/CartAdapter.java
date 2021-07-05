@@ -1,5 +1,6 @@
 package com.beingknow.eatit2020.Client.Adapters;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,19 +28,28 @@ import com.beingknow.eatit2020.Client.Activities.OrderTypeActivity;
 import com.beingknow.eatit2020.Database.DatabaseHelper;
 import com.beingknow.eatit2020.Interface.ItemClickListener;
 import com.beingknow.eatit2020.ModelResponse.CartDataResponse;
+import com.beingknow.eatit2020.ModelResponse.DeleteCartDataResponse;
 import com.beingknow.eatit2020.Models.Item;
 import com.beingknow.eatit2020.Models.Item1;
 import com.beingknow.eatit2020.Models.Order;
 import com.beingknow.eatit2020.NavFragment.DeliveryFragment;
 import com.beingknow.eatit2020.R;
+import com.beingknow.eatit2020.RetrofitClient;
+import com.beingknow.eatit2020.SharedPrefManager;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
 {
     Context context;
     LayoutInflater inflater;
+    public CartAdapter cartAdapter;
     public ArrayList<Item1> cartList =  new ArrayList();
     RecyclerView recyclerView;
     CardView cardView;
@@ -50,7 +60,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
     public DatabaseHelper databaseHelper;
     public static String total_sum = null;
     public ItemClickListener mOnItemClickInterface;
-
+    public SharedPrefManager sharedPrefManager;
 
 
     public CartAdapter(Context context, ArrayList<CartDataResponse> cartDataResponse, RecyclerView recyclerView) {
@@ -115,7 +125,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
             minus = itemView.findViewById(R.id.minus);
             total = itemView.findViewById(R.id.total);
             cardView = itemView.findViewById(R.id.cardview_total);
-
+            sharedPrefManager = new SharedPrefManager(itemView.getContext());
             btnPlace = (Button) itemView.findViewById(R.id.btn_place_order);
 
 
@@ -131,11 +141,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
                     alertDialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-
-                            cartList.remove(getAdapterPosition());
-                            databaseHelper.deleteCartItem(cartList.get(getAdapterPosition()).getId());
+                            deleteCartData();
+                            cartDataResponse.remove(getAdapterPosition());
                             notifyItemRemoved(getAdapterPosition());
-                            Toast.makeText(context, "Cart Item Deleted Successfully...!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(itemView.getContext(), "Cart Item Deleted Successfully...!", Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -199,6 +208,64 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
                 });
             }
 
+        }
+
+        public void deleteCartData()
+        {
+            final ProgressDialog mDialog = new ProgressDialog(itemView.getContext());
+            mDialog.setMessage("Please Waiting...");
+            mDialog.show();
+
+            Call<DeleteCartDataResponse> call = RetrofitClient
+                    .getInstance()
+                    .getApi()
+                    .deletecartdata(cartDataResponse.get(getAdapterPosition()).getId());
+
+            call.enqueue(new Callback<DeleteCartDataResponse>() {
+                @Override
+                public void onResponse(Call<DeleteCartDataResponse> call, Response<DeleteCartDataResponse> response) {
+                    DeleteCartDataResponse deleteCartDataResponse = response.body();
+
+                    if(response.isSuccessful())
+                    {
+                        if (deleteCartDataResponse != null)
+                        {
+                            mDialog.dismiss();
+                            new SweetAlertDialog(
+                                    itemView.getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                                    .setTitleText("Cart")
+                                    .setContentText("Delete Cart Data Successfully...!")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            sweetAlertDialog.dismiss();
+                                        }
+                                    })
+                                    .show();
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(itemView.getContext(),"Not Respond",Toast.LENGTH_SHORT).show();
+                        mDialog.dismiss();
+                        new SweetAlertDialog(itemView.getContext(), SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("Oops...")
+                                .setContentText("Something Went Wrong!")
+                                .show();
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<DeleteCartDataResponse> call, Throwable t) {
+                    Toast.makeText(itemView.getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                    mDialog.dismiss();
+                    new SweetAlertDialog(itemView.getContext(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Oops...")
+                            .setContentText("Something Went Wrong!")
+                            .show();
+                }
+            });
         }
     }
     @Override

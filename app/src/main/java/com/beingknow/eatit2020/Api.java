@@ -212,7 +212,7 @@ public interface Api
             @Path("id") int id
     );
 
-    @GET("deletecartdata/{u_id}")
+    @GET("deletecartdatabyuserid/{u_id}")
     Call<DeleteCartDataResponse> deleteCartDatabyUserId(
             @Path("u_id") int u_id
     );

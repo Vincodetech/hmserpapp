@@ -61,7 +61,7 @@ import retrofit2.Response;
 
 public class CartActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
+    public RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     public TextView txtTotalPrice,total,price,cart_amount;
     public Button btnPlace;
@@ -69,8 +69,8 @@ public class CartActivity extends AppCompatActivity {
     public ArrayList<Item1> cart = new ArrayList<>();
     public ArrayList<CartDataResponse> cartDataResponses = new ArrayList<>();
     public ArrayList<AmountResponse> amountResponses = new ArrayList<>();
-    CartAdapter cartAdapter;
-    SharedPrefManager sharedPrefManager;
+    public CartAdapter cartAdapter;
+    public SharedPrefManager sharedPrefManager;
     public DatabaseHelper databaseHelper;
     public ImageView plus, minus;
 
@@ -130,6 +130,7 @@ public class CartActivity extends AppCompatActivity {
                if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
                     Double amount = response.body().get(0).getAmount();
                     txtTotalPrice.setText(String.valueOf(amount));
+                    cartAdapter.notifyDataSetChanged();
                }
            }
 

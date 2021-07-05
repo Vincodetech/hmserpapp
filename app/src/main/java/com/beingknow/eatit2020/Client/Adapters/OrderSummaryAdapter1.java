@@ -3,6 +3,7 @@ package com.beingknow.eatit2020.Client.Adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.beingknow.eatit2020.Database.DatabaseHelper;
+import com.beingknow.eatit2020.ModelResponse.CartDataResponse;
 import com.beingknow.eatit2020.Models.Item1;
 import com.beingknow.eatit2020.R;
 
@@ -28,21 +31,22 @@ public class OrderSummaryAdapter1 extends BaseAdapter
     private ListView listView;
     private DatabaseHelper databaseHelper;
     private ArrayList<Item1> cartList =  new ArrayList();
+    public ArrayList<CartDataResponse> cartDataResponse = new ArrayList();
 
-    public OrderSummaryAdapter1(Context context, ArrayList<Item1> cartList) {
+    public OrderSummaryAdapter1(Context context, ArrayList<CartDataResponse> cartDataResponse) {
        inflater = LayoutInflater.from(context);
         this.context = context;
-        this.cartList = cartList;
+        this.cartDataResponse = cartDataResponse;
     }
 
     @Override
     public int getCount() {
-        return this.cartList.size();
+        return this.cartDataResponse.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return cartList.get(position);
+        return cartDataResponse.get(position);
     }
 
     @Override
@@ -54,8 +58,6 @@ public class OrderSummaryAdapter1 extends BaseAdapter
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-//        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        convertView = inflater.inflate(R.layout.order_detail, parent, false);
 
         convertView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.order_detail, parent, false);
@@ -65,42 +67,15 @@ public class OrderSummaryAdapter1 extends BaseAdapter
         TextView quantity = convertView.findViewById(R.id.quantity);
         listView = convertView.findViewById(R.id.listview);
 
-        Item1 item1 = cartList.get(position);
+        CartDataResponse item1 = cartDataResponse.get(position);
         name.setText(item1.getName());
         quantity.setText(item1.getQuantity());
         price.setText(String.valueOf(item1.getPrice()));
 
-//        final View finalConvertView = convertView;
-//        listView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                AlertDialog.Builder alertDialog = new AlertDialog.Builder(finalConvertView.getContext());
-//                alertDialog.setTitle("Are You Want To Sure Delete Your Cart Item...!");
-//                alertDialog.setIcon(R.drawable.ic_baseline_delete_24);
-//
-//                alertDialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                        cartList.remove(position);
-//                        databaseHelper.deleteCartItem(position);
-//                       // notifyItemRemoved(position);
-//                        notifyDataSetChanged();
-//                        Toast.makeText(context, "Cart Item Deleted Successfully...!", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//
-//                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                        dialogInterface.dismiss();
-//                    }
-//                });
-//                alertDialog.show();
-//                return false;
-//            }
-//        });
+        Intent intent = new Intent("message_subject_intent");
+        intent.putExtra("name" , item1.getName());
+        intent.putExtra("quantity" , item1.getQuantity());
+        intent.putExtra("price" , item1.getPrice());
 
 
         return convertView;
