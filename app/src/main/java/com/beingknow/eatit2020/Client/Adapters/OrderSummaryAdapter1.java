@@ -76,7 +76,8 @@ public class OrderSummaryAdapter1 extends BaseAdapter
         intent.putExtra("name" , item1.getName());
         intent.putExtra("quantity" , item1.getQuantity());
         intent.putExtra("price" , item1.getPrice());
-
+        intent.putExtra("i_id", item1.getI_id());
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 
         return convertView;
     }

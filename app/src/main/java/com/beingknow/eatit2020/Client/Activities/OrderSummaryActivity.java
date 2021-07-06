@@ -48,7 +48,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
     private Button btn_continue;
     private SharedPrefManager sharedPrefManager;
     private int oid = 0;
-    private int i_id = 0;
+    public int i_id = 0;
     private String quantity = null;
     private double price = 0;
     private RecyclerView recyclerView;
@@ -60,7 +60,8 @@ public class OrderSummaryActivity extends AppCompatActivity {
     private OrderSummaryAdapter1 orderSummaryAdapter1;
     private DatabaseHelper databaseHelper;
     private ListView listView;
-    public String name,qty,p;
+    public String name,qty;
+    public double p = 0;
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -80,12 +81,10 @@ public class OrderSummaryActivity extends AppCompatActivity {
             Toast.makeText(OrderSummaryActivity.this, "Oid:" + id, Toast.LENGTH_SHORT).show();
         }
 
-        Intent i=this.getIntent();
-        if(i !=null) {// to avoid the NullPointerException
-            name = intent.getStringExtra("name");
-            qty = intent.getStringExtra("quantity");
-            p = intent.getStringExtra("price");
-        }
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("message_subject_intent"));
+
+
 
         databaseHelper = new DatabaseHelper(getApplicationContext());
         sharedPrefManager = new SharedPrefManager(getApplicationContext());
@@ -116,8 +115,11 @@ public class OrderSummaryActivity extends AppCompatActivity {
     public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String name= intent.getStringExtra("name");
-            Toast.makeText(OrderSummaryActivity.this, name, Toast.LENGTH_SHORT).show();
+            // Get extra data included in the Intent
+            name = intent.getStringExtra("name");
+            qty = intent.getStringExtra("quantity");
+            p = intent.getDoubleExtra("price",0);
+            i_id = intent.getIntExtra("i_id",1);
         }
     };
 
@@ -134,7 +136,6 @@ public class OrderSummaryActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
                     Double amount = response.body().get(0).getAmount();
                     total.setText(String.valueOf(amount));
-                    orderSummaryAdapter1.notifyDataSetChanged();
                 }
             }
 
@@ -156,7 +157,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
         Call<OrderDetailResponse> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .addorderdetail(Integer.parseInt(name),oid,qty,Double.parseDouble(p),1);
+                .addorderdetail(i_id,oid,qty,p,1);
 
         call.enqueue(new Callback<OrderDetailResponse>() {
             @Override
@@ -259,7 +260,6 @@ public class OrderSummaryActivity extends AppCompatActivity {
                 {
                     if (orderResponse3 != null)
                     {
-                        cart = databaseHelper.getCartData1();
                         // sharedPrefManager.saveOrder(orderResponse1);
                         mDialog.dismiss();
                         order_no.setText(orderResponse3.getOrder_no());

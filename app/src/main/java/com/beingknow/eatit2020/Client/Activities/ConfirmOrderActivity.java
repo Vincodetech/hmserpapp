@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.beingknow.eatit2020.Client.Adapters.OrderSummaryAdapter1;
 import com.beingknow.eatit2020.Database.DatabaseHelper;
 import com.beingknow.eatit2020.Interface.OrderResponse4;
+import com.beingknow.eatit2020.ModelResponse.AmountResponse;
 import com.beingknow.eatit2020.ModelResponse.BillDetailResponse;
 import com.beingknow.eatit2020.ModelResponse.GetBillNo;
 import com.beingknow.eatit2020.ModelResponse.OrderDetailResponse;
@@ -29,8 +30,10 @@ import com.beingknow.eatit2020.ModelResponse.OrderResponse3;
 import com.beingknow.eatit2020.NavFragment.ScanPaymentFragment;
 import com.beingknow.eatit2020.R;
 import com.beingknow.eatit2020.RetrofitClient;
+import com.beingknow.eatit2020.SharedPrefManager;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
@@ -51,6 +54,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private RadioButton radioButton,radioCash,radioOnline;
     private Button btn_confirm;
     private DatabaseHelper databaseHelper;
+    private SharedPrefManager sharedPrefManager;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -68,6 +72,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             Toast.makeText(ConfirmOrderActivity.this, "Oid:" + oid, Toast.LENGTH_SHORT).show();
         }
 
+        sharedPrefManager = new SharedPrefManager(getApplicationContext());
         order_no_text = (TextView) findViewById(R.id.order_no_confirm_text);
         order_no = (TextView) findViewById(R.id.order_no_confirm);
         order_type_text = (TextView) findViewById(R.id.order_type_confirm_text);
@@ -81,8 +86,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
         displayOrder();
         getBillNo();
+        getAmount();
 
-        total = databaseHelper.sum_Of_Amount();
 
         final int selectedID = radioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(selectedID);
@@ -105,6 +110,28 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void getAmount()
+    {
+        Call<ArrayList<AmountResponse>> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .getsumofamountcartdata(sharedPrefManager.getUser().getId());
+
+        call.enqueue(new Callback<ArrayList<AmountResponse>>() {
+            @Override
+            public void onResponse(Call<ArrayList<AmountResponse>> call, Response<ArrayList<AmountResponse>> response) {
+                if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
+                    total = response.body().get(0).getAmount();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<AmountResponse>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void addBillDetail()
@@ -142,7 +169,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                                 })
                                 .show();
                         Toast.makeText(ConfirmOrderActivity.this, "Add Bill Detail Successfully..!", Toast.LENGTH_SHORT).show();
-                        databaseHelper.deleteAllItems();
+
                     }
                     else
                     {

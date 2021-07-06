@@ -130,7 +130,6 @@ public class CartActivity extends AppCompatActivity {
                if (response.isSuccessful() && response.body() != null && getApplicationContext() != null) {
                     Double amount = response.body().get(0).getAmount();
                     txtTotalPrice.setText(String.valueOf(amount));
-                    cartAdapter.notifyDataSetChanged();
                }
            }
 
