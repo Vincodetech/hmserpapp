@@ -117,7 +117,21 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
-    private void getAmount()
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getCartData();
+        getAmount();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getCartData();
+        getAmount();
+    }
+
+    public void getAmount()
     {
        Call<ArrayList<AmountResponse>> call = RetrofitClient
                .getInstance()
@@ -140,7 +154,7 @@ public class CartActivity extends AppCompatActivity {
        });
     }
 
-    private void getCartData()
+    public void getCartData()
     {
         Intent intent = getIntent();
         if (intent.hasExtra(Intent.EXTRA_TEXT)) {
