@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.beingknow.eatit2020.Client.Activities.CartActivity;
@@ -94,9 +95,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
 
         holder.name.setText(item.getName());
         holder.quantity.setText(item.getQuantity());
-        holder.price.setText(String.valueOf(item.getPrice()));
+        holder.price.setText(String.valueOf(item.getAmount()));
      //   holder.cart_amount.setText(String.valueOf(item.getPrice()));
         tot = item.getAmount();
+
+        Intent intent = new Intent("message_subject_intent");
+        intent.putExtra("quantity" , item.getQuantity());
+        intent.putExtra("price" , item.getPrice());
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
     @Override
@@ -271,5 +277,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
     @Override
     public long getItemId(int position) {
         return super.getItemId(position);
+    }
+    public boolean isAlreadyInCart(int targetItemId) {
+        boolean isAlreadyInCart = false;
+        for (int i = 0; i < cartList.size(); i++) {
+            if (targetItemId == cartList.get(i).getId()) {
+                isAlreadyInCart = true;
+                break;
+            }
+        }
+        return isAlreadyInCart;
     }
 }

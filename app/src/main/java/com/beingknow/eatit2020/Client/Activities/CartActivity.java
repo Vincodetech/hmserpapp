@@ -4,12 +4,16 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
@@ -73,6 +77,8 @@ public class CartActivity extends AppCompatActivity {
     public SharedPrefManager sharedPrefManager;
     public DatabaseHelper databaseHelper;
     public ImageView plus, minus;
+    public String qty = null;
+    public double p = 0;
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -92,6 +98,9 @@ public class CartActivity extends AppCompatActivity {
       //  cart_amount = findViewById(R.id.cart_amount);
         plus = (ImageView) findViewById(R.id.plus);
         minus = (ImageView) findViewById(R.id.minus);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("message_subject_intent"));
 
         txtTotalPrice = findViewById(R.id.total);
         btnPlace = findViewById(R.id.btn_place_order);
@@ -116,6 +125,15 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(CartActivity.this, LinearLayoutManager.VERTICAL, false));
 
     }
+
+    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            qty = intent.getStringExtra("quantity");
+            p = intent.getDoubleExtra("price",0);
+        }
+    };
 
     @Override
     protected void onResume() {

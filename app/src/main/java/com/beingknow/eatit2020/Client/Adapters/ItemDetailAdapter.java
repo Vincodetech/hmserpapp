@@ -83,9 +83,7 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
         holder.price.setText(String.valueOf(item.getPrice()));
         holder.amount.setText(String.valueOf(item.getPrice()));
         tot = item.getPrice();
-//        Glide.with(context)
-//                .load(item.getThumbnail())
-//                .into(holder.thumbnail);
+
         Picasso.get().load(item.getServer_url_image())
                 .fit()
                 .into(holder.thumbnail);
@@ -192,72 +190,6 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
                     }
                 });
             }
-//            if(btnCart != null) {
-//                btnCart.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-//                        if (cartList != null) {
-//
-//                            System.out.println("Position: " + cartList.get(getAdapterPosition()).getId());
-//                            final Intent intent = new Intent(itemView.getContext(), CartActivity.class);
-//                            intent.putExtra(Intent.EXTRA_TEXT, cartList.get(getAdapterPosition()).getId());
-//
-//                            databaseHelper.insertCart(name.getText().toString(),quantity.getText().toString(),price.getText().toString(),
-//                                        amount.getText().toString(),cartList.get(getAdapterPosition()).getId());
-//
-//
-//
-////                            if(databaseHelper.getCartData2(cartList.get(getAdapterPosition()).getId()))
-////                            {
-////                                String old_qty = quantity.getText().toString().trim();
-////                                int qty = Integer.parseInt(old_qty);
-////                                qty++;
-////                                quantity.setText(String.valueOf(qty));
-////                            }
-////                            if(databaseHelper.getAllreadyItem(cartList.get(getAdapterPosition()).getId()))
-////                            {
-////                                String old_qty = quantity.getText().toString().trim();
-////                                int qty = Integer.parseInt(old_qty);
-////                                qty++;
-////                            }
-////                            if(databaseHelper.getAllreadyItem(cartList.get(getAdapterPosition()).getId()))
-////                            {
-////                                AlertDialog.Builder alertDialog = new AlertDialog.Builder(itemView.getContext());
-////                                alertDialog.setTitle("This Food Item is Already exist in Your Cart...!");
-////                                alertDialog.setIcon(R.drawable.ic_baseline_warning_amber_24);
-////
-////                                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-////                                    @Override
-////                                    public void onClick(DialogInterface dialogInterface, int i) {
-////
-////                                        dialogInterface.dismiss();
-////
-////                                    }
-////                                });
-////
-////                                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-////                                    @Override
-////                                    public void onClick(DialogInterface dialogInterface, int i) {
-////
-////                                        dialogInterface.dismiss();
-////                                    }
-////                                });
-////                                alertDialog.show();
-////                            }
-//                            Toast.makeText(itemView.getContext(), "Added to Cart...!", Toast.LENGTH_SHORT).show();
-//                            Toast.makeText(itemView.getContext(), "Position:" + cartList.get(getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
-//                            v.getContext().startActivity(intent);
-//
-//
-//                            if (mOnItemClickInterface != null) {
-//                                mOnItemClickInterface.onClick(v, getAdapterPosition(), true);
-//                            }
-//                        }
-//                    }
-//                });
-//            }
-
 
             if (plus != null)
             {
@@ -305,6 +237,16 @@ public class ItemDetailAdapter extends RecyclerView.Adapter<ItemDetailAdapter.My
                 });
             }
 
+        }
+        private boolean isAlreadyInCart(int targetItemId) {
+            boolean isAlreadyInCart = false;
+            for (int i = 0; i < cartList.size(); i++) {
+                if (targetItemId == cartList.get(i).getId()) {
+                    isAlreadyInCart = true;
+                    break;
+                }
+            }
+            return isAlreadyInCart;
         }
     }
     @Override
