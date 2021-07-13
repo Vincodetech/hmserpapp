@@ -109,9 +109,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
     public int getItemCount() {
         if(cartDataResponse != null)
         {
+            System.out.println("Cart Size: " + cartDataResponse.size());
             return cartDataResponse.size();
         }
         return 0;
+
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder
@@ -280,8 +282,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
     }
     public boolean isAlreadyInCart(int targetItemId) {
         boolean isAlreadyInCart = false;
-        for (int i = 0; i < cartList.size(); i++) {
-            if (targetItemId == cartList.get(i).getId()) {
+        for (int i = 0; i < cartDataResponse.size(); i++) {
+            if (targetItemId == cartDataResponse.get(i).getId()) {
                 isAlreadyInCart = true;
                 break;
             }
